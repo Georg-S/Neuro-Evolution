@@ -32,7 +32,7 @@ NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
 	fileWriter = FileWriter();
-	srand(time(NULL));
+	std::srand(time(NULL));
 }
 
 
