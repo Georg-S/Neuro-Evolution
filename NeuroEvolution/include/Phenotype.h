@@ -2,23 +2,22 @@
 #include "PhenotypeNeuron.h"
 #include <vector>
 
-using namespace std;
 
 class Phenotype
 {
 public:
-	Phenotype(vector<PhenotypeNeuron*> neurons, int maxDepth);
+	Phenotype(std::vector<PhenotypeNeuron*> neurons, int maxDepth);
 	~Phenotype();
-	vector <double> calculateOutputSnapshot(const vector <double> &input);
-	vector <double> calculateOutputActive(const vector <double> &input);
+	std::vector <double> calculateOutputSnapshot(const std::vector <double> &input);
+	std::vector <double> calculateOutputActive(const std::vector <double> &input);
 private:
 	void setBias();
-	void setInputs(const vector <double> &inputs);
+	void setInputs(const std::vector <double> &inputs);
 	double activationFunction(const double &input);
-	vector<double> updateOnce();
+	std::vector<double> updateOnce();
 	void clearOutputOfNeurons();
 
-	vector<PhenotypeNeuron*> neurons;
+	std::vector<PhenotypeNeuron*> neurons;
 	int maxDepth;
 };
 

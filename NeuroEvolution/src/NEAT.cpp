@@ -40,12 +40,12 @@ NEAT::~NEAT()
 {
 }
 
-vector<vector<double>> NEAT::calculateOutputSnapshot(const vector<double>& inputs)
+std::vector<std::vector<double>> NEAT::calculateOutputSnapshot(const std::vector<double>& inputs)
 {
 	if(inputs.size() != countOfInputs)
-		return vector<vector<double>>();
+		return std::vector<std::vector<double>>();
 	
-	vector<vector<double>> outputs; 
+	std::vector<std::vector<double>> outputs;
 	for (int i = 0; i < population.size(); i++) {
 		outputs.push_back(population[i].calculateOutputSnapshot(inputs));
 	}
@@ -53,12 +53,12 @@ vector<vector<double>> NEAT::calculateOutputSnapshot(const vector<double>& input
 	return outputs;
 }
 
-vector<vector<double>> NEAT::calculateOutputActive(const vector<double>& inputs)
+std::vector<std::vector<double>> NEAT::calculateOutputActive(const std::vector<double>& inputs)
 {
 	if (inputs.size() != countOfInputs)
-		return vector<vector<double>>();
+		return std::vector<std::vector<double>>();
 
-	vector<vector<double>> outputs;
+	std::vector<std::vector<double>> outputs;
 	for (int i = 0; i < population.size(); i++) {
 		outputs.push_back(population[i].calculateOutputActive(inputs));
 	}
@@ -66,18 +66,18 @@ vector<vector<double>> NEAT::calculateOutputActive(const vector<double>& inputs)
 	return outputs;
 }
 
-vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const vector<double>& inputs, int index)
+std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, int index)
 {
 	if (inputs.size() != countOfInputs)
-		return vector<double>();
+		return std::vector<double>();
 
 	if (index >= population.size() || index < 0)
-		return vector<double>();
+		return std::vector<double>();
 		
 	return population[index].calculateOutputActive(inputs);
 }
 
-void NEAT::iterateOneGeneration(const vector<double>& fitness)
+void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 {
 	if (fitness.size() != population.size())
 		return;
@@ -153,7 +153,7 @@ void NEAT::resetSpecies()
 	}
 }
 
-void NEAT::setFitnessOfPopulation(const vector<double>& fitness)
+void NEAT::setFitnessOfPopulation(const std::vector<double>& fitness)
 {
 	for (int i = 0; i < population.size(); i++) {
 		population[i].setRawFitness(fitness[i]);
@@ -185,7 +185,7 @@ void NEAT::speciate()
 void NEAT::updateSpecies()
 {
 	sort(species.begin(), species.end());
-	vector<Species> updatedSpecies;
+	std::vector<Species> updatedSpecies;
 
 	for (int i = 0; i < species.size(); i++) {
 		if (species[i].getMemberCount() > 0 ) {
@@ -202,7 +202,7 @@ void NEAT::updateSpecies()
 
 void NEAT::populate()
 {
-	vector<Genotype> newPopulation;
+	std::vector<Genotype> newPopulation;
 	int currentSpawnedAmount = 0;
 	Genotype baby;
 

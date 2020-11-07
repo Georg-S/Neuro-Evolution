@@ -2,7 +2,6 @@
 #include "Genotype.h"
 #include <vector>
 
-using namespace std;
 class Species
 {
 public:
@@ -30,7 +29,7 @@ public:
 	}
 private:
 	Genotype representative;
-	vector<Genotype*> members;
+	std::vector<Genotype*> members;
 
 	int allTimeHighestRawFitness = 0;
 	int speciesId;

@@ -7,14 +7,13 @@
 #include <fstream>
 #include <iostream>
 
-using namespace std;
 
 class FileWriter
 {
 public:
 	FileWriter();
 	~FileWriter();
-	void writePopulationToFile(string fileName, vector<Genotype> population);
+	void writePopulationToFile(string fileName, std::vector<Genotype> population);
 	void writeInnovationToFile(string fileName, Innovation &innovation);
 private:
 	string stringifyGenotype(Genotype &genotype);

@@ -1,6 +1,6 @@
 #include "Phenotype.h"
 
-Phenotype::Phenotype(vector<PhenotypeNeuron*> neurons, int maxDepth)
+Phenotype::Phenotype(std::vector<PhenotypeNeuron*> neurons, int maxDepth)
 {
 	this->neurons = neurons;
 	this->maxDepth = maxDepth;
@@ -13,11 +13,11 @@ Phenotype::~Phenotype()
 		delete neurons[i];
 }
 
-vector<double> Phenotype::calculateOutputSnapshot(const vector<double>& inputs)
+std::vector<double> Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs)
 {
 	setBias();
 	setInputs(inputs);
-	vector<double> output;
+	std::vector<double> output;
 	for (int i = 0; i < maxDepth; i++) {
 		output = updateOnce();
 	}
@@ -26,7 +26,7 @@ vector<double> Phenotype::calculateOutputSnapshot(const vector<double>& inputs)
 	return output;
 }
 
-vector<double> Phenotype::calculateOutputActive(const vector<double>& inputs)
+std::vector<double> Phenotype::calculateOutputActive(const std::vector<double>& inputs)
 {
 	setBias();
 	setInputs(inputs);
@@ -44,7 +44,7 @@ void Phenotype::setBias()
 	}
 }
 
-void Phenotype::setInputs(const vector<double> &inputs)
+void Phenotype::setInputs(const std::vector<double> &inputs)
 {
 	int inputIndex = 0;
 	int inputsSize = inputs.size();
@@ -59,9 +59,9 @@ void Phenotype::setInputs(const vector<double> &inputs)
 	}
 }
 
-vector<double> Phenotype::updateOnce()
+std::vector<double> Phenotype::updateOnce()
 {
-	vector<double> outputs;
+	std::vector<double> outputs;
 
 	for (int neuronIndex = 0; neuronIndex < neurons.size(); neuronIndex++) {
 		if (neurons[neuronIndex]->neuronType == input || neurons[neuronIndex]->neuronType == bias)

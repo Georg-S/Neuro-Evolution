@@ -8,7 +8,6 @@
 #include <vector>
 #include <time.h>
 
-using namespace std;
 
 class NEAT
 {
@@ -18,10 +17,10 @@ public:
 	NEAT(int populationSize, int countOfInputs, int countOfOutputs);
 	~NEAT();
 
-	vector<vector<double>> calculateOutputSnapshot(const vector<double> &inputs);
-	vector<vector<double>> calculateOutputActive(const vector<double>&inputs);
-	vector<double> calculateOutputActiveOfSpecificGenotype(const vector<double>&inputs, int index);
-	void iterateOneGeneration(const vector<double> &fitness);
+	std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double> &inputs);
+	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>&inputs);
+	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>&inputs, int index);
+	void iterateOneGeneration(const std::vector<double> &fitness);
 	void writePopulationAndInnovationAsFiles(string populationFileName, string innovationFileName);
 
 
@@ -36,7 +35,7 @@ public:
 private:
 	void deletePhenotypes();
 	void resetSpecies();
-	void setFitnessOfPopulation(const vector<double> &fitness);
+	void setFitnessOfPopulation(const std::vector<double> &fitness);
 	void speciate();
 	void updateSpecies();
 	void updateFitnessValues();
@@ -64,8 +63,8 @@ private:
 	double weightPertubation = 0.1;
 
 
-	vector<Genotype> population;
-	vector<Species> species;
+	std::vector<Genotype> population;
+	std::vector<Species> species;
 	FileReader fileReader;
 	FileWriter fileWriter;
 	Innovation innovation;

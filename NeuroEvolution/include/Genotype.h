@@ -9,15 +9,14 @@
 #include "Phenotype.h"
 #include "ParentType.h"
 
-using namespace std;
 
 class Genotype
 {
 public:
 	Genotype();
 	Genotype(Innovation &innovation,int countOfInputs, int countOfOutputs, int id);
-	Genotype(vector<NeuronGene> neurons, vector<LinkGene> links, int id);
-	Genotype(Innovation &innovation, vector<NeuronGene> neurons, vector<LinkGene> links, int id);
+	Genotype(std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id);
+	Genotype(Innovation &innovation, std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id);
 	~Genotype();
 
 	void randomlyAddNeuron(Innovation &innovation,float addNeuronProbability);
@@ -26,8 +25,8 @@ public:
 	double calculateCompatibilityScore(Genotype &partner, const float &exzessFactor,
 										const float &disjointFactor, const float &weightFactor);
 	Genotype crossOver(Genotype & mother, int babyId);
-	vector <double> calculateOutputSnapshot(const vector <double> &inputs);
-	vector <double> calculateOutputActive(const vector <double> &inputs);
+	std::vector <double> calculateOutputSnapshot(const std::vector <double> &inputs);
+	std::vector <double> calculateOutputActive(const std::vector <double> &inputs);
 	void createPhenotype();
 	void deletePhenotype();
 
@@ -42,8 +41,8 @@ public:
 	int getGenotypeId();
 	int getCountOfInputs();
 	int getCountOfOutputs();
-	vector<NeuronGene> getNeurons();
-	vector<LinkGene> getLinks();
+	std::vector<NeuronGene> getNeurons();
+	std::vector<LinkGene> getLinks();
 
 	friend bool operator<(const Genotype &lhs, const Genotype &rhs) {
 		return lhs.rawFitness > rhs.rawFitness;
@@ -53,8 +52,8 @@ public:
 private:
 	void mutateSingleWeight(float newWeightProbability, int linkIndex, float weightPertubation);
 	NeuronGene getNeuronGeneFromId(int id);
-	void addLinkToVectorIfNotAlreadyInside(const LinkGene &link, vector<LinkGene> &linkVec);
-	void addNeuronToVectorIfNotAlreadyInside(const NeuronGene &neuron, vector<NeuronGene> &neuronVec);
+	void addLinkToVectorIfNotAlreadyInside(const LinkGene &link, std::vector<LinkGene> &linkVec);
+	void addNeuronToVectorIfNotAlreadyInside(const NeuronGene &neuron, std::vector<NeuronGene> &neuronVec);
 	void createFullyConnectedNetwork(Innovation &innovation);
 	void createNeurons();
 	void createLinks(Innovation &innovation);
@@ -69,8 +68,8 @@ private:
 	void createLinkWithRandomWeight(Innovation &innovation, int fromId, int toId, bool recurrent);
 	void createLink(Innovation &innovation, int fromId, int toId, bool recurrent, double weightOfLink);
 
-	vector <NeuronGene> neurons;
-	vector <LinkGene> links;
+	std::vector <NeuronGene> neurons;
+	std::vector <LinkGene> links;
 	double rawFitness = 0;
 	double adjustedFitness = 0;
 	int numTrysToAddNeuron = 20;

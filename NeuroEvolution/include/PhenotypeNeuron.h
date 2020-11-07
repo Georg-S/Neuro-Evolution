@@ -3,7 +3,6 @@
 #include <vector>
 #include "NeuronType.h"
 
-using namespace std;
 
 struct PhenotypeNeuron {
 	PhenotypeNeuron(NeuronType neuronType, int neuronID) {
@@ -11,7 +10,7 @@ struct PhenotypeNeuron {
 		this->neuronID = neuronID;
 		outputOfNeuron = 0.0;
 	}
-	vector<PhenotypeLink> linksIn;
+	std::vector<PhenotypeLink> linksIn;
 	double outputOfNeuron;
 	NeuronType neuronType;
 	int neuronID;

@@ -5,7 +5,7 @@ Innovation::Innovation()
 {
 }
 
-Innovation::Innovation(int currentInnovationNumber, int currentNeuronId, vector<InnovationElement> innovations)
+Innovation::Innovation(int currentInnovationNumber, int currentNeuronId, std::vector<InnovationElement> innovations)
 {
 	this->currentInnovationNumber = currentInnovationNumber;
 	this->currentNeuronId = currentNeuronId;
@@ -106,7 +106,7 @@ int Innovation::getCurrentNeuronId()
 	return currentNeuronId;
 }
 
-vector<InnovationElement> Innovation::getInnovations()
+std::vector<InnovationElement> Innovation::getInnovations()
 {
 	return innovations;
 }

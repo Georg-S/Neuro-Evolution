@@ -10,7 +10,7 @@ FileWriter::~FileWriter()
 {
 }
 
-void FileWriter::writePopulationToFile(string fileName, vector<Genotype> population)
+void FileWriter::writePopulationToFile(string fileName, std::vector<Genotype> population)
 {
 	ofstream populationFile;
 	populationFile.open(fileName);
@@ -39,7 +39,7 @@ string FileWriter::stringifyGenotype(Genotype &genotype)
 	genotypeString = genotypeString + "MaxDepth: '" + to_string(genotype.getMaxDepth()) + "'\n \n";
 	genotypeString = genotypeString + "BeginNeurons\n";
 
-	vector<NeuronGene> neurons = genotype.getNeurons();
+	std::vector<NeuronGene> neurons = genotype.getNeurons();
 	for (int i = 0; i < neurons.size(); i++) {
 		genotypeString = genotypeString + "NeuronStart" + "\n";
 		genotypeString = genotypeString + "Depth: '" + to_string(neurons[i].depth) + "'\n";
@@ -49,7 +49,7 @@ string FileWriter::stringifyGenotype(Genotype &genotype)
 	}
 	genotypeString = genotypeString + "EndNeurons\n\n";
 
-	vector<LinkGene> links = genotype.getLinks();
+	std::vector<LinkGene> links = genotype.getLinks();
 	genotypeString = genotypeString + "BeginLinks\n";
 	for (int i = 0; i < links.size(); i++) {
 		genotypeString = genotypeString + "LinkStart" + "\n";
@@ -73,7 +73,7 @@ string FileWriter::stringifyInnovation(Innovation &innovation)
 	innovationString = innovationString + "CurrentInnovationNumber: '" + to_string(innovation.getCurrentInnovationNumber()) + "' \n";
 	innovationString = innovationString + "StartNeuronNumber: '" + to_string(innovation.getCurrentNeuronId()) + "' \n\n";
 
-	vector<InnovationElement> innovations = innovation.getInnovations();
+	std::vector<InnovationElement> innovations = innovation.getInnovations();
 	for (int i = 0; i < innovations.size(); i++) {
 		innovationString = innovationString + "InnovationBegin \n";
 

@@ -13,7 +13,7 @@ Genotype::Genotype(Innovation & innovation, int countOfInputs, int countOfOutput
 	createFullyConnectedNetwork(innovation);
 }
 
-Genotype::Genotype(vector<NeuronGene> neurons, vector<LinkGene> links, int id)
+Genotype::Genotype(std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id)
 {
 	this->neurons = neurons;
 	this->links = links;
@@ -32,7 +32,7 @@ Genotype::Genotype(vector<NeuronGene> neurons, vector<LinkGene> links, int id)
 	calculateDepthOfEveryNeuron();
 }
 
-Genotype::Genotype(Innovation &innovation, vector<NeuronGene> neurons, vector<LinkGene> links, int id)
+Genotype::Genotype(Innovation &innovation, std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id)
 {
 	int inputs = 0;
 	int outputs = 0;
@@ -183,8 +183,8 @@ double Genotype::calculateCompatibilityScore(Genotype & partner, const float &ex
 
 Genotype Genotype::crossOver(Genotype & mother, int babyId)
 {
-	vector<LinkGene> fatherLinks = this->links;
-	vector<LinkGene> motherLinks = mother.links;
+	std::vector<LinkGene> fatherLinks = this->links;
+	std::vector<LinkGene> motherLinks = mother.links;
 	int fatherLinkIndex = 0;
 	int motherLinkIndex = 0;
 	sort(fatherLinks.begin(), fatherLinks.end());
@@ -192,8 +192,8 @@ Genotype Genotype::crossOver(Genotype & mother, int babyId)
 	LinkGene currentGene;
 	NeuronGene fromNeuron;
 	NeuronGene toNeuron;
-	vector<LinkGene> babyLinks;
-	vector<NeuronGene> babyNeurons;
+	std::vector<LinkGene> babyLinks;
+	std::vector<NeuronGene> babyNeurons;
 
 	ParentType highestFitness = Father;
 	if (mother.rawFitness > rawFitness)
@@ -266,7 +266,7 @@ Genotype Genotype::crossOver(Genotype & mother, int babyId)
 	return baby;
 }
 
-vector<double> Genotype::calculateOutputSnapshot(const vector<double>& inputs)
+std::vector<double> Genotype::calculateOutputSnapshot(const std::vector<double>& inputs)
 {
 	if (phenotype == nullptr)
 		createPhenotype();
@@ -274,7 +274,7 @@ vector<double> Genotype::calculateOutputSnapshot(const vector<double>& inputs)
 	return phenotype->calculateOutputSnapshot(inputs);
 }
 
-vector<double> Genotype::calculateOutputActive(const vector<double>& inputs)
+std::vector<double> Genotype::calculateOutputActive(const std::vector<double>& inputs)
 {
 	if (phenotype == nullptr)
 		createPhenotype();
@@ -286,7 +286,7 @@ void Genotype::createPhenotype()
 {
 	deletePhenotype();
 
-	vector<PhenotypeNeuron*> phenoNeurons;
+	std::vector<PhenotypeNeuron*> phenoNeurons;
 	for (int i = 0; i < neurons.size(); i++) {
 		PhenotypeNeuron* phenoNeuron = new PhenotypeNeuron(neurons[i].neuronType, neurons[i].id);
 		phenoNeurons.push_back(phenoNeuron);
@@ -376,12 +376,12 @@ int Genotype::getCountOfOutputs()
 	return countOfOutputs;
 }
 
-vector<NeuronGene> Genotype::getNeurons()
+std::vector<NeuronGene> Genotype::getNeurons()
 {
 	return neurons;
 }
 
-vector<LinkGene> Genotype::getLinks()
+std::vector<LinkGene> Genotype::getLinks()
 {
 	return links;
 }
@@ -414,7 +414,7 @@ NeuronGene Genotype::getNeuronGeneFromId(int id)
 	return NeuronGene();
 }
 
-void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, vector<LinkGene>& linkVec)
+void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vector<LinkGene>& linkVec)
 {
 	for (int i = 0; i < linkVec.size(); i++) {
 		if ((linkVec[i].fromID == link.fromID) && (linkVec[i].toID == link.toID))
@@ -423,7 +423,7 @@ void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, vector<L
 	linkVec.push_back(link);
 }
 
-void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, vector<NeuronGene>& neuronVec)
+void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, std::vector<NeuronGene>& neuronVec)
 {
 	for (int i = 0; i < neuronVec.size(); i++) {
 		if (neuron.id == neuronVec[i].id)

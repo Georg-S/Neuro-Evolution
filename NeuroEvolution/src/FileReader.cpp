@@ -10,9 +10,9 @@ FileReader::~FileReader()
 {
 }
 
-vector<Genotype> FileReader::parsePopulationFromFile(string fileName)
+std::vector<Genotype> FileReader::parsePopulationFromFile(string fileName)
 {
-	vector<Genotype> population;
+	std::vector<Genotype> population;
 	ifstream populationFile(fileName);
 	for (string line; getline(populationFile, line);) {
 		if (contains(line, "BeginGenotype")) {
@@ -27,8 +27,8 @@ Genotype FileReader::parseOneGenotype(ifstream & populationFile)
 	int countOfInputs = 0;
 	int countOfOutputs = 0;
 	int maxDepth = 0;
-	vector<NeuronGene> neurons;
-	vector<LinkGene> links;
+	std::vector<NeuronGene> neurons;
+	std::vector<LinkGene> links;
 
 	for (string line; getline(populationFile, line);) {
 		if (contains(line, "EndGenotype")) {
@@ -58,9 +58,9 @@ Genotype FileReader::parseOneGenotype(ifstream & populationFile)
 	return createdGenotype;
 }
 
-vector<NeuronGene> FileReader::parseNeurons(ifstream & populationFile)
+std::vector<NeuronGene> FileReader::parseNeurons(ifstream & populationFile)
 {
-	vector<NeuronGene> neurons;
+	std::vector<NeuronGene> neurons;
 	bool finishedParsing = false;
 
 	for (string line; getline(populationFile, line) && !finishedParsing;) {
@@ -98,9 +98,9 @@ NeuronGene FileReader::parseOneNeuron(ifstream & populationFile)
 	return neuron;
 }
 
-vector<LinkGene> FileReader::parseLinks(ifstream & populationFile)
+std::vector<LinkGene> FileReader::parseLinks(ifstream & populationFile)
 {
-	vector<LinkGene> links;
+	std::vector<LinkGene> links;
 
 	for (string line; getline(populationFile, line);) {
 		if (contains(line, "EndLinks")) {
@@ -153,7 +153,7 @@ LinkGene FileReader::parseOneLink(ifstream & populationFile)
 Innovation FileReader::parseInnovationFromFile(string fileName)
 {
 	ifstream innovationFile(fileName);
-	vector<InnovationElement> innovations;
+	std::vector<InnovationElement> innovations;
 	int currentInnovationNumber = 0;
 	int startNeuronNumber = 0;
 
