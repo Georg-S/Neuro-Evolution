@@ -5,11 +5,8 @@
 class RNG
 {
 public:
-	RNG();
-	~RNG();
-	static int getRandomIntBetween(int from, int to);
-	static float getRandomFloatBetween(int from, int to);
-	static float getRandomFloatBetween(float from, float to);
+	static int getRandomIntBetween(const int &from, const int &to);
+	static float getRandomFloatBetween(const int &from, const int &to);
+	static float getRandomFloatBetween(const float &from, const float &to);
 	static float getRandomFloatBetween0and1();
 };
-

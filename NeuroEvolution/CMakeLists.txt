@@ -10,7 +10,7 @@ set(SOURCES
 	"src/Phenotype.cpp"
 	"src/RNG.cpp"
 	"src/Species.cpp"
-)
+	)
 
 set(HEADERS 
 	"include/FileReader.h" 

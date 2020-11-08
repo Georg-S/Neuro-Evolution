@@ -1,11 +1,11 @@
 #pragma once
-#include "Innovation.h"
 #include <vector>
+#include <time.h>
+#include <algorithm>
+#include "Innovation.h"
 #include "LinkGene.h"
 #include "NeuronGene.h"
 #include "RNG.h"
-#include <time.h>
-#include <algorithm>
 #include "Phenotype.h"
 #include "ParentType.h"
 

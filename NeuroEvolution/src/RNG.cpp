@@ -1,18 +1,9 @@
 #include "RNG.h"
 
 
-RNG::RNG()
+int RNG::getRandomIntBetween(const int &from, const int &to)
 {
-}
-
-
-RNG::~RNG()
-{
-}
-
-int RNG::getRandomIntBetween(int from, int to)
-{
-	if (from == to || to < from)
+	if (to <= from)
 		return from;
 
 	int buf = (to - from) + 1;
@@ -21,7 +12,7 @@ int RNG::getRandomIntBetween(int from, int to)
 	return randomNumber;
 }
 
-float RNG::getRandomFloatBetween(int from, int to)
+float RNG::getRandomFloatBetween(const int& from, const int& to)
 {
 	if (from == to)
 		return from;
@@ -33,7 +24,7 @@ float RNG::getRandomFloatBetween(int from, int to)
 	return from + r;
 }
 
-float RNG::getRandomFloatBetween(float from, float to)
+float RNG::getRandomFloatBetween(const float& from, const float& to)
 {
 	if (from == to)
 		return from;
