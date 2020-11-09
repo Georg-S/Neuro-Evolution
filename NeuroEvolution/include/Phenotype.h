@@ -1,6 +1,6 @@
 #pragma once
-#include "PhenotypeNeuron.h"
 #include <vector>
+#include "PhenotypeNeuron.h"
 
 
 class Phenotype

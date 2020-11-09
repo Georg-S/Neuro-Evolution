@@ -43,10 +43,7 @@ public:
 	int getCountOfOutputs();
 	std::vector<NeuronGene> getNeurons();
 	std::vector<LinkGene> getLinks();
-
-	friend bool operator<(const Genotype &lhs, const Genotype &rhs) {
-		return lhs.rawFitness > rhs.rawFitness;
-	}
+	friend bool operator<(const Genotype& lhs, const Genotype& rhs);
 
 	Phenotype* phenotype = nullptr;
 private:

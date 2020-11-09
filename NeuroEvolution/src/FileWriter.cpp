@@ -1,15 +1,5 @@
 #include "FileWriter.h"
 
-
-FileWriter::FileWriter()
-{
-}
-
-
-FileWriter::~FileWriter()
-{
-}
-
 void FileWriter::writePopulationToFile(string fileName, std::vector<Genotype> population)
 {
 	ofstream populationFile;

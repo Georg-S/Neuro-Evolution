@@ -1,12 +1,12 @@
 #pragma once
+#include <string>
+#include <vector>
+#include <time.h>
 #include "Genotype.h"
 #include "Species.h"
 #include "Innovation.h"
 #include "FileReader.h"
 #include "FileWriter.h"
-#include <string>
-#include <vector>
-#include <time.h>
 
 
 class NEAT
@@ -65,8 +65,6 @@ private:
 
 	std::vector<Genotype> population;
 	std::vector<Species> species;
-	FileReader fileReader;
-	FileWriter fileWriter;
 	Innovation innovation;
 	int currentGenotypeId = 0;
 	int maxPopulationSize = 0;

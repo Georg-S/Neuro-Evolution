@@ -9,9 +9,8 @@ NEAT::NEAT(string populationFileName, string innovationFileName)
 {
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
-	fileReader = FileReader();
-	population = fileReader.parsePopulationFromFile(populationFileName);
-	innovation = fileReader.parseInnovationFromFile(innovationFileName);
+	population = FileReader::parsePopulationFromFile(populationFileName);
+	innovation = FileReader::parseInnovationFromFile(innovationFileName);
 
 	if (population.size() > 0) {
 		this->countOfInputs = population[0].getCountOfInputs();
@@ -31,7 +30,6 @@ NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
-	fileWriter = FileWriter();
 	std::srand(time(NULL));
 }
 
@@ -95,8 +93,8 @@ void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 
 void NEAT::writePopulationAndInnovationAsFiles(string populationFileName, string innovationFileName)
 {
-	fileWriter.writePopulationToFile(populationFileName,population);
-	fileWriter.writeInnovationToFile(innovationFileName,innovation);
+	FileWriter::writePopulationToFile(populationFileName,population);
+	FileWriter::writeInnovationToFile(innovationFileName,innovation);
 }
 
 int NEAT::getPopulationSize()

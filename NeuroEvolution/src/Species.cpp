@@ -117,3 +117,8 @@ void Species::incrementCurrentGeneration()
 	currentGeneration++;
 	generationsNoImprovement++;
 }
+
+bool operator<(const Species& lhs, const Species& rhs)
+{
+	return lhs.totalCurrentAdjustedFitness > rhs.totalCurrentAdjustedFitness;
+}

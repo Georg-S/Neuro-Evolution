@@ -1,6 +1,6 @@
 #pragma once
-#include "PhenotypeLink.h"
 #include <vector>
+#include "PhenotypeLink.h"
 #include "NeuronType.h"
 
 

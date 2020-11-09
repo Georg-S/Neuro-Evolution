@@ -592,3 +592,8 @@ void Genotype::createLink(Innovation & innovation, int fromId, int toId, bool re
 
 	links.push_back(LinkGene(fromId, toId, weightOfLink, true, innovationId, recurrent));
 }
+
+bool operator<(const Genotype& lhs, const Genotype& rhs)
+{
+	return lhs.rawFitness > rhs.rawFitness;
+}

@@ -11,12 +11,10 @@
 class FileWriter
 {
 public:
-	FileWriter();
-	~FileWriter();
-	void writePopulationToFile(string fileName, std::vector<Genotype> population);
-	void writeInnovationToFile(string fileName, Innovation &innovation);
+	static void writePopulationToFile(string fileName, std::vector<Genotype> population);
+	static void writeInnovationToFile(string fileName, Innovation &innovation);
 private:
-	string stringifyGenotype(Genotype &genotype);
-	string stringifyInnovation(Innovation &innovation);
+	static string stringifyGenotype(Genotype &genotype);
+	static string stringifyInnovation(Innovation &innovation);
 };
 

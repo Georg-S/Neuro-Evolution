@@ -1,15 +1,6 @@
 #include "FileReader.h"
 
 
-FileReader::FileReader()
-{
-}
-
-
-FileReader::~FileReader()
-{
-}
-
 std::vector<Genotype> FileReader::parsePopulationFromFile(string fileName)
 {
 	std::vector<Genotype> population;

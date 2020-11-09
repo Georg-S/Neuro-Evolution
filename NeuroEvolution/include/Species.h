@@ -24,9 +24,7 @@ public:
 	Genotype getLeader();
 	Genotype spawnGenotype();
 
-	friend bool operator<(const Species &lhs, const Species &rhs) {
-		return lhs.totalCurrentAdjustedFitness > rhs.totalCurrentAdjustedFitness;
-	}
+	friend bool operator<(const Species& lhs, const Species& rhs);
 private:
 	Genotype representative;
 	std::vector<Genotype*> members;
