@@ -18,6 +18,7 @@ set(HEADERS
 	"include/Genotype.h"
 	"include/InnovationElement.h"
 	"include/InnovationType.h"
+	"include/Innovation.h"
 	"include/LinkGene.h"
 	"include/NEAT.h"
 	"include/NeuronGene.h"

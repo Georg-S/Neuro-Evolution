@@ -1,15 +1,13 @@
 #pragma once
+#include <vector>
 #include "InnovationType.h"
 #include "InnovationElement.h"
-#include <vector>
-
-using namespace std;
 
 class Innovation
 {
 public:
 	Innovation();
-	Innovation(int currentInnovationNumber, int currentNeuronId, vector<InnovationElement> innovations);
+	Innovation(int currentInnovationNumber, int currentNeuronId, std::vector<InnovationElement> innovations);
 	~Innovation();
 
 	void setCurrentNeuronId(int currenNeuronId);
@@ -23,10 +21,10 @@ public:
 	int getCountOfNewLinkInnovations();
 	int getCurrentInnovationNumber();
 	int getCurrentNeuronId();
-	vector<InnovationElement> getInnovations();
+	std::vector<InnovationElement> getInnovations();
 
 private:
-	vector<InnovationElement> innovations;
+	std::vector<InnovationElement> innovations;
 	int currentInnovationNumber = 0;
 	int currentNeuronId = -1;
 

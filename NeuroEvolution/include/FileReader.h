@@ -10,17 +10,17 @@
 class FileReader
 {
 public:
-	static std::vector<Genotype> parsePopulationFromFile(string fileName);
-	static Innovation parseInnovationFromFile(string fileName);
-	static string getStringBetweenQuotationMark(string line);
+	static std::vector<Genotype> parsePopulationFromFile(std::string fileName);
+	static Innovation parseInnovationFromFile(std::string fileName);
+	static std::string getStringBetweenQuotationMark(std::string line);
 
 private:
-	static bool contains(string line, string searched);
-	static Genotype parseOneGenotype(ifstream &populationFile);
-	static std::vector<NeuronGene> parseNeurons(ifstream &populationFile);
-	static NeuronGene parseOneNeuron(ifstream &populationFile);
-	static std::vector<LinkGene> parseLinks(ifstream &populationFile);
-	static LinkGene parseOneLink(ifstream &populationFile);
-	static InnovationElement parseOneInnovation(ifstream & innovationFile);
+	static bool contains(std::string line, std::string searched);
+	static Genotype parseOneGenotype(std::ifstream &populationFile);
+	static std::vector<NeuronGene> parseNeurons(std::ifstream &populationFile);
+	static NeuronGene parseOneNeuron(std::ifstream &populationFile);
+	static std::vector<LinkGene> parseLinks(std::ifstream &populationFile);
+	static LinkGene parseOneLink(std::ifstream &populationFile);
+	static InnovationElement parseOneInnovation(std::ifstream & innovationFile);
 };
 

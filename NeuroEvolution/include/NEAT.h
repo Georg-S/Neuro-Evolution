@@ -13,7 +13,7 @@ class NEAT
 {
 public:
 	NEAT();
-	NEAT(string populationFileName, string innovationFileName);
+	NEAT(std::string populationFileName, std::string innovationFileName);
 	NEAT(int populationSize, int countOfInputs, int countOfOutputs);
 	~NEAT();
 
@@ -21,7 +21,7 @@ public:
 	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>&inputs);
 	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>&inputs, int index);
 	void iterateOneGeneration(const std::vector<double> &fitness);
-	void writePopulationAndInnovationAsFiles(string populationFileName, string innovationFileName);
+	void writePopulationAndInnovationAsFiles(std::string populationFileName, std::string innovationFileName);
 
 
 	int getPopulationSize();

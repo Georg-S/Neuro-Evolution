@@ -79,10 +79,10 @@ void Genotype::randomlyAddNeuron(Innovation &innovation, float addNeuronProbabil
 	if (linkIndex == -1)
 		return;
 
-	int fromId = links[linkIndex].fromID;
-	int toId = links[linkIndex].toID;
+	int fromId = links[linkIndex].fromNeuronID;
+	int toId = links[linkIndex].toNeuronID;
 
-	int newNeuronId = innovation.getNeuronId(links[linkIndex].fromID, links[linkIndex].toID);
+	int newNeuronId = innovation.getNeuronId(links[linkIndex].fromNeuronID, links[linkIndex].toNeuronID);
 	if (newNeuronId == -1)
 		newNeuronId = innovation.createNewNeuronInnovation(fromId, toId);
 	neurons.push_back(NeuronGene(hidden, newNeuronId));
@@ -207,32 +207,32 @@ Genotype Genotype::crossOver(Genotype & mother, int babyId)
 		if (fatherLinkIndex >= fatherLinks.size()) {
 			if (highestFitness == Mother) {
 				currentGene = motherLinks[motherLinkIndex];
-				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromID);
-				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toID);
+				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromNeuronID);
+				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toNeuronID);
 			}
 			motherLinkIndex++;
 		}
 		else if (motherLinkIndex >= motherLinks.size()) {
 			if (highestFitness == Father) {
 				currentGene = fatherLinks[fatherLinkIndex];
-				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromID);
-				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toID);
+				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toNeuronID);
 			}
 			fatherLinkIndex++;
 		}
 		else if (motherLinks[motherLinkIndex].innovationID > fatherLinks[fatherLinkIndex].innovationID) {
 			if (highestFitness == Father) {
 				currentGene = fatherLinks[fatherLinkIndex];
-				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromID);
-				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toID);
+				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toNeuronID);
 			}
 			fatherLinkIndex++;
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID > motherLinks[motherLinkIndex].innovationID) {
 			if (highestFitness == Mother) {
 				currentGene = motherLinks[motherLinkIndex];
-				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromID);
-				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toID);
+				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromNeuronID);
+				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toNeuronID);
 			}
 			motherLinkIndex++;
 		}
@@ -240,13 +240,13 @@ Genotype Genotype::crossOver(Genotype & mother, int babyId)
 			double weight = 0;
 			if (highestFitness == Mother) {
 				currentGene = motherLinks[motherLinkIndex];
-				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromID);
-				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toID);
+				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromNeuronID);
+				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toNeuronID);
 			}
 			if (highestFitness == Father) {
 				currentGene = fatherLinks[fatherLinkIndex];
-				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromID);
-				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toID);
+				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toNeuronID);
 			}
 
 			if (RNG::getRandomIntBetween(0, 1) == 0)
@@ -296,8 +296,8 @@ void Genotype::createPhenotype()
 		if (!links[i].enabled)
 			continue;
 
-		int fromIndex = getNeuronIndexFromId(links[i].fromID);
-		int toIndex = getNeuronIndexFromId(links[i].toID);
+		int fromIndex = getNeuronIndexFromId(links[i].fromNeuronID);
+		int toIndex = getNeuronIndexFromId(links[i].toNeuronID);
 		PhenotypeNeuron* fromNeuron = phenoNeurons[fromIndex];
 		PhenotypeNeuron* toNeuron = phenoNeurons[toIndex];
 		toNeuron->linksIn.push_back(PhenotypeLink(fromNeuron, toNeuron, links[i].weight));
@@ -417,7 +417,7 @@ NeuronGene Genotype::getNeuronGeneFromId(int id)
 void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vector<LinkGene>& linkVec)
 {
 	for (int i = 0; i < linkVec.size(); i++) {
-		if ((linkVec[i].fromID == link.fromID) && (linkVec[i].toID == link.toID))
+		if ((linkVec[i].fromNeuronID == link.fromNeuronID) && (linkVec[i].toNeuronID == link.toNeuronID))
 			return;
 	}
 	linkVec.push_back(link);
@@ -496,8 +496,8 @@ void Genotype::updateDepthOfNeuronsConnectedToThis(int neuronIndex)
 			continue;
 
 		int fromIndex = neuronIndex;
-		if (links[i].fromID == neurons[fromIndex].id) {
-			int toIndex = getNeuronIndexFromId(links[i].toID);
+		if (links[i].fromNeuronID == neurons[fromIndex].id) {
+			int toIndex = getNeuronIndexFromId(links[i].toNeuronID);
 			if (neurons[toIndex].depth <= neurons[fromIndex].depth) {
 				int newDepth = neurons[fromIndex].depth + 1;
 				neurons[toIndex].depth = newDepth;
@@ -516,7 +516,7 @@ bool Genotype::isValidLinkIndexForAddNeuron(int index)
 	if (links.size() == 0)
 		return false;
 
-	int fromIndex = getNeuronIndexFromId(links[index].fromID);
+	int fromIndex = getNeuronIndexFromId(links[index].fromNeuronID);
 	if (fromIndex == -1 || !links[index].enabled || links[index].recurrent || neurons[fromIndex].neuronType == bias)
 		return false;
 
@@ -550,7 +550,7 @@ bool Genotype::doesLinkAlreadyExist(int fromIndex, int toIndex)
 	int toId = neurons[toIndex].id;
 
 	for (int i = 0; i < links.size(); i++) {
-		if (links[i].fromID == fromId && links[i].toID == toId)
+		if (links[i].fromNeuronID == fromId && links[i].toNeuronID == toId)
 			return true;
 	}
 	return false;

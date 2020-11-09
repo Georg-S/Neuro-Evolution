@@ -1,11 +1,11 @@
 #include "FileReader.h"
 
 
-std::vector<Genotype> FileReader::parsePopulationFromFile(string fileName)
+std::vector<Genotype> FileReader::parsePopulationFromFile(std::string fileName)
 {
 	std::vector<Genotype> population;
-	ifstream populationFile(fileName);
-	for (string line; getline(populationFile, line);) {
+	std::ifstream populationFile(fileName);
+	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "BeginGenotype")) {
 			population.push_back(parseOneGenotype(populationFile));
 		}
@@ -13,7 +13,7 @@ std::vector<Genotype> FileReader::parsePopulationFromFile(string fileName)
 	return population;
 }
 
-Genotype FileReader::parseOneGenotype(ifstream & populationFile)
+Genotype FileReader::parseOneGenotype(std::ifstream & populationFile)
 {
 	int countOfInputs = 0;
 	int countOfOutputs = 0;
@@ -21,7 +21,7 @@ Genotype FileReader::parseOneGenotype(ifstream & populationFile)
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	for (string line; getline(populationFile, line);) {
+	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "EndGenotype")) {
 			break;
 		}
@@ -49,12 +49,12 @@ Genotype FileReader::parseOneGenotype(ifstream & populationFile)
 	return createdGenotype;
 }
 
-std::vector<NeuronGene> FileReader::parseNeurons(ifstream & populationFile)
+std::vector<NeuronGene> FileReader::parseNeurons(std::ifstream & populationFile)
 {
 	std::vector<NeuronGene> neurons;
 	bool finishedParsing = false;
 
-	for (string line; getline(populationFile, line) && !finishedParsing;) {
+	for (std::string line; getline(populationFile, line) && !finishedParsing;) {
 		if (contains(line, "EndNeurons")) {
 			finishedParsing = true;
 			break;
@@ -66,10 +66,10 @@ std::vector<NeuronGene> FileReader::parseNeurons(ifstream & populationFile)
 	return neurons;
 }
 
-NeuronGene FileReader::parseOneNeuron(ifstream & populationFile)
+NeuronGene FileReader::parseOneNeuron(std::ifstream & populationFile)
 {
 	NeuronGene neuron;
-	for (string line; getline(populationFile, line);) {
+	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "NeuronEnd")) {
 			break;
 		}
@@ -89,11 +89,11 @@ NeuronGene FileReader::parseOneNeuron(ifstream & populationFile)
 	return neuron;
 }
 
-std::vector<LinkGene> FileReader::parseLinks(ifstream & populationFile)
+std::vector<LinkGene> FileReader::parseLinks(std::ifstream & populationFile)
 {
 	std::vector<LinkGene> links;
 
-	for (string line; getline(populationFile, line);) {
+	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "EndLinks")) {
 			break;
 		}
@@ -106,10 +106,10 @@ std::vector<LinkGene> FileReader::parseLinks(ifstream & populationFile)
 	return links;
 }
 
-LinkGene FileReader::parseOneLink(ifstream & populationFile)
+LinkGene FileReader::parseOneLink(std::ifstream & populationFile)
 {
 	LinkGene link;
-	for (string line; getline(populationFile, line);) {
+	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "LinkEnd")) {
 			break;
 		}
@@ -119,7 +119,7 @@ LinkGene FileReader::parseOneLink(ifstream & populationFile)
 		}
 
 		if (contains(line, "FromID")) {
-			link.fromID = atoi(getStringBetweenQuotationMark(line).c_str());
+			link.fromNeuronID = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 
 		if (contains(line, "InnovationID")) {
@@ -131,7 +131,7 @@ LinkGene FileReader::parseOneLink(ifstream & populationFile)
 		}
 
 		if (contains(line, "ToID")) {
-			link.toID = atoi(getStringBetweenQuotationMark(line).c_str());
+			link.toNeuronID = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 
 		if (contains(line, "Weight")) {
@@ -141,14 +141,14 @@ LinkGene FileReader::parseOneLink(ifstream & populationFile)
 	return link;
 }
 
-Innovation FileReader::parseInnovationFromFile(string fileName)
+Innovation FileReader::parseInnovationFromFile(std::string fileName)
 {
-	ifstream innovationFile(fileName);
+	std::ifstream innovationFile(fileName);
 	std::vector<InnovationElement> innovations;
 	int currentInnovationNumber = 0;
 	int startNeuronNumber = 0;
 
-	for (string line; getline(innovationFile, line);) {
+	for (std::string line; getline(innovationFile, line);) {
 		if (contains(line, "CurrentInnovationNumber")) {
 			currentInnovationNumber = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
@@ -164,7 +164,7 @@ Innovation FileReader::parseInnovationFromFile(string fileName)
 	return Innovation(currentInnovationNumber, startNeuronNumber, innovations);
 }
 
-InnovationElement FileReader::parseOneInnovation(ifstream & innovationFile)
+InnovationElement FileReader::parseOneInnovation(std::ifstream & innovationFile)
 {
 	int fromId = 0;
 	int innovationId = 0;
@@ -172,7 +172,7 @@ InnovationElement FileReader::parseOneInnovation(ifstream & innovationFile)
 	int neuronId = 0;
 	int toId = 0;
 
-	for (string line; getline(innovationFile, line);) {
+	for (std::string line; getline(innovationFile, line);) {
 		if (contains(line, "InnovationEnd")) {
 			break;
 		}
@@ -200,7 +200,7 @@ InnovationElement FileReader::parseOneInnovation(ifstream & innovationFile)
 	return InnovationElement(fromId, toId, innovationId, neuronId, innovationType);
 }
 
-bool FileReader::contains(string line, string searched)
+bool FileReader::contains(std::string line, std::string searched)
 {
 	std::size_t found = line.find(searched);
 	if (found != std::string::npos) {
@@ -209,9 +209,9 @@ bool FileReader::contains(string line, string searched)
 	return false;
 }
 
-string FileReader::getStringBetweenQuotationMark(string line)
+std::string FileReader::getStringBetweenQuotationMark(std::string line)
 {
-	string parsed;
+	std::string parsed;
 	char quotation(39);
 	bool parse = false;
 

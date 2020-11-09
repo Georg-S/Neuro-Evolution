@@ -67,8 +67,8 @@ TEST(TEST_FileManagment, AfterSavingAndParsingInnovationSizeStaysTheSame) {
 
 TEST(TEST_FileManagment, ParseBetweenQuotationParsesCorrectly) {
 	FileReader reader = FileReader();
-	string test = "Hallo mein 'Lieber'";
-	string expected = "Lieber";
+	std::string test = "Hallo mein 'Lieber'";
+	std::string expected = "Lieber";
 
 	ASSERT_STREQ(expected.c_str(), reader.getStringBetweenQuotationMark(test).c_str());
 }

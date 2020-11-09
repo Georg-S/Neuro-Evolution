@@ -64,7 +64,7 @@ TEST(TEST_XOR, XORIsPossibleFourthInput) {
 	EXPECT_LT(output[0], 0.1);
 }
 
-vector<double> calculateFitness(NEAT &neat) {
+std::vector<double> calculateFitness(NEAT &neat) {
 	std::vector<double> fitness;
 
 	std::vector<std::vector<double>> outputs = neat.calculateOutputSnapshot(std::vector<double> {0, 0});
@@ -114,12 +114,12 @@ void testXOR() {
 			highestFitnessEver = currentHighestFitness;
 		}
 		if (highestFitnessEver > 3) {
-			cout << "Solution Found" << endl;
+			std::cout << "Solution Found" << std::endl;
 		}
-		cout << i << endl;
-		cout << currentHighestFitness << endl;
+		std::cout << i << std::endl;
+		std::cout << currentHighestFitness << std::endl;
 		neat.iterateOneGeneration(fitness);
-		cout << endl;
+		std::cout << std::endl;
 	}
 }
 
@@ -144,14 +144,14 @@ void testXorParameters() {
 			if (highestFitnessEver > 3) {
 				generationAverage += neat.getCurrentGeneration();
 				solutionFound = true;
-				cout << "Solution Found" << endl;
+				std::cout << "Solution Found" << std::endl;
 			}else 
 				neat.iterateOneGeneration(fitness);
 		}
 	}
 	generationAverage /= 100;
 
-	cout << "Average is " << generationAverage << endl;
+	std::cout << "Average is " << generationAverage << std::endl;
 	getchar();
 }
 

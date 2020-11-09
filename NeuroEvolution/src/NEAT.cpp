@@ -5,7 +5,7 @@ NEAT::NEAT()
 {
 }
 
-NEAT::NEAT(string populationFileName, string innovationFileName)
+NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
 {
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
@@ -91,7 +91,7 @@ void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 	currentGeneration++;
 }
 
-void NEAT::writePopulationAndInnovationAsFiles(string populationFileName, string innovationFileName)
+void NEAT::writePopulationAndInnovationAsFiles(std::string populationFileName, std::string innovationFileName)
 {
 	FileWriter::writePopulationToFile(populationFileName,population);
 	FileWriter::writeInnovationToFile(innovationFileName,innovation);
