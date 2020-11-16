@@ -30,8 +30,8 @@ public:
 	int getHighestGenotypeId() const;
 	int getCurrentGeneration() const;
 
-	void setWeightPertubation(double weightPertubation);
-	void setAddNeuronProbability(double addNeuronProbability);
+	void setWeightPertubation(const double &weightPertubation);
+	void setAddNeuronProbability(const double &addNeuronProbability);
 private:
 	void deletePhenotypes();
 	void resetSpecies();

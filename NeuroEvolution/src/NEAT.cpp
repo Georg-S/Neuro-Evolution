@@ -124,12 +124,12 @@ int NEAT::getCurrentGeneration() const
 	return currentGeneration;
 }
 
-void NEAT::setWeightPertubation(double weightPertubation)
+void NEAT::setWeightPertubation(const double &weightPertubation)
 {
 	this->weightPertubation = weightPertubation;
 }
 
-void NEAT::setAddNeuronProbability(double addNeuronProbability)
+void NEAT::setAddNeuronProbability(const double &addNeuronProbability)
 {
 	this->addNeuronProbability = addNeuronProbability;
 }
