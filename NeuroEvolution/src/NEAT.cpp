@@ -18,13 +18,13 @@ NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
 
 NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
 {
-	std::srand(time(NULL));
 	if (populationSize <= 0)
 		return;
 
 	innovation = Innovation();
 	for (int i = 0; i < populationSize; i++)
 		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
+	std::srand(time(NULL));
 	
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
@@ -93,22 +93,22 @@ void NEAT::writePopulationAndInnovationAsFiles(std::string populationFileName, s
 	FileWriter::writeInnovationToFile(innovationFileName,innovation);
 }
 
-int NEAT::getPopulationSize()
+int NEAT::getPopulationSize() const
 {
 	return population.size();
 }
 
-int NEAT::getSpeciesCount()
+int NEAT::getSpeciesCount() const
 {
 	return species.size();
 }
 
-int NEAT::getTotalCountOfInnovations()
+int NEAT::getTotalCountOfInnovations() const
 {
 	return innovation.getTotalInnovationsCount();
 }
 
-int NEAT::getHighestGenotypeId()
+int NEAT::getHighestGenotypeId() const
 {
 	int highestId = -1;
 	for (int i = 0; i < population.size(); i++) {
@@ -119,7 +119,7 @@ int NEAT::getHighestGenotypeId()
 	return highestId;
 }
 
-int NEAT::getCurrentGeneration()
+int NEAT::getCurrentGeneration() const
 {
 	return currentGeneration;
 }

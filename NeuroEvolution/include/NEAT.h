@@ -24,11 +24,11 @@ public:
 	void writePopulationAndInnovationAsFiles(std::string populationFileName, std::string innovationFileName);
 
 
-	int getPopulationSize();
-	int getSpeciesCount();
-	int getTotalCountOfInnovations();
-	int getHighestGenotypeId();
-	int getCurrentGeneration();
+	int getPopulationSize() const;
+	int getSpeciesCount() const;
+	int getTotalCountOfInnovations() const;
+	int getHighestGenotypeId() const;
+	int getCurrentGeneration() const;
 
 	void setWeightPertubation(double weightPertubation);
 	void setAddNeuronProbability(double addNeuronProbability);

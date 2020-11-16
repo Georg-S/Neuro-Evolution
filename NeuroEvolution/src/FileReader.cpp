@@ -135,7 +135,7 @@ LinkGene FileReader::parseOneLink(std::ifstream & populationFile)
 		}
 
 		if (contains(line, "Weight")) {
-			link.weight = atof(getStringBetweenQuotationMark(line).c_str());
+			link.weight = std::stod(getStringBetweenQuotationMark(line).c_str());
 		}
 	}
 	return link;
