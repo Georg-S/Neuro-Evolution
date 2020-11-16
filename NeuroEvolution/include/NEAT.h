@@ -19,7 +19,7 @@ public:
 
 	std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double> &inputs);
 	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>&inputs);
-	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>&inputs, int index);
+	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>&inputs, const int &index);
 	void iterateOneGeneration(const std::vector<double> &fitness);
 	void writePopulationAndInnovationAsFiles(std::string populationFileName, std::string innovationFileName);
 

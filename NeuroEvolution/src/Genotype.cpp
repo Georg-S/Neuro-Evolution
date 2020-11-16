@@ -21,10 +21,10 @@ Genotype::Genotype(std::vector<NeuronGene> neurons, std::vector<LinkGene> links,
 	int inputs = 0;
 	int outputs = 0;
 	for (int i = 0; i < neurons.size(); i++) {
-		if (neurons[i].neuronType == input)
+		if (neurons[i].neuronType == NeuronType::input)
 			inputs++;
 
-		if (neurons[i].neuronType == output)
+		if (neurons[i].neuronType == NeuronType::output)
 			outputs++;
 	}
 	this->countOfInputs = inputs;
@@ -324,32 +324,32 @@ void Genotype::setRawFitness(double fitness)
 	this->rawFitness = fitness;
 }
 
-double Genotype::getAdjustedFitness()
+double Genotype::getAdjustedFitness() const
 {
 	return adjustedFitness;
 }
 
-double Genotype::getRawFitness()
+double Genotype::getRawFitness() const
 {
 	return rawFitness;
 }
 
-int Genotype::getCountOfNeurons()
+int Genotype::getCountOfNeurons() const
 {
 	return neurons.size();
 }
 
-int Genotype::getCountOfLinks()
+int Genotype::getCountOfLinks() const
 {
 	return links.size();
 }
 
-int Genotype::getMaxDepth()
+int Genotype::getMaxDepth() const
 {
 	return maxDepth;
 }
 
-double Genotype::getLinkWeightAverage()
+double Genotype::getLinkWeightAverage() const
 {
 	double total = 0;
 	if (links.size() == 0)
@@ -361,27 +361,27 @@ double Genotype::getLinkWeightAverage()
 	return total/links.size();
 }
 
-int Genotype::getGenotypeId()
+int Genotype::getGenotypeId() const
 {
 	return id;
 }
 
-int Genotype::getCountOfInputs()
+int Genotype::getCountOfInputs() const
 {
 	return countOfInputs;
 }
 
-int Genotype::getCountOfOutputs()
+int Genotype::getCountOfOutputs() const
 {
 	return countOfOutputs;
 }
 
-std::vector<NeuronGene> Genotype::getNeurons()
+std::vector<NeuronGene> Genotype::getNeurons() const
 {
 	return neurons;
 }
 
-std::vector<LinkGene> Genotype::getLinks()
+std::vector<LinkGene> Genotype::getLinks() const
 {
 	return links;
 }
@@ -564,7 +564,7 @@ bool Genotype::isRecurrentBetweenNodes(int fromIndex, int toIndex)
 	return false;
 }
 
-int Genotype::getNeuronIndexFromId(int id)
+int Genotype::getNeuronIndexFromId(int id) const
 {
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i].id == id)

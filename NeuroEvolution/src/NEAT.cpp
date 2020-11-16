@@ -60,7 +60,7 @@ std::vector<std::vector<double>> NEAT::calculateOutputActive(const std::vector<d
 	return outputs;
 }
 
-std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, int index)
+std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int &index)
 {
 	if (inputs.size() != countOfInputs)
 		return std::vector<double>();

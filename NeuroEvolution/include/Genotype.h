@@ -32,17 +32,17 @@ public:
 
 	void setAdjustedFitness(double fitness);
 	void setRawFitness(double fitness);
-	double getAdjustedFitness();
-	double getRawFitness();
-	int getCountOfNeurons();
-	int getCountOfLinks();
-	int getMaxDepth();
-	double getLinkWeightAverage();
-	int getGenotypeId();
-	int getCountOfInputs();
-	int getCountOfOutputs();
-	std::vector<NeuronGene> getNeurons();
-	std::vector<LinkGene> getLinks();
+	double getAdjustedFitness() const;
+	double getRawFitness() const;
+	int getCountOfNeurons() const;
+	int getCountOfLinks() const;
+	int getMaxDepth() const;
+	double getLinkWeightAverage() const;
+	int getGenotypeId() const;
+	int getCountOfInputs() const;
+	int getCountOfOutputs() const;
+	std::vector<NeuronGene> getNeurons() const;
+	std::vector<LinkGene> getLinks() const;
 	friend bool operator<(const Genotype& lhs, const Genotype& rhs);
 
 	Phenotype* phenotype = nullptr;
@@ -60,7 +60,7 @@ private:
 	bool areValidNeuronIndizesForAddNeuron(int fromIndex, int toIndex, bool recurrentAllowed);
 	bool doesLinkAlreadyExist(int fromIndex, int toIndex);
 	bool isRecurrentBetweenNodes(int fromIndex, int toIndex);
-	int getNeuronIndexFromId(int id);
+	int getNeuronIndexFromId(int id) const;
 	double getRandomLinkWeight();
 	void createLinkWithRandomWeight(Innovation &innovation, int fromId, int toId, bool recurrent);
 	void createLink(Innovation &innovation, int fromId, int toId, bool recurrent, double weightOfLink);

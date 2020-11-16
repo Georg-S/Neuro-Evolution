@@ -10,10 +10,10 @@
 class FileWriter
 {
 public:
-	static void writePopulationToFile(std::string fileName, std::vector<Genotype> population);
-	static void writeInnovationToFile(std::string fileName, Innovation &innovation);
+	static void writePopulationToFile(const std::string &fileName, std::vector<Genotype> population);
+	static void writeInnovationToFile(const std::string &fileName, const Innovation &innovation);
 private:
-	static std::string stringifyGenotype(Genotype &genotype);
+	static std::string stringifyGenotype(const Genotype &genotype);
 	static std::string stringifyInnovation(const Innovation &innovation);
 };
 
