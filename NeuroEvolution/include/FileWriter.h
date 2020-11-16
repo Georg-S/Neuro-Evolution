@@ -14,6 +14,6 @@ public:
 	static void writeInnovationToFile(std::string fileName, Innovation &innovation);
 private:
 	static std::string stringifyGenotype(Genotype &genotype);
-	static std::string stringifyInnovation(Innovation &innovation);
+	static std::string stringifyInnovation(const Innovation &innovation);
 };
 

@@ -57,7 +57,7 @@ std::string FileWriter::stringifyGenotype(Genotype &genotype)
 	return genotypeString;
 }
 
-std::string FileWriter::stringifyInnovation(Innovation &innovation)
+std::string FileWriter::stringifyInnovation(const Innovation &innovation)
 {
 	std::string innovationString = "StartInnovations\n";
 	innovationString = innovationString + "CurrentInnovationNumber: '" + std::to_string(innovation.getCurrentInnovationNumber()) + "' \n";

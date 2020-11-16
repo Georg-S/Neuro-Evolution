@@ -7,8 +7,6 @@ NEAT::NEAT()
 
 NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
 {
-	this->countOfInputs = countOfInputs;
-	this->countOfOutputs = countOfOutputs;
 	population = FileReader::parsePopulationFromFile(populationFileName);
 	innovation = FileReader::parseInnovationFromFile(innovationFileName);
 
@@ -20,17 +18,17 @@ NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
 
 NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
 {
+	std::srand(time(NULL));
 	if (populationSize <= 0)
 		return;
 
 	innovation = Innovation();
-	for (int i = 0; i < populationSize; i++) {
+	for (int i = 0; i < populationSize; i++)
 		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
-	}
+	
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
-	std::srand(time(NULL));
 }
 
 
@@ -44,9 +42,8 @@ std::vector<std::vector<double>> NEAT::calculateOutputSnapshot(const std::vector
 		return std::vector<std::vector<double>>();
 	
 	std::vector<std::vector<double>> outputs;
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		outputs.push_back(population[i].calculateOutputSnapshot(inputs));
-	}
 
 	return outputs;
 }
@@ -57,9 +54,8 @@ std::vector<std::vector<double>> NEAT::calculateOutputActive(const std::vector<d
 		return std::vector<std::vector<double>>();
 
 	std::vector<std::vector<double>> outputs;
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		outputs.push_back(population[i].calculateOutputActive(inputs));
-	}
 
 	return outputs;
 }

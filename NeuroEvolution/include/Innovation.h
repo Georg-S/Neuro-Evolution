@@ -7,26 +7,25 @@ class Innovation
 {
 public:
 	Innovation();
-	Innovation(int currentInnovationNumber, int currentNeuronId, std::vector<InnovationElement> innovations);
+	Innovation(const int &currentInnovationNumber, const int &currentNeuronId,const std::vector<InnovationElement> &innovations);
 	~Innovation();
 
-	void setCurrentNeuronId(int currenNeuronId);
-	int getInnovationID(int fromID, int toID, InnovationType type);
-	int getTotalInnovationsCount();
+	int createNewLinkInnovation(const int &fromId, const int &toId);
+	int createNewNeuronInnovation(const int &fromId, const int &toId);
 
-	int createNewLinkInnovation(int fromId, int toId);
-	int createNewNeuronInnovation(int fromId, int toId);
-	int getNeuronId(int fromNeuronId, int toNeuronId);
-	int getCountOfNewNeuronInnovations();
-	int getCountOfNewLinkInnovations();
-	int getCurrentInnovationNumber();
-	int getCurrentNeuronId();
-	std::vector<InnovationElement> getInnovations();
+	void setCurrentNeuronId(const int &currenNeuronId);
+	int getInnovationID(const int &fromID, const int &toID, const InnovationType &type) const;
+	int getTotalInnovationsCount() const;
+	int getNeuronId(const int &fromNeuronId, const int &toNeuronId) const;
+	int getCountOfNewNeuronInnovations() const;
+	int getCountOfNewLinkInnovations() const;
+	int getCurrentInnovationNumber() const;
+	int getCurrentNeuronId() const;
+	std::vector<InnovationElement> getInnovations() const;
 
 private:
 	std::vector<InnovationElement> innovations;
 	int currentInnovationNumber = 0;
 	int currentNeuronId = -1;
-
 };
 
