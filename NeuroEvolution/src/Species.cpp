@@ -48,11 +48,12 @@ void Species::updateFitnessValues()
 	}
 }
 
-void Species::calculateSpawnAmount(const double & populationAverage)
+void Species::calculateSpawnAmount(const double& populationAverage)
 {
 	spawnAmount = 0;
 	for (int i = 0; i < members.size(); i++) {
-		spawnAmount += (members[i]->getAdjustedFitness() / populationAverage);
+		spawnAmount += members[i]->getAdjustedFitness();
+		spawnAmount /=  populationAverage;
 	}
 }
 
@@ -88,8 +89,8 @@ int Species::getGenerationNoImprovement()
 
 Genotype Species::getLeader()
 {
-	double highestFitness = -1;
-	int highestFitnessIndex = 0;
+	double highestFitness = DBL_MIN;
+	int highestFitnessIndex = -1;
 	for (int i = 0; i < members.size(); i++) {
 		if (highestFitness <= members[i]->getRawFitness()) {
 			highestFitnessIndex = i;
@@ -102,7 +103,7 @@ Genotype Species::getLeader()
 
 Genotype Species::spawnGenotype()
 {
-	double randomFitness = RNG::getRandomFloatBetween(0, totalCurrentAdjustedFitness);
+	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
 	for (int i = 0; i < members.size(); i++) {
 		accumalatedFitness += members[i]->getAdjustedFitness();
