@@ -1,6 +1,6 @@
 #include "FileWriter.h"
 
-void FileWriter::writePopulationToFile(const std::string &fileName, std::vector<Genotype> population)
+void FileWriter::writePopulationToFile(const std::string& fileName, std::vector<Genotype> population)
 {
 	std::ofstream populationFile;
 	populationFile.open(fileName);
@@ -13,7 +13,7 @@ void FileWriter::writePopulationToFile(const std::string &fileName, std::vector<
 	populationFile.close();
 }
 
-void FileWriter::writeInnovationToFile(const std::string &fileName, const Innovation &innovation)
+void FileWriter::writeInnovationToFile(const std::string& fileName, const Innovation& innovation)
 {
 	std::ofstream innovationFile;
 	innovationFile.open(fileName);
@@ -21,7 +21,7 @@ void FileWriter::writeInnovationToFile(const std::string &fileName, const Innova
 	innovationFile.close();
 }
 
-std::string FileWriter::stringifyGenotype(const Genotype &genotype)
+std::string FileWriter::stringifyGenotype(const Genotype& genotype)
 {
 	std::string genotypeString = "'BeginGenotype'\n";
 	genotypeString = genotypeString + "CountOfInputs: '" + std::to_string(genotype.getCountOfInputs()) + "'\n";
@@ -57,7 +57,7 @@ std::string FileWriter::stringifyGenotype(const Genotype &genotype)
 	return genotypeString;
 }
 
-std::string FileWriter::stringifyInnovation(const Innovation &innovation)
+std::string FileWriter::stringifyInnovation(const Innovation& innovation)
 {
 	std::string innovationString = "StartInnovations\n";
 	innovationString = innovationString + "CurrentInnovationNumber: '" + std::to_string(innovation.getCurrentInnovationNumber()) + "' \n";
