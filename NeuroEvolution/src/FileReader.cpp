@@ -1,7 +1,7 @@
 #include "FileReader.h"
 
 
-std::vector<Genotype> FileReader::parsePopulationFromFile(std::string fileName)
+std::vector<Genotype> FileReader::parsePopulationFromFile(const std::string &fileName)
 {
 	std::vector<Genotype> population;
 	std::ifstream populationFile(fileName);
@@ -13,7 +13,7 @@ std::vector<Genotype> FileReader::parsePopulationFromFile(std::string fileName)
 	return population;
 }
 
-Genotype FileReader::parseOneGenotype(std::ifstream & populationFile)
+Genotype FileReader::parseOneGenotype(std::ifstream &populationFile)
 {
 	int countOfInputs = 0;
 	int countOfOutputs = 0;
@@ -141,7 +141,7 @@ LinkGene FileReader::parseOneLink(std::ifstream & populationFile)
 	return link;
 }
 
-Innovation FileReader::parseInnovationFromFile(std::string fileName)
+Innovation FileReader::parseInnovationFromFile(const std::string &fileName)
 {
 	std::ifstream innovationFile(fileName);
 	std::vector<InnovationElement> innovations;
@@ -200,7 +200,7 @@ InnovationElement FileReader::parseOneInnovation(std::ifstream & innovationFile)
 	return InnovationElement(fromId, toId, innovationId, neuronId, innovationType);
 }
 
-bool FileReader::contains(std::string line, std::string searched)
+bool FileReader::contains(const std::string &line, const std::string &searched)
 {
 	std::size_t found = line.find(searched);
 	if (found != std::string::npos) {
@@ -209,7 +209,7 @@ bool FileReader::contains(std::string line, std::string searched)
 	return false;
 }
 
-std::string FileReader::getStringBetweenQuotationMark(std::string line)
+std::string FileReader::getStringBetweenQuotationMark(const std::string &line)
 {
 	std::string parsed;
 	char quotation(39);
