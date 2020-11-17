@@ -5,7 +5,7 @@ Innovation::Innovation()
 }
 
 Innovation::Innovation(const int& currentInnovationNumber, const int& currentNeuronId,
-					const std::vector<InnovationElement> &innovations)
+	const std::vector<InnovationElement>& innovations)
 {
 	this->currentInnovationNumber = currentInnovationNumber;
 	this->currentNeuronId = currentNeuronId;
@@ -40,7 +40,7 @@ int Innovation::createNewNeuronInnovation(const int& fromId, const int& toId)
 	return currentNeuronId;
 }
 
-void Innovation::setCurrentNeuronId(const int &currenNeuronId)
+void Innovation::setCurrentNeuronId(const int& currenNeuronId)
 {
 	this->currentNeuronId = currenNeuronId;
 }
@@ -48,9 +48,10 @@ void Innovation::setCurrentNeuronId(const int &currenNeuronId)
 int Innovation::getInnovationID(const int& fromID, const int& toID, const InnovationType& type) const
 {
 	for (int i = 0; i < innovations.size(); i++) {
-		if ((innovations[i].fromNeuronId == fromID) 
-		&& (innovations[i].toNeuronId == toID) 
-		&& (innovations[i].innovationType == type)) {
+		if ((innovations[i].fromNeuronId == fromID)
+			&& (innovations[i].toNeuronId == toID)
+			&& (innovations[i].innovationType == type)) {
+
 			return innovations[i].innovationId;
 		}
 	}

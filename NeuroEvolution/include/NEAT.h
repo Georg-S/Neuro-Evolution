@@ -13,14 +13,14 @@ class NEAT
 {
 public:
 	NEAT();
-	NEAT(const std::string &populationFileName, const std::string &innovationFileName);
-	NEAT(const int &populationSize, const int &countOfInputs, const int &countOfOutputs);
+	NEAT(const std::string& populationFileName, const std::string& innovationFileName);
+	NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs);
 
-	std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double> &inputs);
-	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>&inputs);
-	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>&inputs, const int &index);
-	void iterateOneGeneration(const std::vector<double> &fitness);
-	void writePopulationAndInnovationAsFiles(const std::string &populationFileName, const std::string &innovationFileName);
+	std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double>& inputs);
+	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
+	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index);
+	void iterateOneGeneration(const std::vector<double>& fitness);
+	void writePopulationAndInnovationAsFiles(const std::string& populationFileName, const std::string& innovationFileName);
 
 
 	int getPopulationSize() const;
@@ -29,12 +29,12 @@ public:
 	int getHighestGenotypeId() const;
 	int getCurrentGeneration() const;
 
-	void setWeightPertubation(const double &weightPertubation);
-	void setAddNeuronProbability(const double &addNeuronProbability);
+	void setWeightPertubation(const double& weightPertubation);
+	void setAddNeuronProbability(const double& addNeuronProbability);
 private:
 	void deletePhenotypes();
 	void resetSpecies();
-	void setFitnessOfPopulation(const std::vector<double> &fitness);
+	void setFitnessOfPopulation(const std::vector<double>& fitness);
 	void speciate();
 	void updateSpecies();
 	void updateFitnessValues();
@@ -42,7 +42,7 @@ private:
 	void populate();
 	Genotype getHighestRawFitnessGenotyp() const;
 
-//NEAT-Parameters
+	//NEAT-Parameters
 	double exzessFactor = 1;
 	double disjointFactor = 1;
 	double weightFactor = 0.4;

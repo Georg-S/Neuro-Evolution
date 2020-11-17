@@ -5,7 +5,7 @@ NEAT::NEAT()
 {
 }
 
-NEAT::NEAT(const std::string &populationFileName, const std::string &innovationFileName)
+NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName)
 {
 	population = FileReader::parsePopulationFromFile(populationFileName);
 	innovation = FileReader::parseInnovationFromFile(innovationFileName);
@@ -16,7 +16,7 @@ NEAT::NEAT(const std::string &populationFileName, const std::string &innovationF
 	}
 }
 
-NEAT::NEAT(const int &populationSize, const int &countOfInputs, const int &countOfOutputs)
+NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs)
 {
 	std::srand(time(NULL));
 	if (populationSize <= 0)
@@ -25,7 +25,7 @@ NEAT::NEAT(const int &populationSize, const int &countOfInputs, const int &count
 	innovation = Innovation();
 	for (int i = 0; i < populationSize; i++)
 		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
-	
+
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
@@ -33,9 +33,9 @@ NEAT::NEAT(const int &populationSize, const int &countOfInputs, const int &count
 
 std::vector<std::vector<double>> NEAT::calculateOutputSnapshot(const std::vector<double>& inputs)
 {
-	if(inputs.size() != countOfInputs)
+	if (inputs.size() != countOfInputs)
 		return std::vector<std::vector<double>>();
-	
+
 	std::vector<std::vector<double>> outputs;
 	for (int i = 0; i < population.size(); i++)
 		outputs.push_back(population[i].calculateOutputSnapshot(inputs));
@@ -55,14 +55,14 @@ std::vector<std::vector<double>> NEAT::calculateOutputActive(const std::vector<d
 	return outputs;
 }
 
-std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int &index)
+std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index)
 {
 	if (inputs.size() != countOfInputs)
 		return std::vector<double>();
 
 	if (index >= population.size() || index < 0)
 		return std::vector<double>();
-		
+
 	return population[index].calculateOutputActive(inputs);
 }
 
@@ -82,10 +82,10 @@ void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 	currentGeneration++;
 }
 
-void NEAT::writePopulationAndInnovationAsFiles(const std::string &populationFileName, const std::string &innovationFileName)
+void NEAT::writePopulationAndInnovationAsFiles(const std::string& populationFileName, const std::string& innovationFileName)
 {
-	FileWriter::writePopulationToFile(populationFileName,population);
-	FileWriter::writeInnovationToFile(innovationFileName,innovation);
+	FileWriter::writePopulationToFile(populationFileName, population);
+	FileWriter::writeInnovationToFile(innovationFileName, innovation);
 }
 
 int NEAT::getPopulationSize() const
@@ -119,12 +119,12 @@ int NEAT::getCurrentGeneration() const
 	return currentGeneration;
 }
 
-void NEAT::setWeightPertubation(const double &weightPertubation)
+void NEAT::setWeightPertubation(const double& weightPertubation)
 {
 	this->weightPertubation = weightPertubation;
 }
 
-void NEAT::setAddNeuronProbability(const double &addNeuronProbability)
+void NEAT::setAddNeuronProbability(const double& addNeuronProbability)
 {
 	this->addNeuronProbability = addNeuronProbability;
 }
@@ -157,7 +157,7 @@ void NEAT::speciate()
 
 		for (int speciesIndex = 0; speciesIndex < species.size(); speciesIndex++) {
 			double compatibilityScore = species[speciesIndex].calculateCompatibilityScore(population[i],
-																exzessFactor, disjointFactor, weightFactor);
+				exzessFactor, disjointFactor, weightFactor);
 
 			if (compatibilityScore < lowestCompatibilityScore) {
 				lowestCompatibilityScore = compatibilityScore;
@@ -177,7 +177,7 @@ void NEAT::updateSpecies()
 	std::vector<Species> updatedSpecies;
 
 	for (int i = 0; i < species.size(); i++) {
-		if (species[i].getMemberCount() > 0 ) {
+		if (species[i].getMemberCount() > 0) {
 			if (updatedSpecies.size() >= maxCountSpecies)
 				break;
 			if ((updatedSpecies.size() > speciesRoughValue) && (species[i].getGenerationNoImprovement() > generationsNoImprovementAllowed))
@@ -274,9 +274,9 @@ void NEAT::calculateSpawnAmoutOfSpecies()
 	double populationTotalFitness = 0;
 	for (int i = 0; i < population.size(); i++)
 		populationTotalFitness += population[i].getAdjustedFitness();
-	
+
 	populationAverageFitness = populationTotalFitness / (double)population.size();
 
-	for (int i = 0; i < species.size(); i++) 
+	for (int i = 0; i < species.size(); i++)
 		species[i].calculateSpawnAmount(populationAverageFitness);
 }

@@ -1,7 +1,7 @@
 #include "RNG.h"
 
 
-int RNG::getRandomIntBetween(const int &from, const int &to)
+int RNG::getRandomIntBetween(const int& from, const int& to)
 {
 	if (to <= from)
 		return from;

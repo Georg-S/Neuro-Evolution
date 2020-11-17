@@ -2,16 +2,16 @@
 #include "InnovationType.h"
 
 struct InnovationElement {
-	InnovationElement(const int &innovationId, const int &fromNeuronId, 
-					const int &toNeuronId, const InnovationType &innovationType) {
+	InnovationElement(const int& innovationId, const int& fromNeuronId,
+		const int& toNeuronId, const InnovationType& innovationType) {
 		neuronId = -1;
 		this->innovationId = innovationId;
 		this->fromNeuronId = fromNeuronId;
 		this->toNeuronId = toNeuronId;
 		this->innovationType = innovationType;
 	}
-	InnovationElement(const int &innovationID, const int &fromNeuronId, 
-					const int &toNeuronId, const int &neuronId, const InnovationType &innovationType) {
+	InnovationElement(const int& innovationID, const int& fromNeuronId,
+		const int& toNeuronId, const int& neuronId, const InnovationType& innovationType) {
 		this->fromNeuronId = fromNeuronId;
 		this->toNeuronId = toNeuronId;
 		this->innovationId = innovationID;
