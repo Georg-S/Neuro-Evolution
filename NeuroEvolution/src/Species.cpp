@@ -57,48 +57,10 @@ void Species::calculateSpawnAmount(const double& populationAverage)
 	}
 }
 
-double Species::getTotalCurrentAdjustedFitness()
+void Species::incrementCurrentGeneration()
 {
-	return totalCurrentAdjustedFitness;
-}
-
-int Species::getGenerationOfSpecies()
-{
-	return currentGeneration;
-}
-
-int Species::getSpeciesId()
-{
-	return speciesId;
-}
-
-int Species::getMemberCount()
-{
-	return members.size();
-}
-
-int Species::getSpawnAmount()
-{
-	return spawnAmount;
-}
-
-int Species::getGenerationNoImprovement()
-{
-	return generationsNoImprovement;
-}
-
-Genotype Species::getLeader()
-{
-	double highestFitness = DBL_MIN;
-	int highestFitnessIndex = -1;
-	for (int i = 0; i < members.size(); i++) {
-		if (highestFitness <= members[i]->getRawFitness()) {
-			highestFitnessIndex = i;
-			highestFitness = members[i]->getRawFitness();
-		}
-	}
-
-	return *(members[highestFitnessIndex]);
+	currentGeneration++;
+	generationsNoImprovement++;
 }
 
 Genotype Species::spawnGenotype()
@@ -113,10 +75,48 @@ Genotype Species::spawnGenotype()
 	}
 }
 
-void Species::incrementCurrentGeneration()
+Genotype Species::getLeader() const
 {
-	currentGeneration++;
-	generationsNoImprovement++;
+	double highestFitness = DBL_MIN;
+	int highestFitnessIndex = -1;
+	for (int i = 0; i < members.size(); i++) {
+		if (highestFitness <= members[i]->getRawFitness()) {
+			highestFitnessIndex = i;
+			highestFitness = members[i]->getRawFitness();
+		}
+	}
+
+	return *(members[highestFitnessIndex]);
+}
+
+double Species::getTotalCurrentAdjustedFitness() const
+{
+	return totalCurrentAdjustedFitness;
+}
+
+int Species::getGenerationOfSpecies() const
+{
+	return currentGeneration;
+}
+
+int Species::getSpeciesId() const
+{
+	return speciesId;
+}
+
+int Species::getMemberCount() const
+{
+	return members.size();
+}
+
+int Species::getSpawnAmount() const
+{
+	return spawnAmount;
+}
+
+int Species::getGenerationNoImprovement() const
+{
+	return generationsNoImprovement;
 }
 
 bool operator<(const Species& lhs, const Species& rhs)

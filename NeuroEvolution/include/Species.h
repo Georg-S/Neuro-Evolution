@@ -15,16 +15,16 @@ public:
 	void updateFitnessValues();
 	void calculateSpawnAmount(const double& populationAverage);
 	void incrementCurrentGeneration();
-	double getTotalCurrentAdjustedFitness();
-	int getGenerationOfSpecies();
-	int getSpeciesId();
-	int getMemberCount();
-	int getSpawnAmount();
-	int getGenerationNoImprovement();
-	Genotype getLeader();
 	Genotype spawnGenotype();
-
+	Genotype getLeader() const;
+	double getTotalCurrentAdjustedFitness() const;
+	int getGenerationOfSpecies() const;
+	int getSpeciesId() const;
+	int getMemberCount() const;
+	int getSpawnAmount() const;
+	int getGenerationNoImprovement() const;
 	friend bool operator<(const Species &lhs, const Species &rhs);
+
 private:
 	Genotype* representative;
 	std::vector<Genotype*> members;
