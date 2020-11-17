@@ -5,7 +5,7 @@ Genotype::Genotype()
 {
 }
 
-Genotype::Genotype(Innovation & innovation, int countOfInputs, int countOfOutputs, int id)
+Genotype::Genotype(Innovation & innovation, const int &countOfInputs, const int& countOfOutputs, const int &id)
 {
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
@@ -13,52 +13,46 @@ Genotype::Genotype(Innovation & innovation, int countOfInputs, int countOfOutput
 	createFullyConnectedNetwork(innovation);
 }
 
-Genotype::Genotype(std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id)
+Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id)
 {
 	this->neurons = neurons;
 	this->links = links;
 	this->id = id;
-	int inputs = 0;
-	int outputs = 0;
+	this->countOfInputs = 0;
+	this->countOfOutputs = 0;
+
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i].neuronType == NeuronType::input)
-			inputs++;
+			this->countOfInputs++;
 
 		if (neurons[i].neuronType == NeuronType::output)
-			outputs++;
+			this->countOfOutputs++;
 	}
-	this->countOfInputs = inputs;
-	this->countOfOutputs = outputs;
+
 	calculateDepthOfEveryNeuron();
 }
 
-Genotype::Genotype(Innovation &innovation, std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id)
+Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id)
 {
-	int inputs = 0;
-	int outputs = 0;
+	this->countOfInputs = 0;
+	this->countOfOutputs = 0;
 	int highestNeuronId = 0;
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i].neuronType == input)
-			inputs++;
+			this->countOfInputs++;
 
 		if (neurons[i].neuronType == output)
-			outputs++;
+			this->countOfOutputs++;
 
 		if (neurons[i].id > highestNeuronId)
 			highestNeuronId = neurons[i].id;
 	}
-	this->countOfInputs = inputs;
-	this->countOfOutputs = outputs;
+
 	this->neurons = neurons;
 	this->links = links;
 	this->id = id;
 	innovation.setCurrentNeuronId(highestNeuronId);
 	calculateDepthOfEveryNeuron();
-}
-
-
-Genotype::~Genotype()
-{
 }
 
 void Genotype::randomlyAddNeuron(Innovation &innovation, float addNeuronProbability)

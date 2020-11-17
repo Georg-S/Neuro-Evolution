@@ -14,10 +14,9 @@ class Genotype
 {
 public:
 	Genotype();
-	Genotype(Innovation& innovation, int countOfInputs, int countOfOutputs, int id);
-	Genotype(std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id);
-	Genotype(Innovation& innovation, std::vector<NeuronGene> neurons, std::vector<LinkGene> links, int id);
-	~Genotype();
+	Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs, const int& id);
+	Genotype(const std::vector<NeuronGene> &neurons, const std::vector<LinkGene> &links, const int &id);
+	Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id);
 
 	void randomlyAddNeuron(Innovation& innovation, float addNeuronProbability);
 	void randomlyMutateAllWeights(float mutationProbability, float newWeightProbability, float weightPertubation);
