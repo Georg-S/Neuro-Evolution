@@ -6,7 +6,7 @@ class Species
 {
 public:
 	Species();
-	Species(Genotype &representative, int speciesId);
+	Species(Genotype* representative, int speciesId);
 	~Species();
 	double calculateCompatibilityScore(Genotype &toTestGenotype, const float &exzessFactor,
 									const float &disjointFactor, const float &weightFactor);
@@ -24,9 +24,9 @@ public:
 	Genotype getLeader();
 	Genotype spawnGenotype();
 
-	friend bool operator<(const Species& lhs, const Species& rhs);
+	friend bool operator<(const Species &lhs, const Species &rhs);
 private:
-	Genotype representative;
+	Genotype* representative;
 	std::vector<Genotype*> members;
 
 	int allTimeHighestRawFitness = 0;

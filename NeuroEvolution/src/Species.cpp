@@ -5,11 +5,11 @@ Species::Species()
 {
 }
 
-Species::Species(Genotype &representative, int speciesId)
+Species::Species(Genotype* representative, int speciesId)
 {
 	this->representative = representative;
 	this->speciesId = speciesId;
-	members.push_back(&(representative));
+	members.push_back((representative));
 }
 
 
@@ -19,7 +19,7 @@ Species::~Species()
 
 double Species::calculateCompatibilityScore(Genotype & toTestGenotype, const float & exzessFactor, const float & disjointFactor, const float & weightFactor)
 {
-	return representative.calculateCompatibilityScore(toTestGenotype, exzessFactor, disjointFactor, weightFactor);
+	return representative->calculateCompatibilityScore(toTestGenotype, exzessFactor, disjointFactor, weightFactor);
 }
 
 void Species::reset()
@@ -37,7 +37,7 @@ void Species::updateFitnessValues()
 	totalCurrentAdjustedFitness = 0;
 
 	for (int i = 0; i < members.size(); i++) {
-		double adjustedFitness = members[i]->getRawFitness() / members.size();
+		double adjustedFitness = members[i]->getRawFitness() / (double) members.size();
 		totalCurrentAdjustedFitness += adjustedFitness;
 		members[i]->setAdjustedFitness(adjustedFitness);
 	}

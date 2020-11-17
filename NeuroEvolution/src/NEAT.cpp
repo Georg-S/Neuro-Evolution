@@ -167,7 +167,7 @@ void NEAT::speciate()
 		if (lowestCompatibilityScore <= compatibilityDistanceThreshold)
 			species[lowestCompIndex].addMemberToSpecies(&population[i]);
 		else
-			species.push_back(Species(population[i], currentPopulationId++));
+			species.push_back(Species(&(population[i]), currentPopulationId++));
 	}
 }
 
