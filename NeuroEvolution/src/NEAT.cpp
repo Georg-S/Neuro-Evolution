@@ -5,7 +5,7 @@ NEAT::NEAT()
 {
 }
 
-NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
+NEAT::NEAT(const std::string &populationFileName, const std::string &innovationFileName)
 {
 	population = FileReader::parsePopulationFromFile(populationFileName);
 	innovation = FileReader::parseInnovationFromFile(innovationFileName);
@@ -16,7 +16,7 @@ NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
 	}
 }
 
-NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
+NEAT::NEAT(const int &populationSize, const int &countOfInputs, const int &countOfOutputs)
 {
 	std::srand(time(NULL));
 	if (populationSize <= 0)
@@ -29,11 +29,6 @@ NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
-}
-
-
-NEAT::~NEAT()
-{
 }
 
 std::vector<std::vector<double>> NEAT::calculateOutputSnapshot(const std::vector<double>& inputs)
@@ -87,7 +82,7 @@ void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 	currentGeneration++;
 }
 
-void NEAT::writePopulationAndInnovationAsFiles(std::string populationFileName, std::string innovationFileName)
+void NEAT::writePopulationAndInnovationAsFiles(const std::string &populationFileName, const std::string &innovationFileName)
 {
 	FileWriter::writePopulationToFile(populationFileName,population);
 	FileWriter::writeInnovationToFile(innovationFileName,innovation);
@@ -247,7 +242,7 @@ void NEAT::populate()
 	population = newPopulation;
 }
 
-Genotype NEAT::getHighestRawFitnessGenotyp()
+Genotype NEAT::getHighestRawFitnessGenotyp() const
 {
 	double highestRawFitness = -1;
 	int highestRawFitnessIndex = 0;

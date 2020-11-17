@@ -13,15 +13,14 @@ class NEAT
 {
 public:
 	NEAT();
-	NEAT(std::string populationFileName, std::string innovationFileName);
-	NEAT(int populationSize, int countOfInputs, int countOfOutputs);
-	~NEAT();
+	NEAT(const std::string &populationFileName, const std::string &innovationFileName);
+	NEAT(const int &populationSize, const int &countOfInputs, const int &countOfOutputs);
 
 	std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double> &inputs);
 	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>&inputs);
 	std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>&inputs, const int &index);
 	void iterateOneGeneration(const std::vector<double> &fitness);
-	void writePopulationAndInnovationAsFiles(std::string populationFileName, std::string innovationFileName);
+	void writePopulationAndInnovationAsFiles(const std::string &populationFileName, const std::string &innovationFileName);
 
 
 	int getPopulationSize() const;
@@ -41,7 +40,7 @@ private:
 	void updateFitnessValues();
 	void calculateSpawnAmoutOfSpecies();
 	void populate();
-	Genotype getHighestRawFitnessGenotyp();
+	Genotype getHighestRawFitnessGenotyp() const;
 
 //NEAT-Parameters
 	double exzessFactor = 1;
