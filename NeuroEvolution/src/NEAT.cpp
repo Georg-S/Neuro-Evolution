@@ -18,13 +18,13 @@ NEAT::NEAT(std::string populationFileName, std::string innovationFileName)
 
 NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs)
 {
+	std::srand(time(NULL));
 	if (populationSize <= 0)
 		return;
 
 	innovation = Innovation();
 	for (int i = 0; i < populationSize; i++)
 		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
-	std::srand(time(NULL));
 	
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;

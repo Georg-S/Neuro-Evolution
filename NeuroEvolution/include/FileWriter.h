@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "Genotype.h"
 #include "Innovation.h"
 
@@ -15,5 +16,9 @@ public:
 private:
 	static std::string stringifyGenotype(const Genotype &genotype);
 	static std::string stringifyInnovation(const Innovation &innovation);
+
+	template <typename T>
+	static std::string to_string_with_max_precision(const T& a_value);
 };
+
 

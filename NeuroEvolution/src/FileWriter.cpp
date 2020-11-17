@@ -48,7 +48,7 @@ std::string FileWriter::stringifyGenotype(const Genotype &genotype)
 		genotypeString = genotypeString + "InnovationID: '" + std::to_string(links[i].innovationID) + "'\n";
 		genotypeString = genotypeString + "Recurrent: '" + std::to_string(links[i].recurrent) + "'\n";
 		genotypeString = genotypeString + "ToID: '" + std::to_string(links[i].toNeuronID) + "'\n";
-		genotypeString = genotypeString + "Weight: '" + std::to_string(links[i].weight) + "'\n";
+		genotypeString = genotypeString + "Weight: '" + to_string_with_max_precision(links[i].weight) + "'\n";
 		genotypeString = genotypeString + "LinkEnd" + "\n";
 	}
 	genotypeString = genotypeString + "EndLinks\n";
@@ -81,3 +81,13 @@ std::string FileWriter::stringifyInnovation(const Innovation &innovation)
 	return innovationString;
 }
 
+template<typename T>
+inline std::string FileWriter::to_string_with_max_precision(const T& a_value)
+{
+	int maxPrecision = std::numeric_limits<T>::max_digits10;
+
+	std::stringstream out;
+	out.precision(maxPrecision);
+	out << a_value;
+	return out.str();
+}
