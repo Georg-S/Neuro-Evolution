@@ -156,6 +156,12 @@ void testXorParameters() {
 }
 
 /*
+TEST(TEST_XOR, NEATXorTest) {
+	testXOR();
+}
+*/
+
+/*
 TEST(TEST_XOR, NEATXorPracticeTest) {
 	testXorParameters();
 }

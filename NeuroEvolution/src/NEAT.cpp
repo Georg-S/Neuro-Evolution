@@ -152,8 +152,8 @@ void NEAT::setFitnessOfPopulation(const std::vector<double>& fitness)
 void NEAT::speciate()
 {
 	for (int i = 0; i < population.size(); i++) {
-		double lowestCompatibilityScore = compatibilityDistanceThreshold+1;
-		int lowestCompIndex = 0;
+		double lowestCompatibilityScore = DBL_MAX;
+		int lowestCompIndex = -1;
 
 		for (int speciesIndex = 0; speciesIndex < species.size(); speciesIndex++) {
 			double compatibilityScore = species[speciesIndex].calculateCompatibilityScore(population[i],
@@ -178,8 +178,9 @@ void NEAT::updateSpecies()
 
 	for (int i = 0; i < species.size(); i++) {
 		if (species[i].getMemberCount() > 0 ) {
-			if (updatedSpecies.size() > speciesRoughValue && species[i].getGenerationNoImprovement() > generationsNoImprovementAllowed 
-				|| updatedSpecies.size() >= maxCountSpecies)
+			if (updatedSpecies.size() >= maxCountSpecies)
+				break;
+			if ((updatedSpecies.size() > speciesRoughValue) && (species[i].getGenerationNoImprovement() > generationsNoImprovementAllowed))
 				continue;
 
 			species[i].incrementCurrentGeneration();
@@ -200,43 +201,47 @@ void NEAT::populate()
 	currentSpawnedAmount++;
 
 	for (int speciesIndex = 0; speciesIndex < species.size(); speciesIndex++) {
-		if (currentSpawnedAmount < maxPopulationSize) {
-			int countToSpawn = round(species[speciesIndex].getSpawnAmount());
 
-			bool elitSpawnedAlready = false;
+		if (currentSpawnedAmount == maxPopulationSize)
+			break;
 
-			while (countToSpawn--) {
-				if (!elitSpawnedAlready && species[speciesIndex].getMemberCount() >= 5) {
-					elitSpawnedAlready = true;
-					baby = species[speciesIndex].getLeader();
+		int spawnAmount = round(species[speciesIndex].getSpawnAmount());
+		bool eliteSpawnedAlready = false;
+
+
+		for (int countToSpawn = 0; countToSpawn < spawnAmount; countToSpawn++) {
+			if (!eliteSpawnedAlready && species[speciesIndex].getMemberCount() >= 5) {
+				eliteSpawnedAlready = true;
+				baby = species[speciesIndex].getLeader();
+			}
+			else {
+				if (species[speciesIndex].getMemberCount() == 1) {
+					baby = species[speciesIndex].spawnGenotype();
 				}
 				else {
-					if (species[speciesIndex].getMemberCount() == 1) {
-						baby = species[speciesIndex].spawnGenotype();
+					if (RNG::getRandomFloatBetween0and1() < crossOverProbability) {
+						Genotype father = species[speciesIndex].spawnGenotype();
+						Genotype mother = species[speciesIndex].spawnGenotype();
+						baby = father.crossOver(mother, currentGenotypeId++);
 					}
 					else {
-						if (crossOverProbability > RNG::getRandomFloatBetween0and1()) {
-							Genotype father = species[speciesIndex].spawnGenotype();
-							Genotype mother = species[speciesIndex].spawnGenotype();
-							baby = father.crossOver(mother, currentGenotypeId++);
-						}else {
-							baby = species[speciesIndex].spawnGenotype();
-						}
+						baby = species[speciesIndex].spawnGenotype();
 						baby.randomlyMutateAllWeights(mutateLinkProbability, newLinkWeightProbability, weightPertubation);
 						baby.randomlyAddLink(innovation, addLinkProbability, recurrentAllowed);
 						baby.randomlyAddNeuron(innovation, addNeuronProbability);
 					}
 				}
-				currentSpawnedAmount++;
-				newPopulation.push_back(baby);
-				if (currentSpawnedAmount == maxPopulationSize)
-					countToSpawn = 0;
 			}
+			currentSpawnedAmount++;
+			newPopulation.push_back(baby);
+			if (currentSpawnedAmount == maxPopulationSize)
+				break;
 		}
 	}
+
 	while (currentSpawnedAmount < maxPopulationSize) {
-		currentSpawnedAmount++;
 		newPopulation.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
+		currentSpawnedAmount++;
 	}
 	population.clear();
 	population = newPopulation;
@@ -244,8 +249,8 @@ void NEAT::populate()
 
 Genotype NEAT::getHighestRawFitnessGenotyp() const
 {
-	double highestRawFitness = -1;
-	int highestRawFitnessIndex = 0;
+	double highestRawFitness = DBL_MIN;
+	int highestRawFitnessIndex = -1;
 
 	for (int i = 0; i < population.size(); i++) {
 		if (population[i].getRawFitness() > highestRawFitness) {
@@ -267,12 +272,11 @@ void NEAT::calculateSpawnAmoutOfSpecies()
 {
 	double populationAverageFitness = 0;
 	double populationTotalFitness = 0;
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		populationTotalFitness += population[i].getAdjustedFitness();
-	}
-	populationAverageFitness = populationTotalFitness / population.size();
+	
+	populationAverageFitness = populationTotalFitness / (double)population.size();
 
-	for (int i = 0; i < species.size(); i++) {
+	for (int i = 0; i < species.size(); i++) 
 		species[i].calculateSpawnAmount(populationAverageFitness);
-	}
 }
