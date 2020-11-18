@@ -66,7 +66,7 @@ void Genotype::randomlyAddNeuron(Innovation &innovation, const float &addNeuronP
 	int linkIndex = -1;
 	for(int i = 0; i < numTrysToAddNeuron; i++) {
 		int randomLinkIndex = RNG::getRandomIntBetween(0, links.size() - 1);
-		if (isValidLinkIndexForAddNeuron(randomLinkIndex)) {
+		if (isValidLinkForAddNeuron(links[randomLinkIndex])) {
 			linkIndex = randomLinkIndex;
 			break;
 		}
@@ -89,38 +89,56 @@ void Genotype::randomlyAddNeuron(Innovation &innovation, const float &addNeuronP
 	calculateDepthOfEveryNeuron();
 }
 
-void Genotype::randomlyMutateAllWeights(float mutationProbability, float newWeightProbability, float weightPertubation)
+void Genotype::randomlyMutateAllWeights(const float& mutationProbability, const float& newWeightProbability, const float& weightPertubation)
 {
 	for (int i = 0; i < links.size(); i++) {
 		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
-			mutateSingleWeight(newWeightProbability, i, weightPertubation);
+			mutateSingleWeight(newWeightProbability, links[i], weightPertubation);
 	}
 }
 
-void Genotype::randomlyAddLink(Innovation & innovation, float mutationProbability, bool recurrentAllowed)
+void Genotype::mutateSingleWeight(const float& newWeightProbability, LinkGene& link, const float& weightPertubation)
 {
-	if (mutationProbability < RNG::getRandomFloatBetween0and1())
+	if (RNG::getRandomFloatBetween0and1() < newWeightProbability) {
+		link.weight = getRandomLinkWeight();
+	}
+	else {
+		float pertubationAmount = weightPertubation;
+		if (RNG::getRandomIntBetween(0, 1) == 0)
+			pertubationAmount *= -1;
+
+		link.weight += pertubationAmount;
+	}
+	link.weight = std::min(link.weight, maximumLinkWeight);
+	link.weight = std::max(link.weight, minimumLinkWeight);
+}
+
+void Genotype::randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed)
+{
+	if (neurons.size() == 0)
+		return;
+	if (RNG::getRandomFloatBetween0and1() > mutationProbability)
 		return;
 
-	int trysToFindValidIndizes = numTrysToAddLink;
 	int fromIndex = -1;
 	int toIndex = -1;
 
-	while (trysToFindValidIndizes--) {
+	for(int triesToFindValidIndizes = 0; triesToFindValidIndizes < numTrysToAddLink; triesToFindValidIndizes++){
 		int randomFromIndex = RNG::getRandomIntBetween(0, neurons.size() - 1);
 		int randomToIndex = RNG::getRandomIntBetween(0, neurons.size() - 1);
 
-		if (areValidNeuronIndizesForAddNeuron(randomFromIndex, randomToIndex, recurrentAllowed)) {
+		if (areValidNeuronsForAddLink(neurons[randomFromIndex], neurons[randomToIndex], recurrentAllowed)) {
 			fromIndex = randomFromIndex;
 			toIndex = randomToIndex;
-			trysToFindValidIndizes = 0;
+			break;
 		}
 	}
 
 	if (fromIndex == -1 || toIndex == -1)
 		return;
 
-	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id,isRecurrentBetweenNodes(fromIndex,toIndex));
+	const bool recurrent = isRecurrentBetweenNeurons(neurons[fromIndex], neurons[toIndex]);
+	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id, recurrent);
 }
 
 double Genotype::calculateCompatibilityScore(Genotype & partner, const float &exzessFactor,
@@ -380,25 +398,6 @@ std::vector<LinkGene> Genotype::getLinks() const
 	return links;
 }
 
-void Genotype::mutateSingleWeight(float newWeightProbability, int linkIndex, float weightPertubation)
-{
-	if (newWeightProbability > RNG::getRandomFloatBetween0and1()) {
-		links[linkIndex].weight = getRandomLinkWeight();
-	}
-	else {
-		float pertubationAmount = weightPertubation;
-		if (RNG::getRandomIntBetween(0, 1) == 0)
-			pertubationAmount *= -1;
-
-		links[linkIndex].weight += pertubationAmount;
-	}
-	if (links[linkIndex].weight < minimumLinkWeight)
-		links[linkIndex].weight = minimumLinkWeight;
-
-	if (links[linkIndex].weight > maximumLinkWeight)
-		links[linkIndex].weight = maximumLinkWeight;
-}
-
 NeuronGene Genotype::getNeuronGeneFromId(int id)
 {
 	int neuronIndex = getNeuronIndexFromId(id);
@@ -504,40 +503,37 @@ void Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 	}
 }
 
-bool Genotype::isValidLinkIndexForAddNeuron(const int &index) const
+bool Genotype::isValidLinkForAddNeuron(const LinkGene& link) const
 {
-	int fromIndex = getNeuronIndexFromId(links[index].fromNeuronID);
-	if (fromIndex == -1 || !links[index].enabled || links[index].recurrent || neurons[fromIndex].neuronType == bias)
+	int fromIndex = getNeuronIndexFromId(link.fromNeuronID);
+	if (fromIndex == -1 || !link.enabled || link.recurrent || neurons[fromIndex].neuronType == bias)
 		return false;
 
 	return true;
 }
 
-bool Genotype::areValidNeuronIndizesForAddNeuron(int fromIndex, int toIndex, bool recurrentAllowed)
+bool Genotype::areValidNeuronsForAddLink(const NeuronGene& fromNeuron, const NeuronGene& toNeuron, const bool& recurrentAllowed) const
 {
-	if (neurons.size() == 0)
+	if (fromNeuron.neuronType == bias && toNeuron.neuronType == input ||
+		fromNeuron.neuronType == input && toNeuron.neuronType == bias ||
+		fromNeuron.neuronType == bias && toNeuron.neuronType == bias)
 		return false;
 
-	if (neurons[fromIndex].neuronType == bias && neurons[toIndex].neuronType == input ||
-		neurons[fromIndex].neuronType == input && neurons[toIndex].neuronType == bias ||
-		neurons[fromIndex].neuronType == bias && neurons[toIndex].neuronType == bias)
-		return false;
-
-	if (doesLinkAlreadyExist(fromIndex, toIndex))
+	if (doesLinkAlreadyExist(fromNeuron, toNeuron))
 		return false;
 
 	if (recurrentAllowed)
 		return true;
-	else if (isRecurrentBetweenNodes(fromIndex, toIndex))
+	else if (isRecurrentBetweenNeurons(fromNeuron, toNeuron))
 		return false;
 
 	return true;
 }
 
-bool Genotype::doesLinkAlreadyExist(int fromIndex, int toIndex)
+bool Genotype::doesLinkAlreadyExist(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const
 {
-	int fromId = neurons[fromIndex].id;
-	int toId = neurons[toIndex].id;
+	int fromId = fromNeuron.id;
+	int toId = toNeuron.id;
 
 	for (int i = 0; i < links.size(); i++) {
 		if (links[i].fromNeuronID == fromId && links[i].toNeuronID == toId)
@@ -546,9 +542,9 @@ bool Genotype::doesLinkAlreadyExist(int fromIndex, int toIndex)
 	return false;
 }
 
-bool Genotype::isRecurrentBetweenNodes(int fromIndex, int toIndex)
+bool Genotype::isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const
 {
-	if (neurons[fromIndex].depth >= neurons[toIndex].depth)
+	if (fromNeuron.depth >= toNeuron.depth)
 		return true;
 
 	return false;
