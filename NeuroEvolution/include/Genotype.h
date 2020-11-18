@@ -15,14 +15,13 @@ class Genotype
 public:
 	Genotype();
 	Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs, const int& id);
-	Genotype(const std::vector<NeuronGene> &neurons, const std::vector<LinkGene> &links, const int &id);
+	Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id);
 	Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id);
 
-	void randomlyAddNeuron(Innovation& innovation, float addNeuronProbability);
+	void randomlyAddNeuron(Innovation& innovation, const float &addNeuronProbability);
 	void randomlyMutateAllWeights(float mutationProbability, float newWeightProbability, float weightPertubation);
 	void randomlyAddLink(Innovation& innovation, float mutationProbability, bool recurrentAllowed);
-	double calculateCompatibilityScore(Genotype& partner, const float& exzessFactor,
-		const float& disjointFactor, const float& weightFactor);
+	double calculateCompatibilityScore(Genotype& partner, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
 	Genotype crossOver(Genotype& mother, int babyId);
 	std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 	std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
@@ -55,14 +54,14 @@ private:
 	void createLinks(Innovation& innovation);
 	void calculateDepthOfEveryNeuron();
 	void updateDepthOfNeuronsConnectedToThis(NeuronGene& neuron);
-	bool isValidLinkIndexForAddNeuron(int index);
+	bool isValidLinkIndexForAddNeuron(const int &index) const;
 	bool areValidNeuronIndizesForAddNeuron(int fromIndex, int toIndex, bool recurrentAllowed);
 	bool doesLinkAlreadyExist(int fromIndex, int toIndex);
 	bool isRecurrentBetweenNodes(int fromIndex, int toIndex);
 	int getNeuronIndexFromId(int id) const;
 	double getRandomLinkWeight();
 	void createLinkWithRandomWeight(Innovation& innovation, int fromId, int toId, bool recurrent);
-	void createLink(Innovation& innovation, int fromId, int toId, bool recurrent, double weightOfLink);
+	void createLink(Innovation& innovation, const int &fromId, const int &toId, const bool &recurrent, const double &weightOfLink);
 
 	std::vector <NeuronGene> neurons;
 	std::vector <LinkGene> links;

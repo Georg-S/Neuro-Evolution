@@ -55,18 +55,20 @@ Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neuron
 	calculateDepthOfEveryNeuron();
 }
 
-void Genotype::randomlyAddNeuron(Innovation &innovation, float addNeuronProbability)
+void Genotype::randomlyAddNeuron(Innovation &innovation, const float &addNeuronProbability)
 {
-	if (addNeuronProbability < RNG::getRandomFloatBetween0and1())
+	if (links.size() == 0)
 		return;
 
-	int trys = numTrysToAddNeuron;
+	if (RNG::getRandomFloatBetween0and1() > addNeuronProbability)
+		return;
+
 	int linkIndex = -1;
-	while (trys--) {
+	for(int i = 0; i < numTrysToAddNeuron; i++) {
 		int randomLinkIndex = RNG::getRandomIntBetween(0, links.size() - 1);
 		if (isValidLinkIndexForAddNeuron(randomLinkIndex)) {
 			linkIndex = randomLinkIndex;
-			trys = 0;
+			break;
 		}
 	}
 
@@ -90,10 +92,8 @@ void Genotype::randomlyAddNeuron(Innovation &innovation, float addNeuronProbabil
 void Genotype::randomlyMutateAllWeights(float mutationProbability, float newWeightProbability, float weightPertubation)
 {
 	for (int i = 0; i < links.size(); i++) {
-		if (mutationProbability < RNG::getRandomFloatBetween0and1())
-			continue;
-
-		mutateSingleWeight(newWeightProbability, i, weightPertubation);
+		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
+			mutateSingleWeight(newWeightProbability, i, weightPertubation);
 	}
 }
 
@@ -504,11 +504,8 @@ void Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 	}
 }
 
-bool Genotype::isValidLinkIndexForAddNeuron(int index)
+bool Genotype::isValidLinkIndexForAddNeuron(const int &index) const
 {
-	if (links.size() == 0)
-		return false;
-
 	int fromIndex = getNeuronIndexFromId(links[index].fromNeuronID);
 	if (fromIndex == -1 || !links[index].enabled || links[index].recurrent || neurons[fromIndex].neuronType == bias)
 		return false;
@@ -576,7 +573,7 @@ void Genotype::createLinkWithRandomWeight(Innovation & innovation, int fromId, i
 	createLink(innovation, fromId, toId, recurrent, RNG::getRandomFloatBetween(minimumLinkStartValue, maximumLinkStartValue));
 }
 
-void Genotype::createLink(Innovation & innovation, int fromId, int toId, bool recurrent, double weightOfLink)
+void Genotype::createLink(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent, const double& weightOfLink)
 {
 	int innovationId = innovation.getInnovationID(fromId, toId, newLink);
 
