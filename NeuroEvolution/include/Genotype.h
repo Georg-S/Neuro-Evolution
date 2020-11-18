@@ -54,7 +54,7 @@ private:
 	void createNeurons();
 	void createLinks(Innovation& innovation);
 	void calculateDepthOfEveryNeuron();
-	void updateDepthOfNeuronsConnectedToThis(int neuronIndex);
+	void updateDepthOfNeuronsConnectedToThis(NeuronGene& neuron);
 	bool isValidLinkIndexForAddNeuron(int index);
 	bool areValidNeuronIndizesForAddNeuron(int fromIndex, int toIndex, bool recurrentAllowed);
 	bool doesLinkAlreadyExist(int fromIndex, int toIndex);

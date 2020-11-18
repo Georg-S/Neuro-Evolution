@@ -454,12 +454,11 @@ void Genotype::createNeurons()
 
 void Genotype::createLinks(Innovation &innovation)
 {
-	for (int i = 0; i <= countOfInputs; i++) {
+	for (int inputNeuronID = 0; inputNeuronID <= countOfInputs; inputNeuronID++) {
 		for (int x = 0; x < countOfOutputs; x++) {
-			int fromId = i;
-			int toId = neurons.size() - 1 - x;
+			int outputNeuronID = neurons.size() - 1 - x;
 
-			createLinkWithRandomWeight(innovation, fromId, toId,false);
+			createLinkWithRandomWeight(innovation, inputNeuronID, outputNeuronID,false);
 		}
 	}
 }
@@ -470,37 +469,37 @@ void Genotype::calculateDepthOfEveryNeuron()
 		return;
 
 	maxDepth = -1;
-	for (int i = 0; i < neurons.size(); i++) {
-		if (neurons[i].neuronType == bias || neurons[i].neuronType == input)
-			neurons[i].depth = 0;
+	for (NeuronGene& neuron : neurons) {
+		if (neuron.neuronType == bias || neuron.neuronType == input)
+			neuron.depth = 0;
 		else
-			neurons[i].depth = -1;
+			neuron.depth = -1;
 	}
 
-	for (int i = 0; i < neurons.size(); i++) {
-		if (neurons[i].neuronType == bias || neurons[i].neuronType == input)
-			updateDepthOfNeuronsConnectedToThis(i);
+	for (NeuronGene& neuron : neurons) {
+		if (neuron.neuronType == bias || neuron.neuronType == input)
+			updateDepthOfNeuronsConnectedToThis(neuron);
 	}
 }
 
-void Genotype::updateDepthOfNeuronsConnectedToThis(int neuronIndex)
+void Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 {
-	for (int i = 0; i < links.size(); i++) {
-		if (!links[i].enabled || links[i].recurrent)
+	for (const LinkGene& link : links) {
+		if (!link.enabled || link.recurrent)
 			continue;
 
-		int fromIndex = neuronIndex;
-		if (links[i].fromNeuronID == neurons[fromIndex].id) {
-			int toIndex = getNeuronIndexFromId(links[i].toNeuronID);
-			if (neurons[toIndex].depth <= neurons[fromIndex].depth) {
-				int newDepth = neurons[fromIndex].depth + 1;
-				neurons[toIndex].depth = newDepth;
+		if (link.fromNeuronID != fromNeuron.id)
+			continue;
 
-				if (newDepth > maxDepth)
-					maxDepth = newDepth;
+		int toIndex = getNeuronIndexFromId(link.toNeuronID);
+		if (neurons[toIndex].depth <= fromNeuron.depth) {
+			int newDepth = fromNeuron.depth + 1;
+			neurons[toIndex].depth = newDepth;
 
-				updateDepthOfNeuronsConnectedToThis(toIndex);
-			}
+			if (newDepth > maxDepth)
+				maxDepth = newDepth;
+
+			updateDepthOfNeuronsConnectedToThis(neurons[toIndex]);
 		}
 	}
 }
