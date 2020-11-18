@@ -51,10 +51,10 @@ void Species::updateFitnessValues()
 void Species::calculateSpawnAmount(const double& populationAverage)
 {
 	spawnAmount = 0;
-	for (int i = 0; i < members.size(); i++) {
+	for (int i = 0; i < members.size(); i++) 
 		spawnAmount += members[i]->getAdjustedFitness();
-		spawnAmount /=  populationAverage;
-	}
+
+	spawnAmount /=  populationAverage;
 }
 
 void Species::incrementCurrentGeneration()
