@@ -168,6 +168,18 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
 	EXPECT_EQ(geno.calculateCompatibilityScore(geno2, 1, 1, 0.4), 2);
 }
 
+TEST(TEST_Genotype, testSymmetry) {
+	Innovation inno = Innovation();
+	Genotype geno = Genotype(inno, 1, 1, 1);
+	Genotype geno2 = geno;
+	geno.randomlyAddNeuron(inno, 1.0);
+
+	double result1 = geno.calculateCompatibilityScore(geno2, 1, 1, 0.4);
+	double result2 = geno2.calculateCompatibilityScore(geno, 1, 1, 0.4);
+
+	EXPECT_EQ(result1, result2);
+}
+
 TEST(TEST_Genotype, calculateCompatibilityScoreCalculatesNot0For2DifferentStartingGenotypes) {
 	Innovation inno = Innovation();
 	Genotype geno = Genotype(inno, 1, 1, 1);
