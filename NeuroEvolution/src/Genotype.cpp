@@ -178,22 +178,19 @@ double Genotype::calculateCompatibilityScore(Genotype & partner, const float &ex
 			genotypeIndex++;
 		}
 	}
-	int maxCountOfGenes = links.size();
-	if (partner.links.size() > maxCountOfGenes)
-		maxCountOfGenes = partner.links.size();
+	int maxCountOfGenes = std::max(links.size(), partner.links.size());
 	if (maxCountOfGenes < 20)
 		maxCountOfGenes = 1;
 
 
-	double compatibilityScore = ((countOfExzess * exzessFactor) / maxCountOfGenes)
-		+ ((countOfDisjoint * disjointFactor) / maxCountOfGenes)
-		+ ((totalWeightDifference / countOfCommon) * weightFactor);
-
+	const double compatibilityScore = (((double) countOfExzess * exzessFactor) / (double) maxCountOfGenes )
+		+ (((double) countOfDisjoint * disjointFactor) / (double) maxCountOfGenes)
+		+ ((totalWeightDifference / (double) countOfCommon) * weightFactor);
 
 	return compatibilityScore;
 }
 
-Genotype Genotype::crossOver(Genotype & mother, int babyId)
+Genotype Genotype::crossOver(Genotype & mother, const int &babyId)
 {
 	std::vector<LinkGene> fatherLinks = this->links;
 	std::vector<LinkGene> motherLinks = mother.links;
@@ -210,7 +207,7 @@ Genotype Genotype::crossOver(Genotype & mother, int babyId)
 	ParentType highestFitness = Father;
 	if (mother.rawFitness > rawFitness)
 		highestFitness = Mother;
-	if (mother.rawFitness == rawFitness) {
+	else if (mother.rawFitness == rawFitness) {
 		if (RNG::getRandomIntBetween(0, 1) == 0)
 			highestFitness = Mother;
 	}
@@ -398,7 +395,7 @@ std::vector<LinkGene> Genotype::getLinks() const
 	return links;
 }
 
-NeuronGene Genotype::getNeuronGeneFromId(int id)
+NeuronGene Genotype::getNeuronGeneFromId(const int &id) const
 {
 	int neuronIndex = getNeuronIndexFromId(id);
 	if (neuronIndex != -1)
@@ -407,21 +404,23 @@ NeuronGene Genotype::getNeuronGeneFromId(int id)
 	return NeuronGene();
 }
 
-void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vector<LinkGene>& linkVec)
+void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vector<LinkGene>& linkVec) const
 {
-	for (int i = 0; i < linkVec.size(); i++) {
-		if ((linkVec[i].fromNeuronID == link.fromNeuronID) && (linkVec[i].toNeuronID == link.toNeuronID))
+	for (LinkGene& linkInVec : linkVec) {
+		if ((linkInVec.fromNeuronID == link.fromNeuronID) && (linkInVec.toNeuronID == link.toNeuronID))
 			return;
 	}
+
 	linkVec.push_back(link);
 }
 
-void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, std::vector<NeuronGene>& neuronVec)
+void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, std::vector<NeuronGene>& neuronVec) const
 {
-	for (int i = 0; i < neuronVec.size(); i++) {
-		if (neuron.id == neuronVec[i].id)
+	for (NeuronGene& neuronInVec : neuronVec) {
+		if (neuron.id == neuronInVec.id)
 			return;
 	}
+
 	neuronVec.push_back(neuron);
 }
 
@@ -550,7 +549,7 @@ bool Genotype::isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, const Neu
 	return false;
 }
 
-int Genotype::getNeuronIndexFromId(int id) const
+int Genotype::getNeuronIndexFromId(const int &id) const
 {
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i].id == id)
@@ -559,12 +558,12 @@ int Genotype::getNeuronIndexFromId(int id) const
 	return -1;
 }
 
-double Genotype::getRandomLinkWeight()
+double Genotype::getRandomLinkWeight() const
 {
 	return RNG::getRandomFloatBetween(minimumLinkStartValue,maximumLinkStartValue);
 }
 
-void Genotype::createLinkWithRandomWeight(Innovation & innovation, int fromId, int toId, bool recurrent)
+void Genotype::createLinkWithRandomWeight(Innovation & innovation, const int &fromId, const int &toId, const bool &recurrent)
 {
 	createLink(innovation, fromId, toId, recurrent, RNG::getRandomFloatBetween(minimumLinkStartValue, maximumLinkStartValue));
 }

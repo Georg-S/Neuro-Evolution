@@ -3,6 +3,7 @@
 #include <time.h>
 #include <algorithm>
 #include <math.h>
+#include <iostream>
 #include "Innovation.h"
 #include "LinkGene.h"
 #include "NeuronGene.h"
@@ -23,7 +24,7 @@ public:
 	void randomlyMutateAllWeights(const float &mutationProbability, const float &newWeightProbability, const float &weightPertubation);
 	void randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed);
 	double calculateCompatibilityScore(Genotype& partner, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
-	Genotype crossOver(Genotype& mother, int babyId);
+	Genotype crossOver(Genotype& mother, const int &babyId);
 	std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 	std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 	void createPhenotype();
@@ -47,9 +48,9 @@ public:
 	Phenotype* phenotype = nullptr;
 private:
 	void mutateSingleWeight(const float &newWeightProbability, LinkGene & link, const float &weightPertubation);
-	NeuronGene getNeuronGeneFromId(int id);
-	void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec);
-	void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec);
+	NeuronGene getNeuronGeneFromId(const int &id) const;
+	void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec) const;
+	void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec) const;
 	void createFullyConnectedNetwork(Innovation& innovation);
 	void createNeurons();
 	void createLinks(Innovation& innovation);
@@ -59,9 +60,9 @@ private:
 	bool areValidNeuronsForAddLink(const NeuronGene& fromNeuron, const NeuronGene& toNeuron, const bool &recurrentAllowed) const;
 	bool doesLinkAlreadyExist(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const;
 	bool isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const;
-	int getNeuronIndexFromId(int id) const;
-	double getRandomLinkWeight();
-	void createLinkWithRandomWeight(Innovation& innovation, int fromId, int toId, bool recurrent);
+	int getNeuronIndexFromId(const int &id) const;
+	double getRandomLinkWeight() const;
+	void createLinkWithRandomWeight(Innovation& innovation, const int &fromId, const int &toId, const bool &recurrent);
 	void createLink(Innovation& innovation, const int &fromId, const int &toId, const bool &recurrent, const double &weightOfLink);
 
 	std::vector <NeuronGene> neurons;
@@ -74,8 +75,8 @@ private:
 	int maxDepth = 0;
 	int countOfInputs;
 	int countOfOutputs;
-	int minimumLinkStartValue = -3;
-	int maximumLinkStartValue = 3;
+	static constexpr int minimumLinkStartValue = -3;
+	static constexpr int maximumLinkStartValue = 3;
 	static constexpr double minimumLinkWeight = -30;
 	static constexpr double maximumLinkWeight = 30;
 };
