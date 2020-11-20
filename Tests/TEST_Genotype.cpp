@@ -224,7 +224,7 @@ TEST(TEST_Genotype, crossWithItSelfReturnsTheSame) {
 	int previousLinkSize = father.getCountOfLinks();
 	int previousNeuronSize = father.getCountOfNeurons();
 	double previousLinkAverage = father.getLinkWeightAverage();
-	Genotype baby = father.crossOver(father, 1);
+	Genotype baby = Genotype::crossOver(father, father, 1);
 
 	EXPECT_EQ(baby.getCountOfLinks(), previousLinkSize);
 	EXPECT_EQ(baby.getCountOfNeurons(), previousNeuronSize);
@@ -240,7 +240,7 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightAmountOfLinks) {
 	mother.randomlyAddNeuron(inno, 1.0);
 	int previousLinkSize = mother.getCountOfLinks();
 
-	Genotype baby = father.crossOver(mother, 2);
+	Genotype baby = Genotype::crossOver(father, mother, 2);
 
 	EXPECT_EQ(baby.getCountOfLinks(), previousLinkSize);
 }
@@ -254,7 +254,7 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightAmountOfLinksIfFitnessIsDifferent) {
 	mother.randomlyAddNeuron(inno, 1.0);
 	int previousLinkSize = father.getCountOfLinks();
 
-	Genotype baby = father.crossOver(mother, 2);
+	Genotype baby = Genotype::crossOver(father, mother, 2);
 
 	EXPECT_EQ(baby.getCountOfLinks(), previousLinkSize);
 }
@@ -268,7 +268,7 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightDepth) {
 	mother.randomlyAddNeuron(inno, 1.0);
 	int previousLinkSize = mother.getCountOfLinks();
 
-	Genotype baby = father.crossOver(mother, 2);
+	Genotype baby = Genotype::crossOver(father, mother, 2);
 
 	EXPECT_EQ(baby.getMaxDepth(), 2);
 }

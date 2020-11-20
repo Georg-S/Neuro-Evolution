@@ -24,7 +24,7 @@ public:
 	void randomlyMutateAllWeights(const float &mutationProbability, const float &newWeightProbability, const float &weightPertubation);
 	void randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed);
 	static double calculateCompatibilityScore(Genotype& left, Genotype& right, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
-	Genotype crossOver(Genotype& mother, const int &babyId);
+	static Genotype crossOver(Genotype& father, Genotype& mother, const int &babyId);
 	std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 	std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 	void createPhenotype();
@@ -49,8 +49,9 @@ public:
 private:
 	void mutateSingleWeight(const float &newWeightProbability, LinkGene & link, const float &weightPertubation);
 	NeuronGene getNeuronGeneFromId(const int &id) const;
-	void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec) const;
-	void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec) const;
+	static NeuronGene getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, const int &id);
+	static void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec);
+	static void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec);
 	void createFullyConnectedNetwork(Innovation& innovation);
 	void createNeurons();
 	void createLinks(Innovation& innovation);
@@ -61,6 +62,7 @@ private:
 	bool doesLinkAlreadyExist(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const;
 	bool isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const;
 	int getNeuronIndexFromId(const int &id) const;
+	static int getNeuronIndexFromId(const std::vector<NeuronGene> &neurons, const int& id);
 	double getRandomLinkWeight() const;
 	void createLinkWithRandomWeight(Innovation& innovation, const int &fromId, const int &toId, const bool &recurrent);
 	void createLink(Innovation& innovation, const int &fromId, const int &toId, const bool &recurrent, const double &weightOfLink);

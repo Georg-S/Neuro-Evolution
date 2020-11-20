@@ -222,7 +222,7 @@ void NEAT::populate()
 					if (RNG::getRandomFloatBetween0and1() < crossOverProbability) {
 						Genotype father = species[speciesIndex].spawnGenotype();
 						Genotype mother = species[speciesIndex].spawnGenotype();
-						baby = father.crossOver(mother, currentGenotypeId++);
+						baby = Genotype::crossOver(father, mother, currentGenotypeId++);
 					}
 					else {
 						baby = species[speciesIndex].spawnGenotype();

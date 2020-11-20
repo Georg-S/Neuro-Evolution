@@ -190,9 +190,9 @@ double Genotype::calculateCompatibilityScore(Genotype& left, Genotype& right, co
 	return compatibilityScore;
 }
 
-Genotype Genotype::crossOver(Genotype & mother, const int &babyId)
+Genotype Genotype::crossOver(Genotype& father, Genotype& mother, const int& babyId)
 {
-	std::vector<LinkGene> fatherLinks = this->links;
+	std::vector<LinkGene> fatherLinks = father.links;
 	std::vector<LinkGene> motherLinks = mother.links;
 	int fatherLinkIndex = 0;
 	int motherLinkIndex = 0;
@@ -205,9 +205,9 @@ Genotype Genotype::crossOver(Genotype & mother, const int &babyId)
 	std::vector<NeuronGene> babyNeurons;
 
 	ParentType highestFitness = Father;
-	if (mother.rawFitness > rawFitness)
+	if (mother.rawFitness > father.rawFitness)
 		highestFitness = Mother;
-	else if (mother.rawFitness == rawFitness) {
+	else if (mother.rawFitness == father.rawFitness) {
 		if (RNG::getRandomIntBetween(0, 1) == 0)
 			highestFitness = Mother;
 	}
@@ -216,32 +216,32 @@ Genotype Genotype::crossOver(Genotype & mother, const int &babyId)
 		if (fatherLinkIndex >= fatherLinks.size()) {
 			if (highestFitness == Mother) {
 				currentGene = motherLinks[motherLinkIndex];
-				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromNeuronID);
-				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toNeuronID);
+				fromNeuron = getNeuronGeneFromId(mother.neurons, motherLinks[motherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(mother.neurons, motherLinks[motherLinkIndex].toNeuronID);
 			}
 			motherLinkIndex++;
 		}
 		else if (motherLinkIndex >= motherLinks.size()) {
 			if (highestFitness == Father) {
 				currentGene = fatherLinks[fatherLinkIndex];
-				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromNeuronID);
-				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toNeuronID);
+				fromNeuron = getNeuronGeneFromId(father.neurons, fatherLinks[fatherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(father.neurons, fatherLinks[fatherLinkIndex].toNeuronID);
 			}
 			fatherLinkIndex++;
 		}
 		else if (motherLinks[motherLinkIndex].innovationID > fatherLinks[fatherLinkIndex].innovationID) {
 			if (highestFitness == Father) {
 				currentGene = fatherLinks[fatherLinkIndex];
-				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromNeuronID);
-				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toNeuronID);
+				fromNeuron = getNeuronGeneFromId(father.neurons, fatherLinks[fatherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(father.neurons, fatherLinks[fatherLinkIndex].toNeuronID);
 			}
 			fatherLinkIndex++;
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID > motherLinks[motherLinkIndex].innovationID) {
 			if (highestFitness == Mother) {
 				currentGene = motherLinks[motherLinkIndex];
-				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromNeuronID);
-				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toNeuronID);
+				fromNeuron = getNeuronGeneFromId(mother.neurons, motherLinks[motherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(mother.neurons, motherLinks[motherLinkIndex].toNeuronID);
 			}
 			motherLinkIndex++;
 		}
@@ -249,13 +249,13 @@ Genotype Genotype::crossOver(Genotype & mother, const int &babyId)
 			double weight = 0;
 			if (highestFitness == Mother) {
 				currentGene = motherLinks[motherLinkIndex];
-				fromNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].fromNeuronID);
-				toNeuron = mother.getNeuronGeneFromId(motherLinks[motherLinkIndex].toNeuronID);
+				fromNeuron = getNeuronGeneFromId(mother.neurons, motherLinks[motherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(mother.neurons, motherLinks[motherLinkIndex].toNeuronID);
 			}
 			if (highestFitness == Father) {
 				currentGene = fatherLinks[fatherLinkIndex];
-				fromNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].fromNeuronID);
-				toNeuron = getNeuronGeneFromId(fatherLinks[fatherLinkIndex].toNeuronID);
+				fromNeuron = getNeuronGeneFromId(father.neurons, fatherLinks[fatherLinkIndex].fromNeuronID);
+				toNeuron = getNeuronGeneFromId(father.neurons, fatherLinks[fatherLinkIndex].toNeuronID);
 			}
 
 			if (RNG::getRandomIntBetween(0, 1) == 0)
@@ -397,14 +397,19 @@ std::vector<LinkGene> Genotype::getLinks() const
 
 NeuronGene Genotype::getNeuronGeneFromId(const int &id) const
 {
-	int neuronIndex = getNeuronIndexFromId(id);
+	return getNeuronGeneFromId(this->neurons, id);
+}
+
+NeuronGene Genotype::getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, const int& id)
+{
+	int neuronIndex = getNeuronIndexFromId(neurons, id);
 	if (neuronIndex != -1)
 		return neurons[neuronIndex];
 
 	return NeuronGene();
 }
 
-void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vector<LinkGene>& linkVec) const
+void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vector<LinkGene>& linkVec)
 {
 	for (LinkGene& linkInVec : linkVec) {
 		if ((linkInVec.fromNeuronID == link.fromNeuronID) && (linkInVec.toNeuronID == link.toNeuronID))
@@ -414,7 +419,7 @@ void Genotype::addLinkToVectorIfNotAlreadyInside(const LinkGene & link, std::vec
 	linkVec.push_back(link);
 }
 
-void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, std::vector<NeuronGene>& neuronVec) const
+void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, std::vector<NeuronGene>& neuronVec)
 {
 	for (NeuronGene& neuronInVec : neuronVec) {
 		if (neuron.id == neuronInVec.id)
@@ -550,6 +555,11 @@ bool Genotype::isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, const Neu
 }
 
 int Genotype::getNeuronIndexFromId(const int &id) const
+{
+	return getNeuronIndexFromId(this->neurons, id);
+}
+
+int Genotype::getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, const int& id)
 {
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i].id == id)
