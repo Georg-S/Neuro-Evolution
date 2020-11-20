@@ -141,11 +141,11 @@ void Genotype::randomlyAddLink(Innovation& innovation, const float& mutationProb
 	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id, recurrent);
 }
 
-double Genotype::calculateCompatibilityScore(Genotype & partner, const float &exzessFactor,
-											const float &disjointFactor, const float &weightFactor)
+double Genotype::calculateCompatibilityScore(Genotype& left, Genotype& right, const float& exzessFactor, 
+	const float& disjointFactor, const float& weightFactor)
 {
-	sort(partner.links.begin(), partner.links.end());
-	sort(links.begin(), links.end());
+	sort(right.links.begin(), right.links.end());
+	sort(left.links.begin(), left.links.end());
 	int countOfExzess = 0;
 	int countOfCommon = 0;
 	int countOfDisjoint = 0;
@@ -154,31 +154,31 @@ double Genotype::calculateCompatibilityScore(Genotype & partner, const float &ex
 	int genotypeIndex = 0;
 	int partnerIndex = 0;
 
-	while (genotypeIndex < links.size() || partnerIndex < partner.links.size()) {
-		if (genotypeIndex >= links.size()) {
+	while (genotypeIndex < left.links.size() || partnerIndex < right.links.size()) {
+		if (genotypeIndex >= left.links.size()) {
 			partnerIndex++;
 			countOfExzess++;
 		}
-		else if (partnerIndex >= partner.links.size()) {
+		else if (partnerIndex >= right.links.size()) {
 			genotypeIndex++;
 			countOfExzess++;
 		}
-		else if (links[genotypeIndex].innovationID == partner.links[partnerIndex].innovationID) {
+		else if (left.links[genotypeIndex].innovationID == right.links[partnerIndex].innovationID) {
 			countOfCommon++;
-			totalWeightDifference += abs(links[genotypeIndex].weight - partner.links[partnerIndex].weight);
+			totalWeightDifference += abs(left.links[genotypeIndex].weight - right.links[partnerIndex].weight);
 			genotypeIndex++;
 			partnerIndex++;
 		}
-		else if (links[genotypeIndex].innovationID > partner.links[partnerIndex].innovationID) {
+		else if (left.links[genotypeIndex].innovationID > right.links[partnerIndex].innovationID) {
 			countOfDisjoint++;
 			partnerIndex++;
 		}
-		else if (links[genotypeIndex].innovationID < partner.links[partnerIndex].innovationID) {
+		else if (left.links[genotypeIndex].innovationID < right.links[partnerIndex].innovationID) {
 			countOfDisjoint++;
 			genotypeIndex++;
 		}
 	}
-	int maxCountOfGenes = std::max(links.size(), partner.links.size());
+	int maxCountOfGenes = std::max(left.links.size(), right.links.size());
 	if (maxCountOfGenes < 20)
 		maxCountOfGenes = 1;
 

@@ -23,7 +23,7 @@ public:
 	void randomlyAddNeuron(Innovation& innovation, const float &addNeuronProbability);
 	void randomlyMutateAllWeights(const float &mutationProbability, const float &newWeightProbability, const float &weightPertubation);
 	void randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed);
-	double calculateCompatibilityScore(Genotype& partner, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
+	static double calculateCompatibilityScore(Genotype& left, Genotype& right, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
 	Genotype crossOver(Genotype& mother, const int &babyId);
 	std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 	std::vector <double> calculateOutputActive(const std::vector <double>& inputs);

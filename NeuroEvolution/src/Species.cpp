@@ -19,7 +19,7 @@ Species::~Species()
 
 double Species::calculateCompatibilityScore(Genotype & toTestGenotype, const float & exzessFactor, const float & disjointFactor, const float & weightFactor)
 {
-	return representative->calculateCompatibilityScore(toTestGenotype, exzessFactor, disjointFactor, weightFactor);
+	return Genotype::calculateCompatibilityScore(*representative, toTestGenotype, exzessFactor, disjointFactor, weightFactor);
 }
 
 void Species::reset()

@@ -156,7 +156,7 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculates0ForTheSameGenotype) {
 	Genotype geno = Genotype(inno, 1, 1, 1);
 	Genotype geno2 = geno;
 
-	EXPECT_EQ(geno.calculateCompatibilityScore(geno2, 1, 1, 0.4), 0);
+	EXPECT_EQ(Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 0);
 }
 
 TEST(TEST_Genotype, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
@@ -165,7 +165,7 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
 	Genotype geno2 = geno;
 	geno.randomlyAddNeuron(inno, 1.0);
 
-	EXPECT_EQ(geno.calculateCompatibilityScore(geno2, 1, 1, 0.4), 2);
+	EXPECT_EQ(Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 2);
 }
 
 TEST(TEST_Genotype, testSymmetry) {
@@ -174,8 +174,9 @@ TEST(TEST_Genotype, testSymmetry) {
 	Genotype geno2 = geno;
 	geno.randomlyAddNeuron(inno, 1.0);
 
-	double result1 = geno.calculateCompatibilityScore(geno2, 1, 1, 0.4);
-	double result2 = geno2.calculateCompatibilityScore(geno, 1, 1, 0.4);
+	
+	double result1 = Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4);
+	double result2 = Genotype::calculateCompatibilityScore(geno2, geno, 1, 1, 0.4);
 
 	EXPECT_EQ(result1, result2);
 }
@@ -185,7 +186,8 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculatesNot0For2DifferentStarti
 	Genotype geno = Genotype(inno, 1, 1, 1);
 	Genotype geno2 = Genotype(inno, 1, 1, 1);
 
-	EXPECT_NE(geno.calculateCompatibilityScore(geno2, 1, 1, 0.4), 0);
+	
+	EXPECT_NE(Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 0);
 }
 
 TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf1ForNoHiddenNodes) {
