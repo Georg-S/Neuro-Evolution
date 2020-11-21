@@ -8,7 +8,7 @@ TEST(TEST_Species, calculateCompatibilityScoreCalculates0ForTheSameGenotype) {
 	Innovation inno = Innovation();
 	Genotype geno = Genotype(inno, 1, 1, 1);
 	Genotype geno2 = geno;
-	Species specie = Species(&geno, 1);
+	Species specie = Species(geno, 1);
 
 	EXPECT_EQ(specie.calculateCompatibilityScore(geno2, 1, 1, 0.4), 0);
 }
@@ -18,7 +18,7 @@ TEST(TEST_Species, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
 	Genotype geno = Genotype(inno, 1, 1, 1);
 	Genotype geno2 = geno;
 	geno.randomlyAddNeuron(inno, 1.0);
-	Species specie = Species(&geno, 1);
+	Species specie = Species(geno, 1);
 
 	EXPECT_EQ(specie.calculateCompatibilityScore(geno2, 1, 1, 0.4), 2);
 }
@@ -27,7 +27,7 @@ TEST(TEST_Species, calculateAdjustedFitnessCalculatesRightTotalFitness) {
 	Innovation inno = Innovation();
 	Genotype genotype = Genotype(inno,1,1,1);
 	genotype.setRawFitness(50);
-	Species specie = Species(&genotype,1);
+	Species specie = Species(genotype,1);
 
 	for (int i = 0; i < 49;i++) {
 		specie.addMemberToSpecies(&genotype);
@@ -48,7 +48,7 @@ TEST(TEST_Species, getLeaderReturnTheRightGenotype) {
 		genotype.setRawFitness(fitness);
 		population.push_back(genotype);
 	}
-	Species specie = Species(&population[0], 1);
+	Species specie = Species(population[0], 1);
 	for (int i = 1; i < population.size(); i++) {
 		specie.addMemberToSpecies(&population[i]);
 	}
@@ -68,7 +68,7 @@ TEST(TEST_Species, getLeaderReturnTheRightGenotype_2) {
 		genotype.setRawFitness(fitness);
 		population.push_back(genotype);
 	}
-	Species specie = Species(&population[0], 1);
+	Species specie = Species(population[0], 1);
 	for (int i = 1; i < population.size(); i++) {
 		specie.addMemberToSpecies(&population[i]);
 	}

@@ -3,7 +3,7 @@
 
 int RNG::getRandomIntBetween(const int& from, const int& to)
 {
-	if (to <= from)
+	if (from >= to)
 		return from;
 
 	int buf = (to - from) + 1;
@@ -14,7 +14,7 @@ int RNG::getRandomIntBetween(const int& from, const int& to)
 
 float RNG::getRandomFloatBetween(const int& from, const int& to)
 {
-	if (from == to)
+	if (from >= to)
 		return from;
 
 	float random = (float)rand() / (float)RAND_MAX;
@@ -26,7 +26,7 @@ float RNG::getRandomFloatBetween(const int& from, const int& to)
 
 float RNG::getRandomFloatBetween(const float& from, const float& to)
 {
-	if (from == to)
+	if (from >= to)
 		return from;
 
 	float random = (float)rand() / (float)RAND_MAX;
@@ -43,7 +43,7 @@ float RNG::getRandomFloatBetween0and1()
 
 double RNG::getRandomDoubleBetween(const double& from, const double& to)
 {
-	if (from == to)
+	if (from >= to)
 		return from;
 
 	double random = (double)rand() / (double)RAND_MAX;

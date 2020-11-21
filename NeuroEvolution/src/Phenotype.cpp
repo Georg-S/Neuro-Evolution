@@ -83,9 +83,8 @@ std::vector<double> Phenotype::updateOnce()
 
 void Phenotype::clearOutputOfNeurons()
 {
-	for (int i = 0; i < neurons.size(); i++) {
+	for (int i = 0; i < neurons.size(); i++)
 		neurons[i]->outputOfNeuron = 0.0;
-	}
 }
 
 double Phenotype::activationFunction(const double &input)

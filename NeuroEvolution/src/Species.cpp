@@ -5,11 +5,12 @@ Species::Species()
 {
 }
 
-Species::Species(Genotype* representative, int speciesId)
+Species::Species(const Genotype& representative, const int& speciesId)
 {
 	this->representative = representative;
+	this->representative.phenotype = nullptr;
 	this->speciesId = speciesId;
-	members.push_back((representative));
+	members.push_back(&this->representative);
 }
 
 
@@ -17,9 +18,9 @@ Species::~Species()
 {
 }
 
-double Species::calculateCompatibilityScore(Genotype & toTestGenotype, const float & exzessFactor, const float & disjointFactor, const float & weightFactor)
+double Species::calculateCompatibilityScore(Genotype& toTestGenotype, const float& exzessFactor, const float& disjointFactor, const float& weightFactor)
 {
-	return Genotype::calculateCompatibilityScore(*representative, toTestGenotype, exzessFactor, disjointFactor, weightFactor);
+	return Genotype::calculateCompatibilityScore(representative, toTestGenotype, exzessFactor, disjointFactor, weightFactor);
 }
 
 void Species::reset()
@@ -37,7 +38,7 @@ void Species::updateFitnessValues()
 	totalCurrentAdjustedFitness = 0;
 
 	for (int i = 0; i < members.size(); i++) {
-		double adjustedFitness = members[i]->getRawFitness() / (double) members.size();
+		double adjustedFitness = members[i]->getRawFitness() / (double)members.size();
 		totalCurrentAdjustedFitness += adjustedFitness;
 		members[i]->setAdjustedFitness(adjustedFitness);
 	}
@@ -51,10 +52,10 @@ void Species::updateFitnessValues()
 void Species::calculateSpawnAmount(const double& populationAverage)
 {
 	spawnAmount = 0;
-	for (int i = 0; i < members.size(); i++) 
+	for (int i = 0; i < members.size(); i++)
 		spawnAmount += members[i]->getAdjustedFitness();
 
-	spawnAmount /=  populationAverage;
+	spawnAmount /= populationAverage;
 }
 
 void Species::incrementCurrentGeneration()

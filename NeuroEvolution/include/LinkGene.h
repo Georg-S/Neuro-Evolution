@@ -2,7 +2,9 @@
 
 struct LinkGene {
 	LinkGene() {}
-	LinkGene(int fromNeuronID, int toNeuronID, double weight, bool enabled, int innovationID, bool recurrent = false) {
+	LinkGene(const int& fromNeuronID, const int& toNeuronID, const double& weight, const bool& enabled,
+		const int& innovationID, const bool& recurrent = false) {
+
 		this->fromNeuronID = fromNeuronID;
 		this->toNeuronID = toNeuronID;
 		this->weight = weight;

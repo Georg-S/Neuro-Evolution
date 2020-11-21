@@ -6,10 +6,10 @@ class Species
 {
 public:
 	Species();
-	Species(Genotype* representative, int speciesId);
+	Species(const Genotype& representative, const int& speciesId);
 	~Species();
-	double calculateCompatibilityScore(Genotype &toTestGenotype, const float &exzessFactor,
-									const float &disjointFactor, const float &weightFactor);
+	double calculateCompatibilityScore(Genotype& toTestGenotype, const float& exzessFactor,
+		const float& disjointFactor, const float& weightFactor);
 	void reset();
 	void addMemberToSpecies(Genotype* genotype);
 	void updateFitnessValues();
@@ -23,10 +23,10 @@ public:
 	int getMemberCount() const;
 	int getSpawnAmount() const;
 	int getGenerationNoImprovement() const;
-	friend bool operator<(const Species &lhs, const Species &rhs);
+	friend bool operator<(const Species& lhs, const Species& rhs);
 
 private:
-	Genotype* representative;
+	Genotype representative;
 	std::vector<Genotype*> members;
 
 	int allTimeHighestRawFitness = 0;

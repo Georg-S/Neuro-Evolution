@@ -1,3 +1,5 @@
 #pragma once
 
-enum class NeuronType { input, hidden, bias, output, none };
+enum class NeuronType {
+	input, hidden, bias, output, none
+};

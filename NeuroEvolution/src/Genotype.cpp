@@ -89,7 +89,7 @@ void Genotype::randomlyAddNeuron(Innovation& innovation, const float& addNeuronP
 	calculateDepthOfEveryNeuron();
 }
 
-void Genotype::randomlyMutateAllWeights(const float& mutationProbability, const float& newWeightProbability, const float& weightPertubation)
+void Genotype::randomlyMutateAllWeights(const float& mutationProbability, const float& newWeightProbability, const double& weightPertubation)
 {
 	for (int i = 0; i < links.size(); i++) {
 		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
@@ -99,11 +99,10 @@ void Genotype::randomlyMutateAllWeights(const float& mutationProbability, const 
 
 void Genotype::mutateSingleWeight(const float& newWeightProbability, LinkGene& link, const float& weightPertubation)
 {
-	if (RNG::getRandomFloatBetween0and1() < newWeightProbability) {
+	if (RNG::getRandomFloatBetween0and1() <= newWeightProbability)
 		link.weight = getRandomLinkWeight();
-	}
 	else {
-		float pertubationAmount = weightPertubation;
+		double pertubationAmount = weightPertubation;
 		if (RNG::getRandomIntBetween(0, 1) == 0)
 			pertubationAmount *= -1;
 
@@ -546,12 +545,12 @@ int Genotype::getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, const
 
 double Genotype::getRandomLinkWeight() const
 {
-	return RNG::getRandomFloatBetween(minimumLinkStartValue, maximumLinkStartValue);
+	return RNG::getRandomDoubleBetween(minimumLinkStartValue, maximumLinkStartValue);
 }
 
 void Genotype::createLinkWithRandomWeight(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent)
 {
-	createLink(innovation, fromId, toId, recurrent, RNG::getRandomFloatBetween(minimumLinkStartValue, maximumLinkStartValue));
+	createLink(innovation, fromId, toId, recurrent, getRandomLinkWeight());
 }
 
 void Genotype::createLink(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent, const double& weightOfLink)

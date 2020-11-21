@@ -137,16 +137,14 @@ void NEAT::deletePhenotypes()
 
 void NEAT::resetSpecies()
 {
-	for (int i = 0; i < species.size(); i++) {
+	for (int i = 0; i < species.size(); i++)
 		species[i].reset();
-	}
 }
 
 void NEAT::setFitnessOfPopulation(const std::vector<double>& fitness)
 {
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setRawFitness(fitness[i]);
-	}
 }
 
 void NEAT::speciate()
@@ -167,7 +165,7 @@ void NEAT::speciate()
 		if (lowestCompatibilityScore <= compatibilityDistanceThreshold)
 			species[lowestCompIndex].addMemberToSpecies(&population[i]);
 		else
-			species.push_back(Species(&(population[i]), currentPopulationId++));
+			species.push_back(Species(population[i], currentPopulationId++));
 	}
 }
 

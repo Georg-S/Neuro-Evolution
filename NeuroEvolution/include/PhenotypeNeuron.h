@@ -13,7 +13,7 @@ struct PhenotypeNeuron {
 		double weight;
 	};
 
-	PhenotypeNeuron(NeuronType neuronType, int neuronID) {
+	PhenotypeNeuron(const NeuronType& neuronType, const int& neuronID) {
 		this->neuronType = neuronType;
 		this->neuronID = neuronID;
 		outputOfNeuron = 0.0;

@@ -5,7 +5,7 @@ struct NeuronGene {
 	NeuronGene() {
 		this->id = -1;
 	}
-	NeuronGene(NeuronType neuronType, int id) {
+	NeuronGene(const NeuronType& neuronType, const int& id) {
 		this->neuronType = neuronType;
 		this->id = id;
 	}
