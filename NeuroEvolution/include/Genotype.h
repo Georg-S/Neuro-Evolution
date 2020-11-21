@@ -24,7 +24,7 @@ public:
 	void randomlyMutateAllWeights(const float &mutationProbability, const float &newWeightProbability, const float &weightPertubation);
 	void randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed);
 	static double calculateCompatibilityScore(Genotype& left, Genotype& right, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
-	static Genotype crossOver(Genotype& father, Genotype& mother, const int &babyId);
+	static Genotype crossOver(const Genotype& father, const Genotype& mother, const int &babyId);
 	std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 	std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 	void createPhenotype();
@@ -47,11 +47,14 @@ public:
 
 	Phenotype* phenotype = nullptr;
 private:
+	static ParentType getFittestParent(const Genotype& father, const Genotype& mother);
 	void mutateSingleWeight(const float &newWeightProbability, LinkGene & link, const float &weightPertubation);
 	NeuronGene getNeuronGeneFromId(const int &id) const;
 	static NeuronGene getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, const int &id);
 	static void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec);
 	static void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec);
+	static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex, 
+		std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec);
 	void createFullyConnectedNetwork(Innovation& innovation);
 	void createNeurons();
 	void createLinks(Innovation& innovation);
