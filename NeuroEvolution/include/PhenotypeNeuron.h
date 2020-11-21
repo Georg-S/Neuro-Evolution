@@ -1,16 +1,24 @@
 #pragma once
 #include <vector>
-#include "PhenotypeLink.h"
 #include "NeuronType.h"
 
 
 struct PhenotypeNeuron {
+	struct Link {
+		Link(PhenotypeNeuron* from, const double& weight) {
+			this->fromNeuron = from;
+			this->weight = weight;
+		}
+		PhenotypeNeuron* fromNeuron;
+		double weight;
+	};
+
 	PhenotypeNeuron(NeuronType neuronType, int neuronID) {
 		this->neuronType = neuronType;
 		this->neuronID = neuronID;
 		outputOfNeuron = 0.0;
 	}
-	std::vector<PhenotypeLink> linksIn;
+	std::vector<Link> linksIn;
 	double outputOfNeuron;
 	NeuronType neuronType;
 	int neuronID;

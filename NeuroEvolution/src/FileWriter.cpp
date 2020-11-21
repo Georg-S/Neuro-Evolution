@@ -34,7 +34,7 @@ std::string FileWriter::stringifyGenotype(const Genotype& genotype)
 		genotypeString = genotypeString + "NeuronStart" + "\n";
 		genotypeString = genotypeString + "Depth: '" + std::to_string(neurons[i].depth) + "'\n";
 		genotypeString = genotypeString + "ID: '" + std::to_string(neurons[i].id) + "'\n";
-		genotypeString = genotypeString + "NeuronType: '" + std::to_string(neurons[i].neuronType) + "'\n";
+		genotypeString = genotypeString + "NeuronType: '" + std::to_string((int)neurons[i].neuronType) + "'\n";
 		genotypeString = genotypeString + "NeuronEnd" + "\n";
 	}
 	genotypeString = genotypeString + "EndNeurons\n\n";
@@ -69,7 +69,7 @@ std::string FileWriter::stringifyInnovation(const Innovation& innovation)
 
 		innovationString = innovationString + "FromID: '" + std::to_string(innovations[i].fromNeuronId) + "' \n";
 		innovationString = innovationString + "InnovationID: '" + std::to_string(innovations[i].innovationId) + "' \n";
-		innovationString = innovationString + "innovationType: '" + std::to_string(innovations[i].innovationType) + "' \n";
+		innovationString = innovationString + "innovationType: '" + std::to_string((int)innovations[i].innovationType) + "' \n";
 		innovationString = innovationString + "NeuronID: '" + std::to_string(innovations[i].neuronId) + "' \n";
 		innovationString = innovationString + "ToID: '" + std::to_string(innovations[i].toNeuronId) + "' \n";
 

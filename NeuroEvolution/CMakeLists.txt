@@ -25,7 +25,6 @@ set(HEADERS
 	"include/NeuronType.h"
 	"include/ParentType.h"
 	"include/Phenotype.h"
-	"include/PhenotypeLink.h"
 	"include/PhenotypeNeuron.h"
 	"include/RNG.h"
 	"include/Species.h"

@@ -47,7 +47,7 @@ public:
 	friend bool operator<(const Genotype& lhs, const Genotype& rhs);
 
 	std::shared_ptr<Phenotype> phenotype;
-//	Phenotype* phenotype = nullptr;
+
 private:
 	static ParentType getFittestParent(const Genotype& father, const Genotype& mother);
 	void mutateSingleWeight(const float& newWeightProbability, LinkGene& link, const float& weightPertubation);

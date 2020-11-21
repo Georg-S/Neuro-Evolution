@@ -11,12 +11,12 @@
 Genotype createXORGenotype() {
 	Innovation inno = Innovation();
 	std::vector<NeuronGene> neurons;
-	neurons.push_back(NeuronGene(bias, 0));
-	neurons.push_back(NeuronGene(input, 1));
-	neurons.push_back(NeuronGene(input, 2));
-	neurons.push_back(NeuronGene(output, 3));
-	neurons.push_back(NeuronGene(hidden, 4));
-	neurons.push_back(NeuronGene(hidden, 5));
+	neurons.push_back(NeuronGene(NeuronType::bias, 0));
+	neurons.push_back(NeuronGene(NeuronType::input, 1));
+	neurons.push_back(NeuronGene(NeuronType::input, 2));
+	neurons.push_back(NeuronGene(NeuronType::output, 3));
+	neurons.push_back(NeuronGene(NeuronType::hidden, 4));
+	neurons.push_back(NeuronGene(NeuronType::hidden, 5));
 
 	std::vector<LinkGene> links;
 	links.push_back(LinkGene(1, 4, 20,1, true));

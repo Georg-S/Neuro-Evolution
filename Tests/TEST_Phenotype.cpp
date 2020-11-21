@@ -11,9 +11,9 @@ TEST(TEST_Phenotype, PhenotypeWithoutLinksToOutputReturnsNoOutputCauseMaxDepthIs
 	Innovation inno = Innovation();
 	std::vector<LinkGene> links;
 	std::vector<NeuronGene> neurons;
-	neurons.push_back(NeuronGene(bias, 0));
-	neurons.push_back(NeuronGene(input, 1));
-	neurons.push_back(NeuronGene(output, 2));
+	neurons.push_back(NeuronGene(NeuronType::bias, 0));
+	neurons.push_back(NeuronGene(NeuronType::input, 1));
+	neurons.push_back(NeuronGene(NeuronType::output, 2));
 	Genotype geno = Genotype(inno,neurons, links,1);
 	geno.createPhenotype();
 
@@ -25,8 +25,8 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWithoutBiasPhenotypeHasAnOutput) {
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(output, 1));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::output, 1));
 	links.push_back(LinkGene(0, 1, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
@@ -40,8 +40,8 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith0AsInputReturnsCorrectValue) {
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(output, 1));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::output, 1));
 	links.push_back(LinkGene(0, 1, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
@@ -55,8 +55,8 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1AsInputReturnsCorrectValueWithSteepe
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(output, 1));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::output, 1));
 	links.push_back(LinkGene(0, 1, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
@@ -69,9 +69,9 @@ TEST(TEST_Phenotype, PhenotypeAfterAddNeuronHasAlmostSameOutputWithSteepenedSigm
 	Innovation inno = Innovation();
 	std::vector<LinkGene> links;
 	std::vector<NeuronGene> neurons;
-	neurons.push_back(NeuronGene(bias, 0));
-	neurons.push_back(NeuronGene(input, 1));
-	neurons.push_back(NeuronGene(output, 2));
+	neurons.push_back(NeuronGene(NeuronType::bias, 0));
+	neurons.push_back(NeuronGene(NeuronType::input, 1));
+	neurons.push_back(NeuronGene(NeuronType::output, 2));
 	links.push_back(LinkGene(1, 2, 1, true,0));
 	Genotype geno = Genotype(inno,neurons, links,0);
 	geno.randomlyAddNeuron(inno,1.0);
@@ -87,9 +87,9 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveOneTime) {
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(output, 1));
-	neurons.push_back(NeuronGene(hidden, 2));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::output, 1));
+	neurons.push_back(NeuronGene(NeuronType::hidden, 2));
 	links.push_back(LinkGene(0, 2, 1, true, 0, false));
 	links.push_back(LinkGene(2, 1, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);
@@ -104,9 +104,9 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveTwoTimes) {
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(output, 1));
-	neurons.push_back(NeuronGene(hidden, 2));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::output, 1));
+	neurons.push_back(NeuronGene(NeuronType::hidden, 2));
 	links.push_back(LinkGene(0, 2, 1, true, 0, false));
 	links.push_back(LinkGene(2, 1, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);

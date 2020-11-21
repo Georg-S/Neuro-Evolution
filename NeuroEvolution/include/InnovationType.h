@@ -1,5 +1,5 @@
 #pragma once
 
-enum InnovationType {
+enum class InnovationType {
 	newNeuron, newLink
 };

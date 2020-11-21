@@ -37,7 +37,7 @@ std::vector<double> Phenotype::calculateOutputActive(const std::vector<double>& 
 void Phenotype::setBias()
 {
 	for (int i = 0; i < neurons.size(); i++) {
-		if (neurons[i]->neuronType == bias) {
+		if (neurons[i]->neuronType == NeuronType::bias) {
 			neurons[i]->outputOfNeuron = 1;
 			return;
 		}
@@ -52,7 +52,7 @@ void Phenotype::setInputs(const std::vector<double> &inputs)
 		if (inputIndex >= inputsSize)
 			return;
 
-		if (neurons[i]->neuronType == input) {
+		if (neurons[i]->neuronType == NeuronType::input) {
 			neurons[i]->outputOfNeuron = inputs[inputIndex];
 			inputIndex++;
 		}
@@ -64,7 +64,7 @@ std::vector<double> Phenotype::updateOnce()
 	std::vector<double> outputs;
 
 	for (int neuronIndex = 0; neuronIndex < neurons.size(); neuronIndex++) {
-		if (neurons[neuronIndex]->neuronType == input || neurons[neuronIndex]->neuronType == bias)
+		if (neurons[neuronIndex]->neuronType == NeuronType::input || neurons[neuronIndex]->neuronType == NeuronType::bias)
 			continue;
 
 		double sumOfActivation = 0.0;
@@ -75,7 +75,7 @@ std::vector<double> Phenotype::updateOnce()
 		}
 		currentNeuron->outputOfNeuron = activationFunction(sumOfActivation);
 
-		if (currentNeuron->neuronType == output)
+		if (currentNeuron->neuronType == NeuronType::output)
 			outputs.push_back(currentNeuron->outputOfNeuron);
 	}
 	return outputs;

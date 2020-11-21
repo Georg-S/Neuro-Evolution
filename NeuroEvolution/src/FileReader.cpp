@@ -168,7 +168,7 @@ InnovationElement FileReader::parseOneInnovation(std::ifstream& innovationFile)
 {
 	int fromId = 0;
 	int innovationId = 0;
-	InnovationType innovationType = newNeuron;
+	InnovationType innovationType = InnovationType::newNeuron;
 	int neuronId = 0;
 	int toId = 0;
 

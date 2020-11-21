@@ -67,7 +67,7 @@ int Innovation::getTotalInnovationsCount() const
 int Innovation::getNeuronId(const int& fromNeuronId, const int& toNeuronId) const
 {
 	for (int i = 0; i < innovations.size(); i++) {
-		if (innovations[i].innovationType != newNeuron)
+		if (innovations[i].innovationType != InnovationType::newNeuron)
 			continue;
 
 		if ((fromNeuronId == innovations[i].fromNeuronId) && (toNeuronId == innovations[i].toNeuronId))

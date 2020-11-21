@@ -195,8 +195,8 @@ TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf1ForNoHiddenNodes) {
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(output, 1));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::output, 1));
 	links.push_back(LinkGene(0, 1, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);
 
@@ -208,9 +208,9 @@ TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf2For1HiddenNode) {
 	std::vector<NeuronGene> neurons;
 	std::vector<LinkGene> links;
 
-	neurons.push_back(NeuronGene(input, 0));
-	neurons.push_back(NeuronGene(hidden, 1));
-	neurons.push_back(NeuronGene(output, 2));
+	neurons.push_back(NeuronGene(NeuronType::input, 0));
+	neurons.push_back(NeuronGene(NeuronType::hidden, 1));
+	neurons.push_back(NeuronGene(NeuronType::output, 2));
 	links.push_back(LinkGene(0, 1, 1, true, 0, false));
 	links.push_back(LinkGene(1, 2, 1, true, 0, false));
 	Genotype geno = Genotype(inno, neurons, links, 1);

@@ -38,10 +38,10 @@ Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neuron
 	this->countOfOutputs = 0;
 	int highestNeuronId = 0;
 	for (int i = 0; i < neurons.size(); i++) {
-		if (neurons[i].neuronType == input)
+		if (neurons[i].neuronType == NeuronType::input)
 			this->countOfInputs++;
 
-		if (neurons[i].neuronType == output)
+		if (neurons[i].neuronType == NeuronType::output)
 			this->countOfOutputs++;
 
 		if (neurons[i].id > highestNeuronId)
@@ -81,7 +81,7 @@ void Genotype::randomlyAddNeuron(Innovation& innovation, const float& addNeuronP
 	int newNeuronId = innovation.getNeuronId(links[linkIndex].fromNeuronID, links[linkIndex].toNeuronID);
 	if (newNeuronId == -1)
 		newNeuronId = innovation.createNewNeuronInnovation(fromId, toId);
-	neurons.push_back(NeuronGene(hidden, newNeuronId));
+	neurons.push_back(NeuronGene(NeuronType::hidden, newNeuronId));
 
 	createLink(innovation, fromId, newNeuronId, false, 1.0);
 	createLink(innovation, newNeuronId, toId, false, links[linkIndex].weight);
@@ -205,22 +205,22 @@ Genotype Genotype::crossOver(const Genotype& father, const Genotype& mother, con
 
 	while ((motherLinkIndex < motherLinks.size()) || (fatherLinkIndex < fatherLinks.size())) {
 		if (fatherLinkIndex >= fatherLinks.size()) {
-			if (highestFitness == Mother)
+			if (highestFitness == ParentType::Mother)
 				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, babyNeurons, babyLinks);
 			motherLinkIndex++;
 		}
 		else if (motherLinkIndex >= motherLinks.size()) {
-			if (highestFitness == Father)
+			if (highestFitness == ParentType::Father)
 				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, babyNeurons, babyLinks);
 			fatherLinkIndex++;
 		}
 		else if (motherLinks[motherLinkIndex].innovationID > fatherLinks[fatherLinkIndex].innovationID) {
-			if (highestFitness == Father)
+			if (highestFitness == ParentType::Father)
 				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, babyNeurons, babyLinks);
 			fatherLinkIndex++;
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID > motherLinks[motherLinkIndex].innovationID) {
-			if (highestFitness == Mother)
+			if (highestFitness == ParentType::Mother)
 				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, babyNeurons, babyLinks);
 			motherLinkIndex++;
 		}
@@ -271,7 +271,7 @@ void Genotype::createPhenotype()
 		int toIndex = getNeuronIndexFromId(links[i].toNeuronID);
 		PhenotypeNeuron* fromNeuron = phenoNeurons[fromIndex];
 		PhenotypeNeuron* toNeuron = phenoNeurons[toIndex];
-		toNeuron->linksIn.push_back(PhenotypeLink(fromNeuron, toNeuron, links[i].weight));
+		toNeuron->linksIn.push_back(PhenotypeNeuron::Link(fromNeuron, links[i].weight));
 	}
 
 	phenotype = std::make_shared<Phenotype>(phenoNeurons, maxDepth);
@@ -417,16 +417,16 @@ void Genotype::createFullyConnectedNetwork(Innovation& innovation)
 
 void Genotype::createNeurons()
 {
-	neurons.push_back(NeuronGene(bias, 0));
+	neurons.push_back(NeuronGene(NeuronType::bias, 0));
 
 	int neuronId = 1;
 	for (int i = 0; i < countOfInputs; i++) {
-		neurons.push_back(NeuronGene(input, neuronId));
+		neurons.push_back(NeuronGene(NeuronType::input, neuronId));
 		neuronId++;
 	}
 
 	for (int i = 0; i < countOfOutputs; i++) {
-		neurons.push_back(NeuronGene(output, neuronId));
+		neurons.push_back(NeuronGene(NeuronType::output, neuronId));
 		neuronId++;
 	}
 }
@@ -449,14 +449,14 @@ void Genotype::calculateDepthOfEveryNeuron()
 
 	maxDepth = -1;
 	for (NeuronGene& neuron : neurons) {
-		if (neuron.neuronType == bias || neuron.neuronType == input)
+		if (neuron.neuronType == NeuronType::bias || neuron.neuronType == NeuronType::input)
 			neuron.depth = 0;
 		else
 			neuron.depth = -1;
 	}
 
 	for (NeuronGene& neuron : neurons) {
-		if (neuron.neuronType == bias || neuron.neuronType == input)
+		if (neuron.neuronType == NeuronType::bias || neuron.neuronType == NeuronType::input)
 			updateDepthOfNeuronsConnectedToThis(neuron);
 	}
 }
@@ -486,7 +486,7 @@ void Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 bool Genotype::isValidLinkForAddNeuron(const LinkGene& link) const
 {
 	int fromIndex = getNeuronIndexFromId(link.fromNeuronID);
-	if (fromIndex == -1 || !link.enabled || link.recurrent || neurons[fromIndex].neuronType == bias)
+	if (fromIndex == -1 || !link.enabled || link.recurrent || neurons[fromIndex].neuronType == NeuronType::bias)
 		return false;
 
 	return true;
@@ -494,9 +494,9 @@ bool Genotype::isValidLinkForAddNeuron(const LinkGene& link) const
 
 bool Genotype::areValidNeuronsForAddLink(const NeuronGene& fromNeuron, const NeuronGene& toNeuron, const bool& recurrentAllowed) const
 {
-	if (fromNeuron.neuronType == bias && toNeuron.neuronType == input ||
-		fromNeuron.neuronType == input && toNeuron.neuronType == bias ||
-		fromNeuron.neuronType == bias && toNeuron.neuronType == bias)
+	if (fromNeuron.neuronType == NeuronType::bias && toNeuron.neuronType == NeuronType::input ||
+		fromNeuron.neuronType == NeuronType::input && toNeuron.neuronType == NeuronType::bias ||
+		fromNeuron.neuronType == NeuronType::bias && toNeuron.neuronType == NeuronType::bias)
 		return false;
 
 	if (doesLinkAlreadyExist(fromNeuron, toNeuron))
@@ -556,7 +556,7 @@ void Genotype::createLinkWithRandomWeight(Innovation& innovation, const int& fro
 
 void Genotype::createLink(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent, const double& weightOfLink)
 {
-	int innovationId = innovation.getInnovationID(fromId, toId, newLink);
+	int innovationId = innovation.getInnovationID(fromId, toId, InnovationType::newLink);
 
 	if (innovationId == -1)
 		innovationId = innovation.createNewLinkInnovation(fromId, toId);
@@ -572,9 +572,9 @@ bool operator<(const Genotype& lhs, const Genotype& rhs)
 ParentType Genotype::getFittestParent(const Genotype& father, const Genotype& mother)
 {
 	if (mother.rawFitness > father.rawFitness)
-		return Mother;
+		return ParentType::Mother;
 	else if (mother.rawFitness == father.rawFitness)
-		return RNG::getRandomIntBetween(0, 1) == 0 ? Mother : Father;
+		return RNG::getRandomIntBetween(0, 1) == 0 ? ParentType::Mother : ParentType::Father;
 
-	return Father;
+	return ParentType::Father;
 }

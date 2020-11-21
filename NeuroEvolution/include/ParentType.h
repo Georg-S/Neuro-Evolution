@@ -1,3 +1,3 @@
 #pragma once
 
-enum ParentType { Mother, Father };
+enum class ParentType { Mother, Father };
