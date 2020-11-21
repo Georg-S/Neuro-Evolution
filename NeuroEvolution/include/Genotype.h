@@ -55,6 +55,8 @@ private:
 	static void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec);
 	static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex, 
 		std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec);
+	static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex, const double& weight,
+		std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec);
 	void createFullyConnectedNetwork(Innovation& innovation);
 	void createNeurons();
 	void createLinks(Innovation& innovation);

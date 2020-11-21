@@ -225,10 +225,11 @@ Genotype Genotype::crossOver(const Genotype& father, const Genotype& mother, con
 			motherLinkIndex++;
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID == motherLinks[motherLinkIndex].innovationID) {
-			if (RNG::getRandomIntBetween(0, 1) == 0)
-				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, babyNeurons, babyLinks);
+			double weight = RNG::getRandomIntBetween(0, 1) == 0 ? fatherLinks[fatherLinkIndex].weight : motherLinks[motherLinkIndex].weight;
+			if (highestFitness == ParentType::Mother)
+				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, weight, babyNeurons, babyLinks);
 			else
-				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, weight, babyNeurons, babyLinks);
 
 			motherLinkIndex++;
 			fatherLinkIndex++;
@@ -394,11 +395,17 @@ void Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene & neuron, st
 
 void Genotype::addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex, std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec)
 {
-	LinkGene currentGene = geno.links[linkIndex];
+	addGeneToVectorIfNotAlreadyInside(geno, linkIndex, geno.links[linkIndex].weight, destNeuronVec, destLinkVec);
+}
+
+void Genotype::addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex, const double& weight, std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec)
+{
+	LinkGene linkGene = geno.links[linkIndex];
+	linkGene.weight = weight;
 	NeuronGene fromNeuron = getNeuronGeneFromId(geno.neurons, geno.links[linkIndex].fromNeuronID);
 	NeuronGene toNeuron = getNeuronGeneFromId(geno.neurons, geno.links[linkIndex].toNeuronID);
 
-	addLinkToVectorIfNotAlreadyInside(currentGene, destLinkVec);
+	addLinkToVectorIfNotAlreadyInside(linkGene, destLinkVec);
 	addNeuronToVectorIfNotAlreadyInside(fromNeuron, destNeuronVec);
 	addNeuronToVectorIfNotAlreadyInside(toNeuron, destNeuronVec);
 }
