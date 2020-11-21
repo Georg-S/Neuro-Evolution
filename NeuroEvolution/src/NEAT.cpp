@@ -263,9 +263,8 @@ Genotype NEAT::getHighestRawFitnessGenotyp() const
 
 void NEAT::updateFitnessValues()
 {
-	for (int i = 0; i < species.size(); i++) {
+	for (int i = 0; i < species.size(); i++)
 		species[i].updateFitnessValues();
-	}
 }
 
 void NEAT::calculateSpawnAmoutOfSpecies()

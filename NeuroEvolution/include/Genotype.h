@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <math.h>
 #include <iostream>
+#include <memory>
 #include "Innovation.h"
 #include "LinkGene.h"
 #include "NeuronGene.h"
@@ -45,7 +46,8 @@ public:
 	std::vector<LinkGene> getLinks() const;
 	friend bool operator<(const Genotype& lhs, const Genotype& rhs);
 
-	Phenotype* phenotype = nullptr;
+	std::shared_ptr<Phenotype> phenotype;
+//	Phenotype* phenotype = nullptr;
 private:
 	static ParentType getFittestParent(const Genotype& father, const Genotype& mother);
 	void mutateSingleWeight(const float& newWeightProbability, LinkGene& link, const float& weightPertubation);
@@ -76,8 +78,8 @@ private:
 	std::vector <LinkGene> links;
 	double rawFitness = 0;
 	double adjustedFitness = 0;
-	int numTrysToAddNeuron = 20;
-	int numTrysToAddLink = 20;
+	int numTriesToAddNeuron = 20;
+	int numTriesToAddLink = 20;
 	int id;
 	int maxDepth = 0;
 	int countOfInputs;

@@ -64,7 +64,7 @@ void Genotype::randomlyAddNeuron(Innovation& innovation, const float& addNeuronP
 		return;
 
 	int linkIndex = -1;
-	for (int i = 0; i < numTrysToAddNeuron; i++) {
+	for (int i = 0; i < numTriesToAddNeuron; i++) {
 		int randomLinkIndex = RNG::getRandomIntBetween(0, links.size() - 1);
 		if (isValidLinkForAddNeuron(links[randomLinkIndex])) {
 			linkIndex = randomLinkIndex;
@@ -123,7 +123,7 @@ void Genotype::randomlyAddLink(Innovation& innovation, const float& mutationProb
 	int fromIndex = -1;
 	int toIndex = -1;
 
-	for (int triesToFindValidIndizes = 0; triesToFindValidIndizes < numTrysToAddLink; triesToFindValidIndizes++) {
+	for (int triesToFindValidIndizes = 0; triesToFindValidIndizes < numTriesToAddLink; triesToFindValidIndizes++) {
 		int randomFromIndex = RNG::getRandomIntBetween(0, neurons.size() - 1);
 		int randomToIndex = RNG::getRandomIntBetween(0, neurons.size() - 1);
 
@@ -257,8 +257,6 @@ std::vector<double> Genotype::calculateOutputActive(const std::vector<double>& i
 
 void Genotype::createPhenotype()
 {
-	deletePhenotype();
-
 	std::vector<PhenotypeNeuron*> phenoNeurons;
 	for (int i = 0; i < neurons.size(); i++) {
 		PhenotypeNeuron* phenoNeuron = new PhenotypeNeuron(neurons[i].neuronType, neurons[i].id);
@@ -276,14 +274,11 @@ void Genotype::createPhenotype()
 		toNeuron->linksIn.push_back(PhenotypeLink(fromNeuron, toNeuron, links[i].weight));
 	}
 
-	phenotype = new Phenotype(phenoNeurons, maxDepth);
+	phenotype = std::make_shared<Phenotype>(phenoNeurons, maxDepth);
 }
 
 void Genotype::deletePhenotype()
 {
-	if (phenotype != nullptr)
-		delete phenotype;
-
 	phenotype = nullptr;
 }
 
