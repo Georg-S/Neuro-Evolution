@@ -66,7 +66,7 @@ TEST(TEST_FileManagment, AfterSavingAndParsingInnovationSizeStaysTheSame) {
 }
 
 TEST(TEST_FileManagment, ParseBetweenQuotationParsesCorrectly) {
-	FileReader reader = FileReader();
+	nev::FileReader reader = nev::FileReader();
 	std::string test = "Hallo mein 'Lieber'";
 	std::string expected = "Lieber";
 

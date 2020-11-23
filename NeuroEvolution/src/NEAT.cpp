@@ -8,8 +8,8 @@ NEAT::NEAT()
 NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName, 
 	std::function<double(const double& input)> activationFunction)
 {
-	population = FileReader::parsePopulationFromFile(populationFileName);
-	innovation = FileReader::parseInnovationFromFile(innovationFileName);
+	population = nev::FileReader::parsePopulationFromFile(populationFileName);
+	innovation = nev::FileReader::parseInnovationFromFile(innovationFileName);
 	this->activationFunction = activationFunction;
 
 	if (population.size() > 0) {
