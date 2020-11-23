@@ -13,25 +13,27 @@ Phenotype::~Phenotype()
 		delete neurons[i];
 }
 
-std::vector<double> Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs)
+std::vector<double> Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs,
+	const std::function<double(const double& input)>& activationFunction)
 {
 	setBias();
 	setInputs(inputs);
 	std::vector<double> output;
 	for (int i = 0; i < maxDepth; i++) {
-		output = updateOnce();
+		output = updateOnce(activationFunction);
 	}
 	clearOutputOfNeurons();
 
 	return output;
 }
 
-std::vector<double> Phenotype::calculateOutputActive(const std::vector<double>& inputs)
+std::vector<double> Phenotype::calculateOutputActive(const std::vector<double>& inputs,
+	const std::function<double(const double& input)>& activationFunction)
 {
 	setBias();
 	setInputs(inputs);
 
-	return updateOnce();
+	return updateOnce(activationFunction);
 }
 
 void Phenotype::setBias()
@@ -58,7 +60,7 @@ void Phenotype::setInputs(const std::vector<double> &inputs)
 	}
 }
 
-std::vector<double> Phenotype::updateOnce()
+std::vector<double> Phenotype::updateOnce(const std::function<double(const double& input)>& activationFunction)
 {
 	std::vector<double> outputs;
 
@@ -71,7 +73,7 @@ std::vector<double> Phenotype::updateOnce()
 		for(PhenotypeNeuron::Link link : neuron->linksIn)
 			sumOfActivation += (link.fromNeuron->outputOfNeuron * link.weight);
 		
-		neuron->outputOfNeuron = steepenedSigmoidActivationFunction(sumOfActivation);
+		neuron->outputOfNeuron = activationFunction(sumOfActivation);
 
 		if (neuron->neuronType == NeuronType::output)
 			outputs.push_back(neuron->outputOfNeuron);
@@ -84,9 +86,3 @@ void Phenotype::clearOutputOfNeurons()
 	for (int i = 0; i < neurons.size(); i++)
 		neurons[i]->outputOfNeuron = 0.0;
 }
-
-double Phenotype::steepenedSigmoidActivationFunction(const double &input)
-{
-	return 1.f / (1.f + exp(-4.9*(input)));
-}
-

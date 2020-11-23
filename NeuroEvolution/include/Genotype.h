@@ -5,21 +5,26 @@
 #include <math.h>
 #include <iostream>
 #include <memory>
+#include <functional>
 #include "Innovation.h"
 #include "LinkGene.h"
 #include "NeuronGene.h"
 #include "RNG.h"
 #include "Phenotype.h"
 #include "ParentType.h"
+#include "ActivationFunctions.h"
 
 
 class Genotype
 {
 public:
 	Genotype();
-	Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs, const int& id);
-	Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id);
-	Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id);
+	Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs, 
+		const int& id, std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
+	Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, 
+		const int& id, std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
+	Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, 
+		const int& id, std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
 
 	void randomlyAddNeuron(Innovation& innovation, const float& addNeuronProbability);
 	void randomlyMutateAllWeights(const float& mutationProbability, const float& newWeightProbability, const double& weightPertubation);
@@ -74,6 +79,7 @@ private:
 	void createLinkWithRandomWeight(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent);
 	void createLink(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent, const double& weightOfLink);
 
+	std::function<double(const double& input)> activationFunction;
 	std::vector <NeuronGene> neurons;
 	std::vector <LinkGene> links;
 	double rawFitness = 0;

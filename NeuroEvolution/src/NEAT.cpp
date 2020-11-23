@@ -5,10 +5,12 @@ NEAT::NEAT()
 {
 }
 
-NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName)
+NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName, 
+	std::function<double(const double& input)> activationFunction)
 {
 	population = FileReader::parsePopulationFromFile(populationFileName);
 	innovation = FileReader::parseInnovationFromFile(innovationFileName);
+	this->activationFunction = activationFunction;
 
 	if (population.size() > 0) {
 		this->countOfInputs = population[0].getCountOfInputs();
@@ -16,15 +18,16 @@ NEAT::NEAT(const std::string& populationFileName, const std::string& innovationF
 	}
 }
 
-NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs)
+NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs, 
+	std::function<double(const double& input)> activationFunction)
 {
 	std::srand(time(NULL));
 	if (populationSize <= 0)
 		return;
-
+	this->activationFunction = activationFunction;
 	innovation = Innovation();
 	for (int i = 0; i < populationSize; i++)
-		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
+		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
 
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
@@ -238,7 +241,7 @@ void NEAT::populate()
 	}
 
 	while (currentSpawnedAmount < maxPopulationSize) {
-		newPopulation.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++));
+		newPopulation.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
 		currentSpawnedAmount++;
 	}
 	population.clear();

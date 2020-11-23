@@ -5,16 +5,20 @@ Genotype::Genotype()
 {
 }
 
-Genotype::Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs, const int& id)
+Genotype::Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs, 
+	const int& id, std::function<double(const double& input)> activationFunction)
 {
+	this->activationFunction = activationFunction;
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
 	this->id = id;
 	createFullyConnectedNetwork(innovation);
 }
 
-Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id)
+Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, 
+	const int& id, std::function<double(const double& input)> activationFunction)
 {
+	this->activationFunction = activationFunction;
 	this->neurons = neurons;
 	this->links = links;
 	this->id = id;
@@ -32,8 +36,10 @@ Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vector<Lin
 	calculateDepthOfEveryNeuron();
 }
 
-Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, const int& id)
+Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links, 
+	const int& id, std::function<double(const double& input)> activationFunction)
 {
+	this->activationFunction = activationFunction;
 	this->countOfInputs = 0;
 	this->countOfOutputs = 0;
 	int highestNeuronId = 0;
@@ -234,7 +240,7 @@ Genotype Genotype::crossOver(const Genotype& father, const Genotype& mother, con
 			fatherLinkIndex++;
 		}
 	}
-	Genotype baby = Genotype(babyNeurons, babyLinks, babyId);
+	Genotype baby = Genotype(babyNeurons, babyLinks, babyId, father.activationFunction);
 	return baby;
 }
 
@@ -243,7 +249,7 @@ std::vector<double> Genotype::calculateOutputSnapshot(const std::vector<double>&
 	if (phenotype == nullptr)
 		createPhenotype();
 
-	return phenotype->calculateOutputSnapshot(inputs);
+	return phenotype->calculateOutputSnapshot(inputs, this->activationFunction);
 }
 
 std::vector<double> Genotype::calculateOutputActive(const std::vector<double>& inputs)
@@ -251,7 +257,7 @@ std::vector<double> Genotype::calculateOutputActive(const std::vector<double>& i
 	if (phenotype == nullptr)
 		createPhenotype();
 
-	return phenotype->calculateOutputActive(inputs);
+	return phenotype->calculateOutputActive(inputs, this->activationFunction);
 }
 
 void Genotype::createPhenotype()

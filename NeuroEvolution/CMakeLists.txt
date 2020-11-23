@@ -28,6 +28,7 @@ set(HEADERS
 	"include/PhenotypeNeuron.h"
 	"include/RNG.h"
 	"include/Species.h"
+	"include/ActivationFunctions.h"
 	)
 
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})

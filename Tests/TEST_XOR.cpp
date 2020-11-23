@@ -37,7 +37,7 @@ Genotype createXORGenotype() {
 TEST(TEST_XOR, XORIsPossibleFirstInput) {
 	Genotype geno = createXORGenotype();
 	geno.createPhenotype();
-	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0, 0.0});
+	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0, 0.0}, nev::steepenedSigmoid);
 
 	EXPECT_LT(output[0], 0.1);
 }
@@ -45,21 +45,21 @@ TEST(TEST_XOR, XORIsPossibleFirstInput) {
 TEST(TEST_XOR, XORIsPossibleSecondInput) {
 	Genotype geno = createXORGenotype();
 	geno.createPhenotype();
-	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0, 0.0});
+	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0, 0.0}, nev::steepenedSigmoid);
 
 	EXPECT_GT(output[0], 0.9);
 }
 TEST(TEST_XOR, XORIsPossibleThirdInput) {
 	Genotype geno = createXORGenotype();
 	geno.createPhenotype();
-	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0, 1.0});
+	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0, 1.0}, nev::steepenedSigmoid);
 
 	EXPECT_GT(output[0], 0.9);
 }
 TEST(TEST_XOR, XORIsPossibleFourthInput) {
 	Genotype geno = createXORGenotype();
 	geno.createPhenotype();
-	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0, 1.0});
+	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0, 1.0}, nev::steepenedSigmoid);
 
 	EXPECT_LT(output[0], 0.1);
 }

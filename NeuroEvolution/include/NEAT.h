@@ -2,19 +2,23 @@
 #include <string>
 #include <vector>
 #include <time.h>
+#include <functional>
 #include "Genotype.h"
 #include "Species.h"
 #include "Innovation.h"
 #include "FileReader.h"
 #include "FileWriter.h"
+#include "ActivationFunctions.h"
 
 
 class NEAT
 {
 public:
 	NEAT();
-	NEAT(const std::string& populationFileName, const std::string& innovationFileName);
-	NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs);
+	NEAT(const std::string& populationFileName, const std::string& innovationFileName, 
+		std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
+	NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs, 
+		std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
 
 	std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double>& inputs);
 	std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
@@ -61,7 +65,7 @@ private:
 
 	double weightPertubation = 0.1;
 
-
+	std::function<double(const double& input)> activationFunction;
 	std::vector<Genotype> population;
 	std::vector<Species> species;
 	Innovation innovation;
