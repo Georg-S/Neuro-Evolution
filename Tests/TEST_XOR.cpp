@@ -8,34 +8,34 @@
 #include <vector>
 
 
-Genotype createXORGenotype() {
-	Innovation inno = Innovation();
-	std::vector<NeuronGene> neurons;
-	neurons.push_back(NeuronGene(NeuronType::bias, 0));
-	neurons.push_back(NeuronGene(NeuronType::input, 1));
-	neurons.push_back(NeuronGene(NeuronType::input, 2));
-	neurons.push_back(NeuronGene(NeuronType::output, 3));
-	neurons.push_back(NeuronGene(NeuronType::hidden, 4));
-	neurons.push_back(NeuronGene(NeuronType::hidden, 5));
+nev::Genotype createXORGenotype() {
+	nev::Innovation inno = nev::Innovation();
+	std::vector<nev::NeuronGene> neurons;
+	neurons.push_back(nev::NeuronGene(nev::NeuronType::bias, 0));
+	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 1));
+	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 2));
+	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 3));
+	neurons.push_back(nev::NeuronGene(nev::NeuronType::hidden, 4));
+	neurons.push_back(nev::NeuronGene(nev::NeuronType::hidden, 5));
 
-	std::vector<LinkGene> links;
-	links.push_back(LinkGene(1, 4, 20,1, true));
-	links.push_back(LinkGene(2, 4, 20,1, true));
-	links.push_back(LinkGene(0, 4, -10,1, true));
+	std::vector<nev::LinkGene> links;
+	links.push_back(nev::LinkGene(1, 4, 20,1, true));
+	links.push_back(nev::LinkGene(2, 4, 20,1, true));
+	links.push_back(nev::LinkGene(0, 4, -10,1, true));
 
-	links.push_back(LinkGene(1, 5, -20,1, true));
-	links.push_back(LinkGene(2, 5, -20,1, true));
-	links.push_back(LinkGene(0, 5, 30,1, true));
+	links.push_back(nev::LinkGene(1, 5, -20,1, true));
+	links.push_back(nev::LinkGene(2, 5, -20,1, true));
+	links.push_back(nev::LinkGene(0, 5, 30,1, true));
 
-	links.push_back(LinkGene(4, 3, 20,1, true));
-	links.push_back(LinkGene(5, 3, 20,1, true));
-	links.push_back(LinkGene(0, 3, -30,1, true));
+	links.push_back(nev::LinkGene(4, 3, 20,1, true));
+	links.push_back(nev::LinkGene(5, 3, 20,1, true));
+	links.push_back(nev::LinkGene(0, 3, -30,1, true));
 
-	return Genotype(inno,neurons, links,1);
+	return nev::Genotype(inno,neurons, links,1);
 }
 
 TEST(TEST_XOR, XORIsPossibleFirstInput) {
-	Genotype geno = createXORGenotype();
+	nev::Genotype geno = createXORGenotype();
 	geno.createPhenotype();
 	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0, 0.0}, nev::steepenedSigmoid);
 
@@ -43,28 +43,28 @@ TEST(TEST_XOR, XORIsPossibleFirstInput) {
 }
 
 TEST(TEST_XOR, XORIsPossibleSecondInput) {
-	Genotype geno = createXORGenotype();
+	nev::Genotype geno = createXORGenotype();
 	geno.createPhenotype();
 	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0, 0.0}, nev::steepenedSigmoid);
 
 	EXPECT_GT(output[0], 0.9);
 }
 TEST(TEST_XOR, XORIsPossibleThirdInput) {
-	Genotype geno = createXORGenotype();
+	nev::Genotype geno = createXORGenotype();
 	geno.createPhenotype();
 	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0, 1.0}, nev::steepenedSigmoid);
 
 	EXPECT_GT(output[0], 0.9);
 }
 TEST(TEST_XOR, XORIsPossibleFourthInput) {
-	Genotype geno = createXORGenotype();
+	nev::Genotype geno = createXORGenotype();
 	geno.createPhenotype();
 	std::vector<double> output = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0, 1.0}, nev::steepenedSigmoid);
 
 	EXPECT_LT(output[0], 0.1);
 }
 
-std::vector<double> calculateFitness(NEAT &neat) {
+std::vector<double> calculateFitness(nev::NEAT &neat) {
 	std::vector<double> fitness;
 
 	std::vector<std::vector<double>> outputs = neat.calculateOutputSnapshot(std::vector<double> {0, 0});
@@ -104,7 +104,7 @@ double getHighestFitness(const std::vector<double> fitness) {
 void testXOR() {
 	double highestFitnessEver = 0;
 	std::vector<double> fitness;
-	NEAT neat = NEAT(150, 2, 1);
+	nev::NEAT neat = nev::NEAT(150, 2, 1);
 
 	for (int i = 0; i < INT_MAX; i++) {
 		fitness.clear();
@@ -130,7 +130,7 @@ void testXorParameters() {
 	bool solutionFound = false;
 
 	for (int x = 0; x < 100; x++) {
-		NEAT neat = NEAT(150, 2, 1);
+		nev::NEAT neat = nev::NEAT(150, 2, 1);
 		solutionFound = false;
 		double highestFitnessEver = 0;
 

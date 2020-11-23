@@ -1,7 +1,7 @@
 #include "RNG.h"
 
 
-int RNG::getRandomIntBetween(const int& from, const int& to)
+int nev::RNG::getRandomIntBetween(const int& from, const int& to)
 {
 	if (from >= to)
 		return from;
@@ -12,7 +12,7 @@ int RNG::getRandomIntBetween(const int& from, const int& to)
 	return randomNumber;
 }
 
-float RNG::getRandomFloatBetween(const int& from, const int& to)
+float nev::RNG::getRandomFloatBetween(const int& from, const int& to)
 {
 	if (from >= to)
 		return from;
@@ -24,7 +24,7 @@ float RNG::getRandomFloatBetween(const int& from, const int& to)
 	return from + r;
 }
 
-float RNG::getRandomFloatBetween(const float& from, const float& to)
+float nev::RNG::getRandomFloatBetween(const float& from, const float& to)
 {
 	if (from >= to)
 		return from;
@@ -36,12 +36,12 @@ float RNG::getRandomFloatBetween(const float& from, const float& to)
 	return from + r;
 }
 
-float RNG::getRandomFloatBetween0and1()
+float nev::RNG::getRandomFloatBetween0and1()
 {
 	return (float)rand() / (float)RAND_MAX;
 }
 
-double RNG::getRandomDoubleBetween(const double& from, const double& to)
+double nev::RNG::getRandomDoubleBetween(const double& from, const double& to)
 {
 	if (from >= to)
 		return from;

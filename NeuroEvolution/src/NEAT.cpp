@@ -1,11 +1,11 @@
 #include "NEAT.h"
 
 
-NEAT::NEAT()
+nev::NEAT::NEAT()
 {
 }
 
-NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName, 
+nev::NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName,
 	std::function<double(const double& input)> activationFunction)
 {
 	population = nev::FileReader::parsePopulationFromFile(populationFileName);
@@ -18,7 +18,7 @@ NEAT::NEAT(const std::string& populationFileName, const std::string& innovationF
 	}
 }
 
-NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs, 
+nev::NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
 	std::function<double(const double& input)> activationFunction)
 {
 	std::srand(time(NULL));
@@ -34,7 +34,7 @@ NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& count
 	this->countOfOutputs = countOfOutputs;
 }
 
-std::vector<std::vector<double>> NEAT::calculateOutputSnapshot(const std::vector<double>& inputs)
+std::vector<std::vector<double>> nev::NEAT::calculateOutputSnapshot(const std::vector<double>& inputs)
 {
 	if (inputs.size() != countOfInputs)
 		return std::vector<std::vector<double>>();
@@ -46,7 +46,7 @@ std::vector<std::vector<double>> NEAT::calculateOutputSnapshot(const std::vector
 	return outputs;
 }
 
-std::vector<std::vector<double>> NEAT::calculateOutputActive(const std::vector<double>& inputs)
+std::vector<std::vector<double>> nev::NEAT::calculateOutputActive(const std::vector<double>& inputs)
 {
 	if (inputs.size() != countOfInputs)
 		return std::vector<std::vector<double>>();
@@ -58,7 +58,7 @@ std::vector<std::vector<double>> NEAT::calculateOutputActive(const std::vector<d
 	return outputs;
 }
 
-std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index)
+std::vector<double> nev::NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index)
 {
 	if (inputs.size() != countOfInputs)
 		return std::vector<double>();
@@ -69,7 +69,7 @@ std::vector<double> NEAT::calculateOutputActiveOfSpecificGenotype(const std::vec
 	return population[index].calculateOutputActive(inputs);
 }
 
-void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
+void nev::NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 {
 	if (fitness.size() != population.size())
 		return;
@@ -85,28 +85,28 @@ void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 	currentGeneration++;
 }
 
-void NEAT::writePopulationAndInnovationAsFiles(const std::string& populationFileName, const std::string& innovationFileName)
+void nev::NEAT::writePopulationAndInnovationAsFiles(const std::string& populationFileName, const std::string& innovationFileName)
 {
 	nev::FileWriter::writePopulationToFile(populationFileName, population);
 	nev::FileWriter::writeInnovationToFile(innovationFileName, innovation);
 }
 
-int NEAT::getPopulationSize() const
+int nev::NEAT::getPopulationSize() const
 {
 	return population.size();
 }
 
-int NEAT::getSpeciesCount() const
+int nev::NEAT::getSpeciesCount() const
 {
 	return species.size();
 }
 
-int NEAT::getTotalCountOfInnovations() const
+int nev::NEAT::getTotalCountOfInnovations() const
 {
 	return innovation.getTotalInnovationsCount();
 }
 
-int NEAT::getHighestGenotypeId() const
+int nev::NEAT::getHighestGenotypeId() const
 {
 	int highestId = -1;
 	for (int i = 0; i < population.size(); i++) {
@@ -117,40 +117,40 @@ int NEAT::getHighestGenotypeId() const
 	return highestId;
 }
 
-int NEAT::getCurrentGeneration() const
+int nev::NEAT::getCurrentGeneration() const
 {
 	return currentGeneration;
 }
 
-void NEAT::setWeightPertubation(const double& weightPertubation)
+void nev::NEAT::setWeightPertubation(const double& weightPertubation)
 {
 	this->weightPertubation = weightPertubation;
 }
 
-void NEAT::setAddNeuronProbability(const double& addNeuronProbability)
+void nev::NEAT::setAddNeuronProbability(const double& addNeuronProbability)
 {
 	this->addNeuronProbability = addNeuronProbability;
 }
 
-void NEAT::deletePhenotypes()
+void nev::NEAT::deletePhenotypes()
 {
 	for (int i = 0; i < population.size(); i++)
 		population[i].deletePhenotype();
 }
 
-void NEAT::resetSpecies()
+void nev::NEAT::resetSpecies()
 {
 	for (int i = 0; i < species.size(); i++)
 		species[i].reset();
 }
 
-void NEAT::setFitnessOfPopulation(const std::vector<double>& fitness)
+void nev::NEAT::setFitnessOfPopulation(const std::vector<double>& fitness)
 {
 	for (int i = 0; i < population.size(); i++)
 		population[i].setRawFitness(fitness[i]);
 }
 
-void NEAT::speciate()
+void nev::NEAT::speciate()
 {
 	for (int i = 0; i < population.size(); i++) {
 		double lowestCompatibilityScore = DBL_MAX;
@@ -172,7 +172,7 @@ void NEAT::speciate()
 	}
 }
 
-void NEAT::updateSpecies()
+void nev::NEAT::updateSpecies()
 {
 	sort(species.begin(), species.end());
 	std::vector<Species> updatedSpecies;
@@ -191,7 +191,7 @@ void NEAT::updateSpecies()
 	species = updatedSpecies;
 }
 
-void NEAT::populate()
+void nev::NEAT::populate()
 {
 	std::vector<Genotype> newPopulation;
 	int currentSpawnedAmount = 0;
@@ -248,7 +248,7 @@ void NEAT::populate()
 	population = newPopulation;
 }
 
-Genotype NEAT::getHighestRawFitnessGenotyp() const
+nev::Genotype nev::NEAT::getHighestRawFitnessGenotyp() const
 {
 	double highestRawFitness = DBL_MIN;
 	int highestRawFitnessIndex = -1;
@@ -262,13 +262,13 @@ Genotype NEAT::getHighestRawFitnessGenotyp() const
 	return population[highestRawFitnessIndex];
 }
 
-void NEAT::updateFitnessValues()
+void nev::NEAT::updateFitnessValues()
 {
 	for (int i = 0; i < species.size(); i++)
 		species[i].updateFitnessValues();
 }
 
-void NEAT::calculateSpawnAmoutOfSpecies()
+void nev::NEAT::calculateSpawnAmoutOfSpecies()
 {
 	double populationAverageFitness = 0;
 	double populationTotalFitness = 0;

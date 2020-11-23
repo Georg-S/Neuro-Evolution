@@ -1,11 +1,11 @@
 #include "Species.h"
 
 
-Species::Species()
+nev::Species::Species()
 {
 }
 
-Species::Species(const Genotype& representative, const int& speciesId)
+nev::Species::Species(const Genotype& representative, const int& speciesId)
 {
 	this->representative = representative;
 	this->representative.phenotype = nullptr;
@@ -14,26 +14,26 @@ Species::Species(const Genotype& representative, const int& speciesId)
 }
 
 
-Species::~Species()
+nev::Species::~Species()
 {
 }
 
-double Species::calculateCompatibilityScore(Genotype& toTestGenotype, const float& exzessFactor, const float& disjointFactor, const float& weightFactor)
+double nev::Species::calculateCompatibilityScore(Genotype& toTestGenotype, const float& exzessFactor, const float& disjointFactor, const float& weightFactor)
 {
 	return Genotype::calculateCompatibilityScore(representative, toTestGenotype, exzessFactor, disjointFactor, weightFactor);
 }
 
-void Species::reset()
+void nev::Species::reset()
 {
 	members.clear();
 }
 
-void Species::addMemberToSpecies(Genotype* genotype)
+void nev::Species::addMemberToSpecies(Genotype* genotype)
 {
 	members.push_back(genotype);
 }
 
-void Species::updateFitnessValues()
+void nev::Species::updateFitnessValues()
 {
 	totalCurrentAdjustedFitness = 0;
 
@@ -49,7 +49,7 @@ void Species::updateFitnessValues()
 	}
 }
 
-void Species::calculateSpawnAmount(const double& populationAverage)
+void nev::Species::calculateSpawnAmount(const double& populationAverage)
 {
 	spawnAmount = 0;
 	for (int i = 0; i < members.size(); i++)
@@ -58,13 +58,13 @@ void Species::calculateSpawnAmount(const double& populationAverage)
 	spawnAmount /= populationAverage;
 }
 
-void Species::incrementCurrentGeneration()
+void nev::Species::incrementCurrentGeneration()
 {
 	currentGeneration++;
 	generationsNoImprovement++;
 }
 
-Genotype Species::spawnGenotype()
+nev::Genotype nev::Species::spawnGenotype()
 {
 	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
@@ -76,7 +76,7 @@ Genotype Species::spawnGenotype()
 	}
 }
 
-Genotype Species::getLeader() const
+nev::Genotype nev::Species::getLeader() const
 {
 	double highestFitness = DBL_MIN;
 	int highestFitnessIndex = -1;
@@ -90,37 +90,37 @@ Genotype Species::getLeader() const
 	return *(members[highestFitnessIndex]);
 }
 
-double Species::getTotalCurrentAdjustedFitness() const
+double nev::Species::getTotalCurrentAdjustedFitness() const
 {
 	return totalCurrentAdjustedFitness;
 }
 
-int Species::getGenerationOfSpecies() const
+int nev::Species::getGenerationOfSpecies() const
 {
 	return currentGeneration;
 }
 
-int Species::getSpeciesId() const
+int nev::Species::getSpeciesId() const
 {
 	return speciesId;
 }
 
-int Species::getMemberCount() const
+int nev::Species::getMemberCount() const
 {
 	return members.size();
 }
 
-int Species::getSpawnAmount() const
+int nev::Species::getSpawnAmount() const
 {
 	return spawnAmount;
 }
 
-int Species::getGenerationNoImprovement() const
+int nev::Species::getGenerationNoImprovement() const
 {
 	return generationsNoImprovement;
 }
 
-bool operator<(const Species& lhs, const Species& rhs)
+bool nev::operator<(const Species& lhs, const Species& rhs)
 {
 	return lhs.totalCurrentAdjustedFitness > rhs.totalCurrentAdjustedFitness;
 }

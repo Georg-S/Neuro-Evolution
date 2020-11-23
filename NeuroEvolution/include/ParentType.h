@@ -1,5 +1,9 @@
 #pragma once
 
-enum class ParentType {
-	Mother, Father
-};
+namespace nev {
+
+	enum class ParentType {
+		Mother, Father
+	};
+
+}

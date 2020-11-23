@@ -2,6 +2,7 @@
 #include <math.h>
 
 namespace nev {
+
 	enum class af_Identifier {
 		relu, steepenedSigmoid
 	};
@@ -14,4 +15,5 @@ namespace nev {
 	{
 		return 1.f / (1.f + exp(-4.9 * (input)));
 	}
+
 }

@@ -1,10 +1,10 @@
 #include "Innovation.h"
 
-Innovation::Innovation()
+nev::Innovation::Innovation()
 {
 }
 
-Innovation::Innovation(const int& currentInnovationNumber, const int& currentNeuronId,
+nev::Innovation::Innovation(const int& currentInnovationNumber, const int& currentNeuronId,
 	const std::vector<InnovationElement>& innovations)
 {
 	this->currentInnovationNumber = currentInnovationNumber;
@@ -12,11 +12,11 @@ Innovation::Innovation(const int& currentInnovationNumber, const int& currentNeu
 	this->innovations = innovations;
 }
 
-Innovation::~Innovation()
+nev::Innovation::~Innovation()
 {
 }
 
-int Innovation::createNewLinkInnovation(const int& fromId, const int& toId)
+int nev::Innovation::createNewLinkInnovation(const int& fromId, const int& toId)
 {
 	if (fromId > currentNeuronId)
 		currentNeuronId = fromId;
@@ -31,7 +31,7 @@ int Innovation::createNewLinkInnovation(const int& fromId, const int& toId)
 	return innovation;
 }
 
-int Innovation::createNewNeuronInnovation(const int& fromId, const int& toId)
+int nev::Innovation::createNewNeuronInnovation(const int& fromId, const int& toId)
 {
 	currentNeuronId++;
 	innovations.push_back(InnovationElement(currentInnovationNumber, fromId, toId, currentNeuronId, InnovationType::newNeuron));
@@ -40,12 +40,12 @@ int Innovation::createNewNeuronInnovation(const int& fromId, const int& toId)
 	return currentNeuronId;
 }
 
-void Innovation::setCurrentNeuronId(const int& currenNeuronId)
+void nev::Innovation::setCurrentNeuronId(const int& currenNeuronId)
 {
 	this->currentNeuronId = currenNeuronId;
 }
 
-int Innovation::getInnovationID(const int& fromID, const int& toID, const InnovationType& type) const
+int nev::Innovation::getInnovationID(const int& fromID, const int& toID, const InnovationType& type) const
 {
 	for (int i = 0; i < innovations.size(); i++) {
 		if ((innovations[i].fromNeuronId == fromID)
@@ -58,13 +58,13 @@ int Innovation::getInnovationID(const int& fromID, const int& toID, const Innova
 	return -1;
 }
 
-int Innovation::getTotalInnovationsCount() const
+int nev::Innovation::getTotalInnovationsCount() const
 {
 	return innovations.size();
 }
 
 
-int Innovation::getNeuronId(const int& fromNeuronId, const int& toNeuronId) const
+int nev::Innovation::getNeuronId(const int& fromNeuronId, const int& toNeuronId) const
 {
 	for (int i = 0; i < innovations.size(); i++) {
 		if (innovations[i].innovationType != InnovationType::newNeuron)
@@ -77,7 +77,7 @@ int Innovation::getNeuronId(const int& fromNeuronId, const int& toNeuronId) cons
 	return -1;
 }
 
-int Innovation::getCountOfNewNeuronInnovations() const
+int nev::Innovation::getCountOfNewNeuronInnovations() const
 {
 	int countOfNewNeuronInnovations = 0;
 	for (int i = 0; i < innovations.size(); i++) {
@@ -88,7 +88,7 @@ int Innovation::getCountOfNewNeuronInnovations() const
 	return countOfNewNeuronInnovations;
 }
 
-int Innovation::getCountOfNewLinkInnovations() const
+int nev::Innovation::getCountOfNewLinkInnovations() const
 {
 	int countOfNewLinkInnovation = 0;
 	for (int i = 0; i < innovations.size(); i++) {
@@ -99,17 +99,17 @@ int Innovation::getCountOfNewLinkInnovations() const
 	return countOfNewLinkInnovation;
 }
 
-int Innovation::getCurrentInnovationNumber() const
+int nev::Innovation::getCurrentInnovationNumber() const
 {
 	return currentInnovationNumber;
 }
 
-int Innovation::getCurrentNeuronId() const
+int nev::Innovation::getCurrentNeuronId() const
 {
 	return currentNeuronId;
 }
 
-std::vector<InnovationElement> Innovation::getInnovations() const
+std::vector<nev::InnovationElement> nev::Innovation::getInnovations() const
 {
 	return innovations;
 }

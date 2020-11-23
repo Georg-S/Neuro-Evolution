@@ -1,7 +1,7 @@
 #include "FileReader.h"
 
 
-std::vector<Genotype> nev::FileReader::parsePopulationFromFile(const std::string& fileName)
+std::vector<nev::Genotype> nev::FileReader::parsePopulationFromFile(const std::string& fileName)
 {
 	std::vector<Genotype> population;
 	std::ifstream populationFile(fileName);
@@ -13,7 +13,7 @@ std::vector<Genotype> nev::FileReader::parsePopulationFromFile(const std::string
 	return population;
 }
 
-Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile)
+nev::Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile)
 {
 	int countOfInputs = 0;
 	int countOfOutputs = 0;
@@ -49,7 +49,7 @@ Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile)
 	return createdGenotype;
 }
 
-std::vector<NeuronGene> nev::FileReader::parseNeurons(std::ifstream& populationFile)
+std::vector<nev::NeuronGene> nev::FileReader::parseNeurons(std::ifstream& populationFile)
 {
 	std::vector<NeuronGene> neurons;
 	bool finishedParsing = false;
@@ -66,7 +66,7 @@ std::vector<NeuronGene> nev::FileReader::parseNeurons(std::ifstream& populationF
 	return neurons;
 }
 
-NeuronGene nev::FileReader::parseOneNeuron(std::ifstream& populationFile)
+nev::NeuronGene nev::FileReader::parseOneNeuron(std::ifstream& populationFile)
 {
 	NeuronGene neuron;
 	for (std::string line; getline(populationFile, line);) {
@@ -89,7 +89,7 @@ NeuronGene nev::FileReader::parseOneNeuron(std::ifstream& populationFile)
 	return neuron;
 }
 
-std::vector<LinkGene> nev::FileReader::parseLinks(std::ifstream& populationFile)
+std::vector<nev::LinkGene> nev::FileReader::parseLinks(std::ifstream& populationFile)
 {
 	std::vector<LinkGene> links;
 
@@ -106,7 +106,7 @@ std::vector<LinkGene> nev::FileReader::parseLinks(std::ifstream& populationFile)
 	return links;
 }
 
-LinkGene nev::FileReader::parseOneLink(std::ifstream& populationFile)
+nev::LinkGene nev::FileReader::parseOneLink(std::ifstream& populationFile)
 {
 	LinkGene link;
 	for (std::string line; getline(populationFile, line);) {
@@ -141,7 +141,7 @@ LinkGene nev::FileReader::parseOneLink(std::ifstream& populationFile)
 	return link;
 }
 
-Innovation nev::FileReader::parseInnovationFromFile(const std::string& fileName)
+nev::Innovation nev::FileReader::parseInnovationFromFile(const std::string& fileName)
 {
 	std::ifstream innovationFile(fileName);
 	std::vector<InnovationElement> innovations;
@@ -164,7 +164,7 @@ Innovation nev::FileReader::parseInnovationFromFile(const std::string& fileName)
 	return Innovation(currentInnovationNumber, startNeuronNumber, innovations);
 }
 
-InnovationElement nev::FileReader::parseOneInnovation(std::ifstream& innovationFile)
+nev::InnovationElement nev::FileReader::parseOneInnovation(std::ifstream& innovationFile)
 {
 	int fromId = 0;
 	int innovationId = 0;

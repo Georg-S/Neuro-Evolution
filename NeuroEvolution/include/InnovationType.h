@@ -1,5 +1,9 @@
 #pragma once
 
-enum class InnovationType {
-	newNeuron, newLink
-};
+namespace nev {
+
+	enum class InnovationType {
+		newNeuron, newLink
+	};
+
+}

@@ -1,13 +1,16 @@
 #pragma once
 #include <stdlib.h>
 
-//RNG is short for Random Number Generator
-class RNG
-{
-public:
-	static int getRandomIntBetween(const int& from, const int& to);
-	static float getRandomFloatBetween(const int& from, const int& to);
-	static float getRandomFloatBetween(const float& from, const float& to);
-	static float getRandomFloatBetween0and1();
-	static double getRandomDoubleBetween(const double& from, const double& to);
-};
+namespace nev {
+	//RNG is short for Random Number Generator
+	class RNG
+	{
+	public:
+		static int getRandomIntBetween(const int& from, const int& to);
+		static float getRandomFloatBetween(const int& from, const int& to);
+		static float getRandomFloatBetween(const float& from, const float& to);
+		static float getRandomFloatBetween0and1();
+		static double getRandomDoubleBetween(const double& from, const double& to);
+	};
+
+}

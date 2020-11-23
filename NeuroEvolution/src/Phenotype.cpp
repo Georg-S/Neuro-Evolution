@@ -1,19 +1,19 @@
 #include "Phenotype.h"
 
-Phenotype::Phenotype(const std::vector<PhenotypeNeuron*>& neurons, const int& maxDepth)
+nev::Phenotype::Phenotype(const std::vector<PhenotypeNeuron*>& neurons, const int& maxDepth)
 {
 	this->neurons = neurons;
 	this->maxDepth = maxDepth;
 }
 
 
-Phenotype::~Phenotype()
+nev::Phenotype::~Phenotype()
 {
 	for (int i = 0; i < neurons.size(); i++)
 		delete neurons[i];
 }
 
-std::vector<double> Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs,
+std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs,
 	const std::function<double(const double& input)>& activationFunction)
 {
 	setBias();
@@ -27,7 +27,7 @@ std::vector<double> Phenotype::calculateOutputSnapshot(const std::vector<double>
 	return output;
 }
 
-std::vector<double> Phenotype::calculateOutputActive(const std::vector<double>& inputs,
+std::vector<double> nev::Phenotype::calculateOutputActive(const std::vector<double>& inputs,
 	const std::function<double(const double& input)>& activationFunction)
 {
 	setBias();
@@ -36,7 +36,7 @@ std::vector<double> Phenotype::calculateOutputActive(const std::vector<double>& 
 	return updateOnce(activationFunction);
 }
 
-void Phenotype::setBias()
+void nev::Phenotype::setBias()
 {
 	for(PhenotypeNeuron* neuron : neurons) {
 		if (neuron->neuronType == NeuronType::bias) {
@@ -46,7 +46,7 @@ void Phenotype::setBias()
 	}
 }
 
-void Phenotype::setInputs(const std::vector<double> &inputs)
+void nev::Phenotype::setInputs(const std::vector<double> &inputs)
 {
 	int inputIndex = 0;
 	for(PhenotypeNeuron* neuron : neurons) {
@@ -60,7 +60,7 @@ void Phenotype::setInputs(const std::vector<double> &inputs)
 	}
 }
 
-std::vector<double> Phenotype::updateOnce(const std::function<double(const double& input)>& activationFunction)
+std::vector<double> nev::Phenotype::updateOnce(const std::function<double(const double& input)>& activationFunction)
 {
 	std::vector<double> outputs;
 
@@ -81,7 +81,7 @@ std::vector<double> Phenotype::updateOnce(const std::function<double(const doubl
 	return outputs;
 }
 
-void Phenotype::clearOutputOfNeurons()
+void nev::Phenotype::clearOutputOfNeurons()
 {
 	for (int i = 0; i < neurons.size(); i++)
 		neurons[i]->outputOfNeuron = 0.0;
