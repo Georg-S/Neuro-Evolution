@@ -87,8 +87,8 @@ void NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 
 void NEAT::writePopulationAndInnovationAsFiles(const std::string& populationFileName, const std::string& innovationFileName)
 {
-	FileWriter::writePopulationToFile(populationFileName, population);
-	FileWriter::writeInnovationToFile(innovationFileName, innovation);
+	nev::FileWriter::writePopulationToFile(populationFileName, population);
+	nev::FileWriter::writeInnovationToFile(innovationFileName, innovation);
 }
 
 int NEAT::getPopulationSize() const
