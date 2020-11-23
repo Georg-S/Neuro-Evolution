@@ -11,7 +11,7 @@
 
 TEST(TEST_FileManagment, SaveToFileAndPopulationGetsParsedCorrectly) {
 	nev::NEAT first = nev::NEAT(1, 1, 2);
-	first.writePopulationAndInnovationAsFiles("population.txt", "innovation.txt");
+	nev::FileWriter::writeNEATToFile(first);
 	std::vector <double> inputs{ 1 };
 	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
 
@@ -25,7 +25,7 @@ TEST(TEST_FileManagment, SaveToFileAndPopulationGetsParsedCorrectly) {
 
 TEST(TEST_FileManagment, AfterSavingAndParsingPopulationSizeStaysTheSame) {
 	nev::NEAT first = nev::NEAT(10, 1, 2);
-	first.writePopulationAndInnovationAsFiles("population.txt", "innovation.txt");
+	nev::FileWriter::writeNEATToFile(first);
 
 	nev::NEAT second = nev::NEAT("population.txt", "innovation.txt");
 
@@ -37,7 +37,7 @@ TEST(TEST_FileManagment, SaveToFileAndInnovationGetsParsedCorrectly) {
 	first.setAddNeuronProbability(1);
 	first.iterateOneGeneration(std::vector<double>{0, 1});
 
-	first.writePopulationAndInnovationAsFiles("population.txt", "innovation.txt");
+	nev::FileWriter::writeNEATToFile(first);
 	std::vector <double> inputs{ 1 };
 	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
 
@@ -57,8 +57,7 @@ TEST(TEST_FileManagment, AfterSavingAndParsingInnovationSizeStaysTheSame) {
 	nev::NEAT first = nev::NEAT(1, 1, 2);
 	first.setAddNeuronProbability(1);
 	first.iterateOneGeneration(std::vector<double>{0, 1});
-
-	first.writePopulationAndInnovationAsFiles("population.txt", "innovation.txt");
+	nev::FileWriter::writeNEATToFile(first);
 	nev::NEAT second = nev::NEAT("population.txt", "innovation.txt");
 
 	ASSERT_EQ(first.getTotalCountOfInnovations(), second.getTotalCountOfInnovations());

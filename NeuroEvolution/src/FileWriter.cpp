@@ -1,5 +1,18 @@
 #include "FileWriter.h"
 
+void nev::FileWriter::writeNEATToFile(const nev::NEAT& neat, const std::string& fileSuffix)
+{
+	std::string populationFileName = "population" + fileSuffix + ".txt";
+	std::string innovationFileName = "innovation" + fileSuffix + ".txt";
+
+	writePopulationToFile(populationFileName, neat.population);
+	writeInnovationToFile(innovationFileName, neat.innovation);
+}
+
+void nev::FileWriter::writeNEATParametersToFile(const std::string& fileName, const nev::NEAT& neat)
+{
+}
+
 void nev::FileWriter::writePopulationToFile(const std::string& fileName, std::vector<Genotype> population)
 {
 	std::ofstream populationFile;

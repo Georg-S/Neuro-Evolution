@@ -7,7 +7,6 @@
 #include "Species.h"
 #include "Innovation.h"
 #include "FileReader.h"
-#include "FileWriter.h"
 #include "ActivationFunctions.h"
 
 namespace nev {
@@ -15,6 +14,7 @@ namespace nev {
 	class NEAT
 	{
 	public:
+
 		NEAT();
 		NEAT(const std::string& populationFileName, const std::string& innovationFileName,
 			std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
@@ -25,7 +25,6 @@ namespace nev {
 		std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
 		std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index);
 		void iterateOneGeneration(const std::vector<double>& fitness);
-		void writePopulationAndInnovationAsFiles(const std::string& populationFileName, const std::string& innovationFileName);
 
 
 		int getPopulationSize() const;
@@ -76,6 +75,8 @@ namespace nev {
 		int countOfOutputs = 0;
 		int currentPopulationId = 0;
 		int currentGeneration = 0;
+
+		friend class FileWriter;
 	};
 
 }
