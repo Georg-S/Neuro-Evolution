@@ -6,7 +6,6 @@
 #include "Genotype.h"
 #include "Species.h"
 #include "Innovation.h"
-#include "FileReader.h"
 #include "ActivationFunction.h"
 
 namespace nev {
@@ -16,8 +15,7 @@ namespace nev {
 	public:
 
 		NEAT();
-		NEAT(const std::string& populationFileName, const std::string& innovationFileName,
-			const nev::af& activationFunction = nev::af::steepenedSigmoid);
+		NEAT(const std::vector<Genotype>& population, const Innovation& innovation);
 		NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
 			const nev::af& activationFunction = nev::af::steepenedSigmoid);
 
@@ -35,6 +33,7 @@ namespace nev {
 
 		void setWeightPertubation(const double& weightPertubation);
 		void setAddNeuronProbability(const double& addNeuronProbability);
+		void refreshPopulationActivationFunction();
 	private:
 		void deletePhenotypes();
 		void resetSpecies();
@@ -77,6 +76,7 @@ namespace nev {
 		int currentGeneration = 0;
 
 		friend class FileWriter;
+		friend class FileReader;
 	};
 
 }

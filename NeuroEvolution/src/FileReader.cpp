@@ -1,6 +1,18 @@
 #include "FileReader.h"
 
 
+nev::NEAT nev::FileReader::getNEATFromFiles(const std::string& neatFile, const std::string& populationFile, const std::string& innovationFile)
+{
+	
+	auto population = parsePopulationFromFile(populationFile);
+	auto innovation = parseInnovationFromFile(innovationFile);
+	NEAT result = NEAT(population, innovation);
+	parseNEATParameters(neatFile, result);
+	result.refreshPopulationActivationFunction();
+
+	return result;
+}
+
 std::vector<nev::Genotype> nev::FileReader::parsePopulationFromFile(const std::string& fileName)
 {
 	std::vector<Genotype> population;
@@ -198,6 +210,15 @@ nev::InnovationElement nev::FileReader::parseOneInnovation(std::ifstream& innova
 		}
 	}
 	return InnovationElement(fromId, toId, innovationId, neuronId, innovationType);
+}
+
+void nev::FileReader::parseNEATParameters(const std::string& fileName, NEAT& neat)
+{
+	std::ifstream neatFile(fileName);
+	for (std::string line; getline(neatFile, line);) {
+		if (contains(line, "ActivationFunction"))
+			neat.activationFunction = (nev::af)atoi(getStringBetweenQuotationMark(line).c_str());
+	}
 }
 
 bool nev::FileReader::contains(const std::string& line, const std::string& searched)

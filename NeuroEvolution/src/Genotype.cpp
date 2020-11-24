@@ -287,6 +287,11 @@ void nev::Genotype::deletePhenotype()
 	phenotype = nullptr;
 }
 
+void nev::Genotype::setActivationFunction(const nev::af& activationFunction)
+{
+	this->activationFunction = activationFunction;
+}
+
 void nev::Genotype::setAdjustedFitness(const double& fitness)
 {
 	this->adjustedFitness = fitness;

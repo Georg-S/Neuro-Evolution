@@ -4,13 +4,10 @@
 nev::NEAT::NEAT()
 {
 }
-
-nev::NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName,
-	const nev::af& activationFunction)
+nev::NEAT::NEAT(const std::vector<Genotype>& population, const Innovation& innovation)
 {
-	population = nev::FileReader::parsePopulationFromFile(populationFileName);
-	innovation = nev::FileReader::parseInnovationFromFile(innovationFileName);
-	this->activationFunction = activationFunction;
+	this->population = population;
+	this->innovation = innovation;
 
 	if (population.size() > 0) {
 		this->countOfInputs = population[0].getCountOfInputs();
@@ -126,6 +123,12 @@ void nev::NEAT::setAddNeuronProbability(const double& addNeuronProbability)
 	this->addNeuronProbability = addNeuronProbability;
 }
 
+void nev::NEAT::refreshPopulationActivationFunction()
+{
+	for (Genotype& geno : population)
+		geno.setActivationFunction(activationFunction);
+}
+
 void nev::NEAT::deletePhenotypes()
 {
 	for (int i = 0; i < population.size(); i++)
@@ -211,16 +214,16 @@ void nev::NEAT::populate()
 			}
 			else {
 				if (species[speciesIndex].getMemberCount() == 1) {
-					baby = species[speciesIndex].spawnGenotype();
+					baby = species[speciesIndex].spawnGenotypeRoulette();
 				}
 				else {
 					if (RNG::getRandomFloatBetween0and1() < crossOverProbability) {
-						Genotype father = species[speciesIndex].spawnGenotype();
-						Genotype mother = species[speciesIndex].spawnGenotype();
+						Genotype father = species[speciesIndex].spawnGenotypeRoulette();
+						Genotype mother = species[speciesIndex].spawnGenotypeRoulette();
 						baby = Genotype::crossOver(father, mother, currentGenotypeId++);
 					}
 					else {
-						baby = species[speciesIndex].spawnGenotype();
+						baby = species[speciesIndex].spawnGenotypeRoulette();
 						baby.randomlyMutateAllWeights(mutateLinkProbability, newLinkWeightProbability, weightPertubation);
 						baby.randomlyAddLink(innovation, addLinkProbability, recurrentAllowed);
 						baby.randomlyAddNeuron(innovation, addNeuronProbability);

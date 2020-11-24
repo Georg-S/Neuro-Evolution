@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <NEAT.h>
 #include "Genotype.h"
 #include "Innovation.h"
 
@@ -11,6 +12,7 @@ namespace nev {
 	class FileReader
 	{
 	public:
+		static nev::NEAT getNEATFromFiles(const std::string& neatFile, const std::string& populationFile ,const std::string& innovationFile);
 		static std::vector<Genotype> parsePopulationFromFile(const std::string& fileName);
 		static Innovation parseInnovationFromFile(const std::string& fileName);
 		static std::string getStringBetweenQuotationMark(const std::string& line);
@@ -23,6 +25,7 @@ namespace nev {
 		static std::vector<LinkGene> parseLinks(std::ifstream& populationFile);
 		static LinkGene parseOneLink(std::ifstream& populationFile);
 		static InnovationElement parseOneInnovation(std::ifstream& innovationFile);
+		static void parseNEATParameters(const std::string& fileName, NEAT& neat);
 	};
 
 }

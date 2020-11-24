@@ -37,6 +37,7 @@ namespace nev {
 		void createPhenotype();
 		void deletePhenotype();
 
+		void setActivationFunction(const nev::af& activationFunction);
 		void setAdjustedFitness(const double& fitness);
 		void setRawFitness(const double& fitness);
 		double getAdjustedFitness() const;
@@ -85,12 +86,12 @@ namespace nev {
 		std::vector <LinkGene> links;
 		double rawFitness = 0;
 		double adjustedFitness = 0;
-		int numTriesToAddNeuron = 20;
-		int numTriesToAddLink = 20;
 		int id;
 		int maxDepth = 0;
 		int countOfInputs;
 		int countOfOutputs;
+		static const int numTriesToAddNeuron = 20;
+		static const int numTriesToAddLink = 20;
 		static constexpr int minimumLinkStartValue = -3;
 		static constexpr int maximumLinkStartValue = 3;
 		static constexpr double minimumLinkWeight = -30;

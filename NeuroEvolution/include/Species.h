@@ -17,7 +17,7 @@ namespace nev {
 		void updateFitnessValues();
 		void calculateSpawnAmount(const double& populationAverage);
 		void incrementCurrentGeneration();
-		Genotype spawnGenotype();
+		Genotype spawnGenotypeRoulette();
 		Genotype getLeader() const;
 		double getTotalCurrentAdjustedFitness() const;
 		int getGenerationOfSpecies() const;

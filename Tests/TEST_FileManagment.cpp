@@ -10,12 +10,12 @@
 #include <NEAT.h>
 
 TEST(TEST_FileManagment, SaveToFileAndPopulationGetsParsedCorrectly) {
-	nev::NEAT first = nev::NEAT(1, 1, 2);
+	nev::NEAT first = nev::NEAT(1, 1, 2, nev::af::relu);
 	nev::FileWriter::writeNEATToFile(first);
 	std::vector <double> inputs{ 1 };
 	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
 
-	nev::NEAT second = nev::NEAT("population.txt", "innovation.txt");
+	nev::NEAT second = nev::FileReader::getNEATFromFiles("neat.txt","population.txt", "innovation.txt");
 	std::vector<std::vector<double>> secondNetworkOutputs = second.calculateOutputSnapshot(inputs);
 
 	for (int i = 0; i < outputs.size(); i++) {
@@ -27,7 +27,7 @@ TEST(TEST_FileManagment, AfterSavingAndParsingPopulationSizeStaysTheSame) {
 	nev::NEAT first = nev::NEAT(10, 1, 2);
 	nev::FileWriter::writeNEATToFile(first);
 
-	nev::NEAT second = nev::NEAT("population.txt", "innovation.txt");
+	nev::NEAT second = nev::FileReader::getNEATFromFiles("neat.txt", "population.txt", "innovation.txt");
 
 	EXPECT_EQ(first.getPopulationSize(), second.getPopulationSize());
 }
@@ -41,7 +41,7 @@ TEST(TEST_FileManagment, SaveToFileAndInnovationGetsParsedCorrectly) {
 	std::vector <double> inputs{ 1 };
 	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
 
-	nev::NEAT second = nev::NEAT("population.txt", "innovation.txt");
+	nev::NEAT second = nev::FileReader::getNEATFromFiles("neat.txt", "population.txt", "innovation.txt");
 	std::vector<std::vector<double>> secondNetworkOutputs = second.calculateOutputSnapshot(inputs);
 
 	for (int i = 0; i < outputs.size(); i++) {
@@ -58,7 +58,7 @@ TEST(TEST_FileManagment, AfterSavingAndParsingInnovationSizeStaysTheSame) {
 	first.setAddNeuronProbability(1);
 	first.iterateOneGeneration(std::vector<double>{0, 1});
 	nev::FileWriter::writeNEATToFile(first);
-	nev::NEAT second = nev::NEAT("population.txt", "innovation.txt");
+	nev::NEAT second = nev::FileReader::getNEATFromFiles("neat.txt", "population.txt", "innovation.txt");
 
 	ASSERT_EQ(first.getTotalCountOfInnovations(), second.getTotalCountOfInnovations());
 }

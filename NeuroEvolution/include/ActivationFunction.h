@@ -18,4 +18,5 @@ namespace nev {
 
 		inline static const std::function<double(const double& input)> arr[]{relu, steepenedSigmoid};
 	};
+
 }

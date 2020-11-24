@@ -64,7 +64,7 @@ void nev::Species::incrementCurrentGeneration()
 	generationsNoImprovement++;
 }
 
-nev::Genotype nev::Species::spawnGenotype()
+nev::Genotype nev::Species::spawnGenotypeRoulette()
 {
 	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
