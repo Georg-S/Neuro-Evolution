@@ -10,8 +10,8 @@ namespace nev {
 		Species();
 		Species(const Genotype& representative, const int& speciesId);
 		~Species();
-		double calculateCompatibilityScore(Genotype& toTestGenotype, const float& excessFactor,
-			const float& disjointFactor, const float& weightFactor);
+		double calculateCompatibilityScore(Genotype& toTestGenotype, const double& excessFactor,
+			const double& disjointFactor, const double& weightFactor);
 		void reset();
 		void addMemberToSpecies(Genotype* genotype);
 		void updateFitnessValues();

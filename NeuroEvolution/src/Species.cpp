@@ -18,7 +18,8 @@ nev::Species::~Species()
 {
 }
 
-double nev::Species::calculateCompatibilityScore(Genotype& toTestGenotype, const float& excessFactor, const float& disjointFactor, const float& weightFactor)
+double nev::Species::calculateCompatibilityScore(Genotype& toTestGenotype, const double& excessFactor,
+	const double& disjointFactor, const double& weightFactor)
 {
 	return Genotype::calculateCompatibilityScore(representative, toTestGenotype, excessFactor, disjointFactor, weightFactor);
 }
