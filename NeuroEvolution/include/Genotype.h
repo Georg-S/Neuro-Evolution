@@ -27,10 +27,10 @@ namespace nev {
 		Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
 			const int& id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
 
-		void randomlyAddNeuron(Innovation& innovation, const float& addNeuronProbability);
-		void randomlyMutateAllWeights(const float& mutationProbability, const float& newWeightProbability, const double& weightPertubation);
-		void randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed);
-		static double calculateCompatibilityScore(Genotype& left, Genotype& right, const float& exzessFactor, const float& disjointFactor, const float& weightFactor);
+		void randomlyAddNeuron(Innovation& innovation, const double& addNeuronProbability);
+		void randomlyMutateAllWeights(const double& mutationProbability, const double& newWeightProbability, const double& weightPertubation);
+		void randomlyAddLink(Innovation& innovation, const double& mutationProbability, const bool& recurrentAllowed);
+		static double calculateCompatibilityScore(Genotype& left, Genotype& right, const double& excessFactor, const double& disjointFactor, const double& weightFactor);
 		static Genotype crossOver(const Genotype& father, const Genotype& mother, const int& babyId);
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 		std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
@@ -57,7 +57,7 @@ namespace nev {
 
 	private:
 		static ParentType getFittestParent(const Genotype& father, const Genotype& mother);
-		void mutateSingleWeight(const float& newWeightProbability, LinkGene& link, const float& weightPertubation);
+		void mutateSingleWeight(const double& newWeightProbability, LinkGene& link, const double& weightPertubation);
 		NeuronGene getNeuronGeneFromId(const int& id) const;
 		static NeuronGene getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, const int& id);
 		static void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec);

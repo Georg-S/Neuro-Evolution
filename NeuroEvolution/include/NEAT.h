@@ -30,6 +30,7 @@ namespace nev {
 		int getTotalCountOfInnovations() const;
 		int getHighestGenotypeId() const;
 		int getCurrentGeneration() const;
+		double getWeightPertubation() const;
 
 		void setWeightPertubation(const double& weightPertubation);
 		void setAddNeuronProbability(const double& addNeuronProbability);
@@ -43,10 +44,10 @@ namespace nev {
 		void updateFitnessValues();
 		void calculateSpawnAmoutOfSpecies();
 		void populate();
-		Genotype getHighestRawFitnessGenotyp() const;
+		Genotype getHighestRawFitnessGenotype() const;
 
 		//NEAT-Parameters
-		double exzessFactor = 1;
+		double excessFactor = 1;
 		double disjointFactor = 1;
 		double weightFactor = 0.4;
 		double compatibilityDistanceThreshold = 3;
@@ -55,7 +56,7 @@ namespace nev {
 		int maxCountSpecies = 20;
 		bool recurrentAllowed = true;
 
-		//Probabilitys
+		//Probabilities
 		double crossOverProbability = 0.1;
 		double addNeuronProbability = 0.03;
 		double addLinkProbability = 0.05;

@@ -25,10 +25,8 @@ void nev::FileWriter::writePopulationToFile(const std::string& fileName, std::ve
 	populationFile.open(fileName);
 
 	sort(population.begin(), population.end());
-	for (int i = 0; i < population.size(); i++) {
-		//population[i].updateDepthOfNeurons();
+	for (int i = 0; i < population.size(); i++)
 		populationFile << stringifyGenotype(population[i]);
-	}
 	populationFile.close();
 }
 
@@ -104,7 +102,26 @@ std::string nev::FileWriter::stringifyNEAT(const NEAT& neat)
 {
 	std::string neatString;
 
+	//NEAT-Parameters
 	neatString += "ActivationFunction: '" + std::to_string((int)neat.activationFunction) + "' \n";
+	neatString += "ExcessFactor: '" + to_string_with_max_precision(neat.excessFactor) + "' \n";
+	neatString += "DisjointFactor: '" + to_string_with_max_precision(neat.disjointFactor) + "' \n";
+	neatString += "WeightFactor: '" + to_string_with_max_precision(neat.weightFactor) + "' \n";
+	neatString += "CompatibilityDistanceThreshold: '" + to_string_with_max_precision(neat.compatibilityDistanceThreshold) + "' \n";
+	neatString += "GenerationsNoImprovementAllowed: '" + std::to_string(neat.generationsNoImprovementAllowed) + "' \n";
+	neatString += "SpeciesRoughValue: '" + std::to_string(neat.speciesRoughValue) + "' \n";
+	neatString += "MaxCountSpecies: '" + std::to_string(neat.maxCountSpecies) + "' \n";
+	neatString += "RecurrentAllowed: '" + std::to_string(neat.recurrentAllowed) + "' \n";
+
+	//Probabilities
+	neatString += "CrossOverProbability: '" + to_string_with_max_precision(neat.crossOverProbability) + "' \n";
+	neatString += "AddNeuronProbability: '" + to_string_with_max_precision(neat.addNeuronProbability) + "' \n";
+	neatString += "AddLinkProbability: '" + to_string_with_max_precision(neat.addLinkProbability) + "' \n";
+	neatString += "MutateLinkProbability: '" + to_string_with_max_precision(neat.mutateLinkProbability) + "' \n";
+	neatString += "NewLinkWeightProbability: '" + to_string_with_max_precision(neat.newLinkWeightProbability) + "' \n";
+	neatString += "WeightPertubation: '" + to_string_with_max_precision(neat.weightPertubation) + "' \n";
+
+	neatString += "CurrentGeneration: '" + std::to_string(neat.currentGeneration) + "' \n";
 
 	return neatString;
 }

@@ -19,7 +19,7 @@ namespace nev {
 
 	private:
 		static bool contains(const std::string& line, const std::string& searched);
-		static Genotype parseOneGenotype(std::ifstream& populationFile);
+		static Genotype parseOneGenotype(std::ifstream& populationFile, int& genotypeID);
 		static std::vector<NeuronGene> parseNeurons(std::ifstream& populationFile);
 		static NeuronGene parseOneNeuron(std::ifstream& populationFile);
 		static std::vector<LinkGene> parseLinks(std::ifstream& populationFile);

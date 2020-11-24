@@ -64,9 +64,21 @@ TEST(TEST_FileManagment, AfterSavingAndParsingInnovationSizeStaysTheSame) {
 }
 
 TEST(TEST_FileManagment, ParseBetweenQuotationParsesCorrectly) {
-	nev::FileReader reader = nev::FileReader();
 	std::string test = "Hallo mein 'Lieber'";
 	std::string expected = "Lieber";
 
-	ASSERT_STREQ(expected.c_str(), reader.getStringBetweenQuotationMark(test).c_str());
+	ASSERT_STREQ(expected.c_str(), nev::FileReader::getStringBetweenQuotationMark(test).c_str());
+}
+
+TEST(TEST_FileManagment, NEAT_SomeParametersGetSavedAndParsedCorrectly) {
+	nev::NEAT neat1 = nev::NEAT(3, 1, 2);
+	neat1.setAddNeuronProbability(0.523);
+	neat1.setWeightPertubation(0.23);
+
+
+	nev::FileWriter::writeNEATToFile(neat1);
+	nev::NEAT neat2 = nev::FileReader::getNEATFromFiles("neat.txt", "population.txt", "innovation.txt");
+	
+	ASSERT_DOUBLE_EQ(neat1.getWeightPertubation(), neat2.getWeightPertubation());
+	ASSERT_EQ(neat1.getCurrentGeneration(), neat2.getCurrentGeneration());
 }

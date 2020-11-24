@@ -61,7 +61,7 @@ nev::Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& n
 	calculateDepthOfEveryNeuron();
 }
 
-void nev::Genotype::randomlyAddNeuron(Innovation& innovation, const float& addNeuronProbability)
+void nev::Genotype::randomlyAddNeuron(Innovation& innovation, const double& addNeuronProbability)
 {
 	if (links.size() == 0)
 		return;
@@ -95,7 +95,7 @@ void nev::Genotype::randomlyAddNeuron(Innovation& innovation, const float& addNe
 	calculateDepthOfEveryNeuron();
 }
 
-void nev::Genotype::randomlyMutateAllWeights(const float& mutationProbability, const float& newWeightProbability, const double& weightPertubation)
+void nev::Genotype::randomlyMutateAllWeights(const double& mutationProbability, const double& newWeightProbability, const double& weightPertubation)
 {
 	for (int i = 0; i < links.size(); i++) {
 		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
@@ -103,7 +103,7 @@ void nev::Genotype::randomlyMutateAllWeights(const float& mutationProbability, c
 	}
 }
 
-void nev::Genotype::mutateSingleWeight(const float& newWeightProbability, LinkGene& link, const float& weightPertubation)
+void nev::Genotype::mutateSingleWeight(const double& newWeightProbability, LinkGene& link, const double& weightPertubation)
 {
 	if (RNG::getRandomFloatBetween0and1() <= newWeightProbability)
 		link.weight = getRandomLinkWeight();
@@ -118,7 +118,7 @@ void nev::Genotype::mutateSingleWeight(const float& newWeightProbability, LinkGe
 	link.weight = std::max(link.weight, minimumLinkWeight);
 }
 
-void nev::Genotype::randomlyAddLink(Innovation& innovation, const float& mutationProbability, const bool& recurrentAllowed)
+void nev::Genotype::randomlyAddLink(Innovation& innovation, const double& mutationProbability, const bool& recurrentAllowed)
 {
 	if (neurons.size() == 0)
 		return;
@@ -146,14 +146,14 @@ void nev::Genotype::randomlyAddLink(Innovation& innovation, const float& mutatio
 	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id, recurrent);
 }
 
-double nev::Genotype::calculateCompatibilityScore(Genotype& left, Genotype& right, const float& exzessFactor,
-	const float& disjointFactor, const float& weightFactor)
+double nev::Genotype::calculateCompatibilityScore(Genotype& left, Genotype& right, const double& excessFactor,
+	const double& disjointFactor, const double& weightFactor)
 {
 	sort(right.links.begin(), right.links.end());
 	sort(left.links.begin(), left.links.end());
-	int countOfExzess = 0;
-	int countOfCommon = 0;
-	int countOfDisjoint = 0;
+	double countOfExzess = 0;
+	double countOfCommon = 0;
+	double countOfDisjoint = 0;
 	double totalWeightDifference = 0;
 
 	int genotypeIndex = 0;
@@ -183,14 +183,14 @@ double nev::Genotype::calculateCompatibilityScore(Genotype& left, Genotype& righ
 			genotypeIndex++;
 		}
 	}
-	int maxCountOfGenes = std::max(left.links.size(), right.links.size());
+	double maxCountOfGenes = std::max(left.links.size(), right.links.size());
 	if (maxCountOfGenes < 20)
 		maxCountOfGenes = 1;
 
 
-	const double compatibilityScore = (((double)countOfExzess * exzessFactor) / (double)maxCountOfGenes)
-		+ (((double)countOfDisjoint * disjointFactor) / (double)maxCountOfGenes)
-		+ ((totalWeightDifference / (double)countOfCommon) * weightFactor);
+	const double compatibilityScore = ((countOfExzess * excessFactor) / maxCountOfGenes)
+		+ ((countOfDisjoint * disjointFactor) / maxCountOfGenes)
+		+ ((totalWeightDifference / countOfCommon) * weightFactor);
 
 	return compatibilityScore;
 }

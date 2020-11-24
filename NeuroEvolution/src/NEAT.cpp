@@ -13,6 +13,7 @@ nev::NEAT::NEAT(const std::vector<Genotype>& population, const Innovation& innov
 		this->countOfInputs = population[0].getCountOfInputs();
 		this->countOfOutputs = population[0].getCountOfOutputs();
 	}
+	this->maxPopulationSize = population.size();
 }
 
 nev::NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
@@ -113,14 +114,19 @@ int nev::NEAT::getCurrentGeneration() const
 	return currentGeneration;
 }
 
+double nev::NEAT::getWeightPertubation() const
+{
+	return weightPertubation;
+}
+
 void nev::NEAT::setWeightPertubation(const double& weightPertubation)
 {
-	this->weightPertubation = weightPertubation;
+	this->weightPertubation = std::clamp(weightPertubation,0.,1.);
 }
 
 void nev::NEAT::setAddNeuronProbability(const double& addNeuronProbability)
 {
-	this->addNeuronProbability = addNeuronProbability;
+	this->addNeuronProbability = std::clamp(addNeuronProbability, 0., 1.);
 }
 
 void nev::NEAT::refreshPopulationActivationFunction()
@@ -155,7 +161,7 @@ void nev::NEAT::speciate()
 
 		for (int speciesIndex = 0; speciesIndex < species.size(); speciesIndex++) {
 			double compatibilityScore = species[speciesIndex].calculateCompatibilityScore(population[i],
-				exzessFactor, disjointFactor, weightFactor);
+				excessFactor, disjointFactor, weightFactor);
 
 			if (compatibilityScore < lowestCompatibilityScore) {
 				lowestCompatibilityScore = compatibilityScore;
@@ -194,7 +200,7 @@ void nev::NEAT::populate()
 	int currentSpawnedAmount = 0;
 	Genotype baby;
 
-	Genotype highestRawFitnessGenotype = getHighestRawFitnessGenotyp();
+	Genotype highestRawFitnessGenotype = getHighestRawFitnessGenotype();
 	newPopulation.push_back(highestRawFitnessGenotype);
 	currentSpawnedAmount++;
 
@@ -245,7 +251,7 @@ void nev::NEAT::populate()
 	population = newPopulation;
 }
 
-nev::Genotype nev::NEAT::getHighestRawFitnessGenotyp() const
+nev::Genotype nev::NEAT::getHighestRawFitnessGenotype() const
 {
 	double highestRawFitness = DBL_MIN;
 	int highestRawFitnessIndex = -1;

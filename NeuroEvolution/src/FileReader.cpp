@@ -7,6 +7,7 @@ nev::NEAT nev::FileReader::getNEATFromFiles(const std::string& neatFile, const s
 	auto population = parsePopulationFromFile(populationFile);
 	auto innovation = parseInnovationFromFile(innovationFile);
 	NEAT result = NEAT(population, innovation);
+	result.currentGenotypeId = population.size();
 	parseNEATParameters(neatFile, result);
 	result.refreshPopulationActivationFunction();
 
@@ -15,17 +16,18 @@ nev::NEAT nev::FileReader::getNEATFromFiles(const std::string& neatFile, const s
 
 std::vector<nev::Genotype> nev::FileReader::parsePopulationFromFile(const std::string& fileName)
 {
+	int genotypeID = 0;
 	std::vector<Genotype> population;
 	std::ifstream populationFile(fileName);
 	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "BeginGenotype")) {
-			population.push_back(parseOneGenotype(populationFile));
+			population.push_back(parseOneGenotype(populationFile, genotypeID));
 		}
 	}
 	return population;
 }
 
-nev::Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile)
+nev::Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile, int& genotypeID)
 {
 	int countOfInputs = 0;
 	int countOfOutputs = 0;
@@ -57,8 +59,7 @@ nev::Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile)
 			links = parseLinks(populationFile);
 		}
 	}
-	Genotype createdGenotype = Genotype(neurons, links, 0);
-	return createdGenotype;
+	return Genotype(neurons, links, genotypeID++);
 }
 
 std::vector<nev::NeuronGene> nev::FileReader::parseNeurons(std::ifstream& populationFile)
@@ -189,23 +190,23 @@ nev::InnovationElement nev::FileReader::parseOneInnovation(std::ifstream& innova
 			break;
 		}
 
-		if (contains(line, "FromID")) {
+		else if (contains(line, "FromID")) {
 			fromId = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 
-		if (contains(line, "InnovationID")) {
+		else if (contains(line, "InnovationID")) {
 			innovationId = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 
-		if (contains(line, "innovationType")) {
+		else if (contains(line, "innovationType")) {
 			innovationType = (InnovationType)atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 
-		if (contains(line, "NeuronID")) {
+		else if (contains(line, "NeuronID")) {
 			neuronId = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 
-		if (contains(line, "ToID")) {
+		else if (contains(line, "ToID")) {
 			toId = atoi(getStringBetweenQuotationMark(line).c_str());
 		}
 	}
@@ -218,6 +219,36 @@ void nev::FileReader::parseNEATParameters(const std::string& fileName, NEAT& nea
 	for (std::string line; getline(neatFile, line);) {
 		if (contains(line, "ActivationFunction"))
 			neat.activationFunction = (nev::af)atoi(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "ExcessFactor"))
+			neat.excessFactor = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "DisjointFactor"))
+			neat.disjointFactor = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "WeightFactor"))
+			neat.weightFactor = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "CompatibilityDistanceThreshold"))
+			neat.compatibilityDistanceThreshold = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "GenerationsNoImprovementAllowed"))
+			neat.generationsNoImprovementAllowed = std::atoi(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "SpeciesRoughValue"))
+			neat.speciesRoughValue = std::atoi(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "MaxCountSpecies"))
+			neat.maxCountSpecies = std::atoi(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "RecurrentAllowed"))
+			neat.recurrentAllowed = std::atoi(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "CrossOverProbability"))
+			neat.crossOverProbability = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "AddNeuronProbability"))
+			neat.addNeuronProbability = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "AddLinkProbability"))
+			neat.addLinkProbability = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "MutateLinkProbability"))
+			neat.mutateLinkProbability = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "NewLinkWeightProbability"))
+			neat.newLinkWeightProbability = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "WeightPertubation"))
+			neat.weightPertubation = std::stod(getStringBetweenQuotationMark(line).c_str());
+		else if (contains(line, "CurrentGeneration"))
+			neat.currentGeneration = std::atoi(getStringBetweenQuotationMark(line).c_str());
 	}
 }
 
