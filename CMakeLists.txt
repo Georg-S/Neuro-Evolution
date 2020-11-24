@@ -5,3 +5,4 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(NeuroEvolution)
 add_subdirectory(Tests)
+add_subdirectory(2DEngine)
