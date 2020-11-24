@@ -7,7 +7,7 @@
 #include "Species.h"
 #include "Innovation.h"
 #include "FileReader.h"
-#include "ActivationFunctions.h"
+#include "ActivationFunction.h"
 
 namespace nev {
 
@@ -17,9 +17,9 @@ namespace nev {
 
 		NEAT();
 		NEAT(const std::string& populationFileName, const std::string& innovationFileName,
-			std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
+			const nev::af& activationFunction = nev::af::steepenedSigmoid);
 		NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
-			std::function<double(const double& input)> activationFunction = nev::steepenedSigmoid);
+			const nev::af& activationFunction = nev::af::steepenedSigmoid);
 
 		std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double>& inputs);
 		std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
@@ -65,7 +65,7 @@ namespace nev {
 
 		double weightPertubation = 0.1;
 
-		std::function<double(const double& input)> activationFunction;
+		nev::af activationFunction = nev::af::steepenedSigmoid;
 		std::vector<Genotype> population;
 		std::vector<Species> species;
 		Innovation innovation;

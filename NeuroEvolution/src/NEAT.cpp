@@ -6,7 +6,7 @@ nev::NEAT::NEAT()
 }
 
 nev::NEAT::NEAT(const std::string& populationFileName, const std::string& innovationFileName,
-	std::function<double(const double& input)> activationFunction)
+	const nev::af& activationFunction)
 {
 	population = nev::FileReader::parsePopulationFromFile(populationFileName);
 	innovation = nev::FileReader::parseInnovationFromFile(innovationFileName);
@@ -19,7 +19,7 @@ nev::NEAT::NEAT(const std::string& populationFileName, const std::string& innova
 }
 
 nev::NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
-	std::function<double(const double& input)> activationFunction)
+	const nev::af& activationFunction)
 {
 	std::srand(time(NULL));
 	if (populationSize <= 0)

@@ -14,13 +14,14 @@ nev::Phenotype::~Phenotype()
 }
 
 std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs,
-	const std::function<double(const double& input)>& activationFunction)
+	const nev::af& activationFunction)
 {
 	setBias();
 	setInputs(inputs);
 	std::vector<double> output;
+	auto func = nev::Activation::getFunction(activationFunction);
 	for (int i = 0; i < maxDepth; i++) {
-		output = updateOnce(activationFunction);
+		output = updateOnce(func);
 	}
 	clearOutputOfNeurons();
 
@@ -28,12 +29,13 @@ std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<do
 }
 
 std::vector<double> nev::Phenotype::calculateOutputActive(const std::vector<double>& inputs,
-	const std::function<double(const double& input)>& activationFunction)
+	const nev::af& activationFunction)
 {
 	setBias();
 	setInputs(inputs);
+	auto func = nev::Activation::getFunction(activationFunction);
 
-	return updateOnce(activationFunction);
+	return updateOnce(func);
 }
 
 void nev::Phenotype::setBias()

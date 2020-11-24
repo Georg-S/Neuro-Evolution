@@ -20,6 +20,7 @@ namespace nev {
 	private:
 		static std::string stringifyGenotype(const Genotype& genotype);
 		static std::string stringifyInnovation(const Innovation& innovation);
+		static std::string stringifyNEAT(const NEAT& neat);
 
 		template <typename T>
 		static std::string to_string_with_max_precision(const T& a_value);

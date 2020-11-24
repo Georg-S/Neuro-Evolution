@@ -17,7 +17,7 @@ TEST(TEST_Phenotype, PhenotypeWithoutLinksToOutputReturnsNoOutputCauseMaxDepthIs
 	nev::Genotype geno = nev::Genotype(inno,neurons, links,1);
 	geno.createPhenotype();
 
-	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 	EXPECT_DOUBLE_EQ(outputs.size(), 0);
 }
 TEST(TEST_Phenotype, Simple1By1GenotypeWithoutBiasPhenotypeHasAnOutput) {
@@ -30,7 +30,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWithoutBiasPhenotypeHasAnOutput) {
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
 	nev::Genotype geno = nev::Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
-	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
 	EXPECT_EQ(outputs.size(), 1);
 }
@@ -45,7 +45,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith0AsInputReturnsCorrectValue) {
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
 	nev::Genotype geno = nev::Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
-	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0}, nev::af::steepenedSigmoid);
 
 	EXPECT_EQ(outputs[0], 0.5);
 }
@@ -60,7 +60,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1AsInputReturnsCorrectValueWithSteepe
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
 	nev::Genotype geno = nev::Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
-	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
 	EXPECT_DOUBLE_EQ(outputs[0], 0.99260845865571812);
 }
@@ -78,7 +78,7 @@ TEST(TEST_Phenotype, PhenotypeAfterAddNeuronHasAlmostSameOutputWithSteepenedSigm
 	geno.createPhenotype();
 
 
-	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 	EXPECT_DOUBLE_EQ(outputs[0], 0.99233792943072541);
 }
 
@@ -94,7 +94,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveOneTime) {
 	links.push_back(nev::LinkGene(2, 1, 1, true, 0, false));
 	nev::Genotype geno = nev::Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
-	std::vector<double> outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
 	EXPECT_EQ(outputs[0], 0.5);
 }
@@ -111,8 +111,8 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveTwoTimes) {
 	links.push_back(nev::LinkGene(2, 1, 1, true, 0, false));
 	nev::Genotype geno = nev::Genotype(inno, neurons, links, 1);
 	geno.createPhenotype();
-	std::vector<double> outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::steepenedSigmoid);
-	outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::steepenedSigmoid);
+	std::vector<double> outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
+	outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
 	ASSERT_FLOAT_EQ(outputs[0], 0.992338);
 }

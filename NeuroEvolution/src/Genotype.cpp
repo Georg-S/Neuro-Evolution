@@ -6,7 +6,7 @@ nev::Genotype::Genotype()
 }
 
 nev::Genotype::Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs,
-	const int& id, std::function<double(const double& input)> activationFunction)
+	const int& id, const nev::af& activationFunction)
 {
 	this->activationFunction = activationFunction;
 	this->countOfInputs = countOfInputs;
@@ -16,7 +16,7 @@ nev::Genotype::Genotype(Innovation& innovation, const int& countOfInputs, const 
 }
 
 nev::Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
-	const int& id, std::function<double(const double& input)> activationFunction)
+	const int& id, const nev::af& activationFunction)
 {
 	this->activationFunction = activationFunction;
 	this->neurons = neurons;
@@ -37,7 +37,7 @@ nev::Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vecto
 }
 
 nev::Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
-	const int& id, std::function<double(const double& input)> activationFunction)
+	const int& id, const nev::af& activationFunction)
 {
 	this->activationFunction = activationFunction;
 	this->countOfInputs = 0;

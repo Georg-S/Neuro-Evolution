@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <functional>
+#include "ActivationFunction.h"
 #include "PhenotypeNeuron.h"
 
 namespace nev {
@@ -11,9 +12,9 @@ namespace nev {
 		Phenotype(const std::vector<PhenotypeNeuron*>& neurons, const int& maxDepth);
 		~Phenotype();
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& input,
-			const std::function<double(const double& input)>& activationFunction);
+			const nev::af& activationFunction);
 		std::vector <double> calculateOutputActive(const std::vector <double>& input,
-			const std::function<double(const double& input)>& activationFunction);
+			const nev::af& activationFunction);
 	private:
 		void setBias();
 		void setInputs(const std::vector <double>& inputs);

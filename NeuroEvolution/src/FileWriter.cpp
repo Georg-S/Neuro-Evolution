@@ -4,13 +4,19 @@ void nev::FileWriter::writeNEATToFile(const nev::NEAT& neat, const std::string& 
 {
 	std::string populationFileName = "population" + fileSuffix + ".txt";
 	std::string innovationFileName = "innovation" + fileSuffix + ".txt";
+	std::string neatFileName = "neat" + fileSuffix + ".txt";
 
 	writePopulationToFile(populationFileName, neat.population);
 	writeInnovationToFile(innovationFileName, neat.innovation);
+	writeNEATParametersToFile(neatFileName, neat);
 }
 
 void nev::FileWriter::writeNEATParametersToFile(const std::string& fileName, const nev::NEAT& neat)
 {
+	std::ofstream neatFile;
+	neatFile.open(fileName);
+	neatFile << stringifyNEAT(neat);
+	neatFile.close();
 }
 
 void nev::FileWriter::writePopulationToFile(const std::string& fileName, std::vector<Genotype> population)
@@ -92,6 +98,15 @@ std::string nev::FileWriter::stringifyInnovation(const Innovation& innovation)
 
 	innovationString = innovationString + "EndInnovations\n";
 	return innovationString;
+}
+
+std::string nev::FileWriter::stringifyNEAT(const NEAT& neat)
+{
+	std::string neatString;
+
+	neatString += "ActivationFunction: '" + std::to_string((int)neat.activationFunction) + "' \n";
+
+	return neatString;
 }
 
 template<typename T>
