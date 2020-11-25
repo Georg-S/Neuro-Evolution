@@ -1,0 +1,1937 @@
+StartInnovations
+CurrentInnovationNumber: '276' 
+StartNeuronNumber: '52' 
+
+InnovationBegin 
+FromID: '0' 
+InnovationID: '0' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '0' 
+InnovationID: '1' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '0' 
+InnovationID: '2' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '0' 
+InnovationID: '3' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '0' 
+InnovationID: '4' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '0' 
+InnovationID: '5' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '0' 
+InnovationID: '6' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '7' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '8' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '9' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '10' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '11' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '12' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '13' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '14' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '15' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '16' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '17' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '18' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '19' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '20' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '21' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '22' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '23' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '24' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '25' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '26' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '27' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '28' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '29' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '30' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '31' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '32' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '33' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '34' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '35' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '36' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '37' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '38' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '39' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '40' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '41' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '42' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '43' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '44' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '45' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '46' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '47' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '48' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '49' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '50' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '51' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '52' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '53' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '54' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '55' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '56' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '57' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '58' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '59' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '60' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '61' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '62' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '63' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '64' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '65' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '66' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '67' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '68' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '69' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '70' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '71' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '72' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '73' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '74' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '75' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '76' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '77' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '78' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '79' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '80' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '81' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '82' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '83' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '84' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '85' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '86' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '87' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '88' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '89' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '90' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '91' 
+innovationType: '0' 
+NeuronID: '20' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '92' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '20' 
+InnovationEnd 
+InnovationBegin 
+FromID: '20' 
+InnovationID: '93' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '94' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '10' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '95' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '96' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '15' 
+InnovationID: '97' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '7' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '98' 
+innovationType: '0' 
+NeuronID: '21' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '99' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '21' 
+InnovationEnd 
+InnovationBegin 
+FromID: '21' 
+InnovationID: '100' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '101' 
+innovationType: '0' 
+NeuronID: '22' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '102' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '22' 
+InnovationEnd 
+InnovationBegin 
+FromID: '22' 
+InnovationID: '103' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '104' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '7' 
+InnovationEnd 
+InnovationBegin 
+FromID: '14' 
+InnovationID: '105' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '7' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '106' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '5' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '107' 
+innovationType: '0' 
+NeuronID: '23' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '108' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '23' 
+InnovationEnd 
+InnovationBegin 
+FromID: '23' 
+InnovationID: '109' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '110' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '7' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '111' 
+innovationType: '0' 
+NeuronID: '24' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '112' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '24' 
+InnovationEnd 
+InnovationBegin 
+FromID: '24' 
+InnovationID: '113' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '114' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '115' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '2' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '116' 
+innovationType: '0' 
+NeuronID: '25' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '117' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '25' 
+InnovationEnd 
+InnovationBegin 
+FromID: '25' 
+InnovationID: '118' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '119' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '10' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '120' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '10' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '121' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '122' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '5' 
+InnovationEnd 
+InnovationBegin 
+FromID: '15' 
+InnovationID: '123' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '124' 
+innovationType: '0' 
+NeuronID: '26' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '125' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '26' 
+InnovationEnd 
+InnovationBegin 
+FromID: '26' 
+InnovationID: '126' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '127' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '9' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '128' 
+innovationType: '0' 
+NeuronID: '27' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '129' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '27' 
+InnovationEnd 
+InnovationBegin 
+FromID: '27' 
+InnovationID: '130' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '131' 
+innovationType: '0' 
+NeuronID: '28' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '132' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '28' 
+InnovationEnd 
+InnovationBegin 
+FromID: '28' 
+InnovationID: '133' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '134' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '11' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '135' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '5' 
+InnovationEnd 
+InnovationBegin 
+FromID: '14' 
+InnovationID: '136' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '137' 
+innovationType: '0' 
+NeuronID: '29' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '138' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '29' 
+InnovationEnd 
+InnovationBegin 
+FromID: '29' 
+InnovationID: '139' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '17' 
+InnovationID: '140' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '141' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '4' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '142' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '3' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '143' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '12' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '144' 
+innovationType: '0' 
+NeuronID: '30' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '145' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '30' 
+InnovationEnd 
+InnovationBegin 
+FromID: '30' 
+InnovationID: '146' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '147' 
+innovationType: '0' 
+NeuronID: '31' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '148' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '31' 
+InnovationEnd 
+InnovationBegin 
+FromID: '31' 
+InnovationID: '149' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '150' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '12' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '151' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '2' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '152' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '4' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '153' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '0' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '154' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '9' 
+InnovationEnd 
+InnovationBegin 
+FromID: '14' 
+InnovationID: '155' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '156' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '4' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '157' 
+innovationType: '0' 
+NeuronID: '32' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '158' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '32' 
+InnovationEnd 
+InnovationBegin 
+FromID: '32' 
+InnovationID: '159' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '160' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '3' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '161' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '162' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '163' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '164' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '165' 
+innovationType: '0' 
+NeuronID: '33' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '166' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '33' 
+InnovationEnd 
+InnovationBegin 
+FromID: '33' 
+InnovationID: '167' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '168' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '169' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '6' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '170' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '9' 
+InnovationEnd 
+InnovationBegin 
+FromID: '14' 
+InnovationID: '171' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '18' 
+InnovationID: '172' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '6' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '173' 
+innovationType: '0' 
+NeuronID: '34' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '174' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '34' 
+InnovationEnd 
+InnovationBegin 
+FromID: '34' 
+InnovationID: '175' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '176' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '177' 
+innovationType: '0' 
+NeuronID: '35' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '178' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '35' 
+InnovationEnd 
+InnovationBegin 
+FromID: '35' 
+InnovationID: '179' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '180' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '17' 
+InnovationID: '181' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '182' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '3' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '183' 
+innovationType: '0' 
+NeuronID: '36' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '184' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '36' 
+InnovationEnd 
+InnovationBegin 
+FromID: '36' 
+InnovationID: '185' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '186' 
+innovationType: '0' 
+NeuronID: '37' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '2' 
+InnovationID: '187' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '37' 
+InnovationEnd 
+InnovationBegin 
+FromID: '37' 
+InnovationID: '188' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '189' 
+innovationType: '0' 
+NeuronID: '38' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '190' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '38' 
+InnovationEnd 
+InnovationBegin 
+FromID: '38' 
+InnovationID: '191' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '192' 
+innovationType: '0' 
+NeuronID: '39' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '193' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '39' 
+InnovationEnd 
+InnovationBegin 
+FromID: '39' 
+InnovationID: '194' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '195' 
+innovationType: '0' 
+NeuronID: '40' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '196' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '40' 
+InnovationEnd 
+InnovationBegin 
+FromID: '40' 
+InnovationID: '197' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '198' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '12' 
+InnovationEnd 
+InnovationBegin 
+FromID: '18' 
+InnovationID: '199' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '0' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '200' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '201' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '4' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '202' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '4' 
+InnovationEnd 
+InnovationBegin 
+FromID: '9' 
+InnovationID: '203' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '5' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '204' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '205' 
+innovationType: '0' 
+NeuronID: '41' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '206' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '41' 
+InnovationEnd 
+InnovationBegin 
+FromID: '41' 
+InnovationID: '207' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '18' 
+InnovationID: '208' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '15' 
+InnovationID: '209' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '210' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '2' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '211' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '10' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '212' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '2' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '213' 
+innovationType: '0' 
+NeuronID: '42' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '214' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '42' 
+InnovationEnd 
+InnovationBegin 
+FromID: '42' 
+InnovationID: '215' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+InnovationBegin 
+FromID: '14' 
+InnovationID: '216' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '217' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '11' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '218' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '3' 
+InnovationEnd 
+InnovationBegin 
+FromID: '18' 
+InnovationID: '219' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '220' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '0' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '221' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '2' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '222' 
+innovationType: '0' 
+NeuronID: '43' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '223' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '43' 
+InnovationEnd 
+InnovationBegin 
+FromID: '43' 
+InnovationID: '224' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '225' 
+innovationType: '0' 
+NeuronID: '44' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '226' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '44' 
+InnovationEnd 
+InnovationBegin 
+FromID: '44' 
+InnovationID: '227' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '14' 
+InnovationID: '228' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '18' 
+InnovationID: '229' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '230' 
+innovationType: '0' 
+NeuronID: '45' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '231' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '45' 
+InnovationEnd 
+InnovationBegin 
+FromID: '45' 
+InnovationID: '232' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '18' 
+InnovationID: '233' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '10' 
+InnovationEnd 
+InnovationBegin 
+FromID: '19' 
+InnovationID: '234' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '3' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '235' 
+innovationType: '0' 
+NeuronID: '46' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '236' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '46' 
+InnovationEnd 
+InnovationBegin 
+FromID: '46' 
+InnovationID: '237' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '238' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '12' 
+InnovationEnd 
+InnovationBegin 
+FromID: '10' 
+InnovationID: '239' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '4' 
+InnovationEnd 
+InnovationBegin 
+FromID: '17' 
+InnovationID: '240' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '9' 
+InnovationEnd 
+InnovationBegin 
+FromID: '12' 
+InnovationID: '241' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '5' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '242' 
+innovationType: '0' 
+NeuronID: '47' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '243' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '47' 
+InnovationEnd 
+InnovationBegin 
+FromID: '47' 
+InnovationID: '244' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '17' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '245' 
+innovationType: '0' 
+NeuronID: '48' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '246' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '48' 
+InnovationEnd 
+InnovationBegin 
+FromID: '48' 
+InnovationID: '247' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '248' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '249' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '12' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '250' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '251' 
+innovationType: '0' 
+NeuronID: '49' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '8' 
+InnovationID: '252' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '49' 
+InnovationEnd 
+InnovationBegin 
+FromID: '49' 
+InnovationID: '253' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '19' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '254' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '18' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '255' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '0' 
+InnovationEnd 
+InnovationBegin 
+FromID: '1' 
+InnovationID: '256' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '1' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '257' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '3' 
+InnovationID: '258' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '7' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '259' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '260' 
+innovationType: '0' 
+NeuronID: '50' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '261' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '50' 
+InnovationEnd 
+InnovationBegin 
+FromID: '50' 
+InnovationID: '262' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '16' 
+InnovationEnd 
+InnovationBegin 
+FromID: '7' 
+InnovationID: '263' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '264' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '12' 
+InnovationEnd 
+InnovationBegin 
+FromID: '6' 
+InnovationID: '265' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '7' 
+InnovationEnd 
+InnovationBegin 
+FromID: '15' 
+InnovationID: '266' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '48' 
+InnovationEnd 
+InnovationBegin 
+FromID: '16' 
+InnovationID: '267' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '8' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '268' 
+innovationType: '0' 
+NeuronID: '51' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '4' 
+InnovationID: '269' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '51' 
+InnovationEnd 
+InnovationBegin 
+FromID: '51' 
+InnovationID: '270' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '14' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '271' 
+innovationType: '0' 
+NeuronID: '52' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '11' 
+InnovationID: '272' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '52' 
+InnovationEnd 
+InnovationBegin 
+FromID: '52' 
+InnovationID: '273' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '15' 
+InnovationEnd 
+InnovationBegin 
+FromID: '5' 
+InnovationID: '274' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '10' 
+InnovationEnd 
+InnovationBegin 
+FromID: '13' 
+InnovationID: '275' 
+innovationType: '1' 
+NeuronID: '-1' 
+ToID: '13' 
+InnovationEnd 
+EndInnovations

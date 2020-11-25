@@ -9,6 +9,11 @@
 /cmake_refresh_VS2019.bat
 /TODO.txt
 
+#GitIgnore for the Unreal Engine Project
+/Unreal_Engine_Project/Binaries/
+/Unreal_Engine_Project/Intermediate/
+/Unreal_Engine_Project/Build/
+/Unreal_Engine_Project/Saved/
 
 # Visual Studio cache directory
 .vs/
