@@ -15,7 +15,6 @@ AStart::AStart()
 void AStart::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

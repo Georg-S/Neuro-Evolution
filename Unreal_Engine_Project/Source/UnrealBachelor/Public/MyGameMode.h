@@ -4,13 +4,13 @@
 
 
 #include <NEAT.h>
+#include <string>
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 #include "Boid.h"
-#include "../Public/MovingObstacle.h"
+#include "MovingObstacle.h"
 #include "Public/Goal.h"
 #include "Public/Start.h"
-#include <string>
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "MyGameMode.generated.h"

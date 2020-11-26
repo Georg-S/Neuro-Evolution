@@ -2,12 +2,12 @@
 
 #pragma once
 
+#include <vector>
 #include "CoreMinimal.h"
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 #include "DrawDebugHelpers.h"
 #include "Sensoric.h"
-#include <vector>
 
 /**
  * 

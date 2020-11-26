@@ -2,13 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include <vector>
+#include "CoreMinimal.h"
 
 using namespace std;
-/**
- * 
- */
+
+
 class UNREALBACHELOR_API Sensoric
 {
 public:

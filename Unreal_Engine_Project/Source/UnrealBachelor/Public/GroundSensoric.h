@@ -2,16 +2,14 @@
 
 #pragma once
 
+#include <vector>
 #include "CoreMinimal.h"
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 #include "DrawDebugHelpers.h"
 #include "Sensoric.h"
-#include <vector>
 
-/**
- * 
- */
+
 class UNREALBACHELOR_API GroundSensoric : public Sensoric
 {
 public:

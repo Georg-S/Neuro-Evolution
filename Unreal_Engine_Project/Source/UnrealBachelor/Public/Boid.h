@@ -3,11 +3,11 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "CoreMinimal.h"
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 #include "DrawDebugHelpers.h"
-#include <string>
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "Sensoric.h"
