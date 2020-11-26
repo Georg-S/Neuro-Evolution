@@ -8,7 +8,6 @@ AMovingObstacle::AMovingObstacle()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("myMesh");
 }
 
@@ -23,21 +22,18 @@ void AMovingObstacle::BeginPlay()
 void AMovingObstacle::Tick(float DeltaTime)
 {
 	movementStrategy();
-
 	Super::Tick(DeltaTime);
 }
 
 void AMovingObstacle::movementStrategy()
 {
 	if (moveToPointOne) {
-		if (arrive(movePoint1)) {
+		if (arrive(movePoint1))
 			moveToPointOne = !moveToPointOne;
-		}
 	}
 	else {
-		if (arrive(movePoint2)) {
+		if (arrive(movePoint2))
 			moveToPointOne = !moveToPointOne;
-		}
 	}
 }
 
@@ -65,8 +61,8 @@ bool AMovingObstacle::arrive(FVector point)
 	newVelocity *= velocity;
 	mesh->SetPhysicsLinearVelocity(newVelocity, false);
 
-	if ((GetActorLocation() - point).Size() < arrivedRadius) {
+	if ((GetActorLocation() - point).Size() <= arrivedRadius)
 		return true;
-	}
+
 	return false;
 }

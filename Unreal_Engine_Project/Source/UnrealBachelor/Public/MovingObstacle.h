@@ -14,22 +14,19 @@ class UNREALBACHELOR_API AMovingObstacle : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMovingObstacle();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void Tick(float DeltaTime) override;
 	UFUNCTION()
-	void movementStrategy();
+		void movementStrategy();
 	void setMovePoints(FVector movePoint1, FVector movePoint2);
 	void setVelocity(float velocity);
 	void reset();
 
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* mesh;
+protected:
+	// Called when the game starts or when spawned
+	void BeginPlay() override;
 
 private:
 	bool arrive(FVector point);
