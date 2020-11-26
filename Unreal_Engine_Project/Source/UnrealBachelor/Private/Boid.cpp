@@ -30,6 +30,7 @@ ABoid::ABoid()
 void ABoid::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Your message"));
 	pastPosition = GetActorLocation();
 	initializeCollisionParams();
 	sensoric = new SideAndGroundSensoric(collisionParams);
