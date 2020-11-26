@@ -29,7 +29,7 @@ public:
 	ABoid();
 
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void Tick(float DeltaTime) override;
 	void resetVelocity();
 	void activate();
 	void deactivate();
@@ -60,7 +60,7 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void BeginPlay() override;
 
 	template<typename T>
 	void FindAllActors(UWorld* World, TArray<T*>& Out)
