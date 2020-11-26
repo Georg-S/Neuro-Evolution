@@ -9,7 +9,6 @@ ABoid::ABoid()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-
 	sphereRadius = 51.f;
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("myMesh");
 	RootComponent = mesh;
@@ -17,20 +16,15 @@ ABoid::ABoid()
 	collisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("My Sphere Component"));
 	collisionSphere->InitSphereRadius(sphereRadius);
 	collisionSphere->SetCollisionProfileName("Trigger");
-//	collisionSphere->SetupAttachment(RootComponent);
-//	mesh->SetupAttachment(RootComponent);
-	
 
-	collisionSphere->OnComponentBeginOverlap.AddDynamic(this,&ABoid::OnOverlapBegin);
+	collisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ABoid::OnOverlapBegin);
 	OnActorHit.AddDynamic(this, &ABoid::OnHit);
-
 }
 
 // Called when the game starts or when spawned
 void ABoid::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("Your message"));
 	pastPosition = GetActorLocation();
 	initializeCollisionParams();
 	sensoric = new SideAndGroundSensoric(collisionParams);
@@ -41,7 +35,7 @@ void ABoid::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(this->drawDebugSphere)
+	if (this->drawDebugSphere)
 		DrawDebugSphere(GetWorld(), GetActorLocation(), sphereRadius, 10, FColor::Purple, false, -1, 0, 1);
 }
 
@@ -49,11 +43,8 @@ void ABoid::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AAct
 	OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
-		if (OtherActor->GetClass() == this->GetClass()) {
-		}
-		else {
+		if (OtherActor->GetClass() != this->GetClass())
 			deactivate();
-		}
 	}
 }
 
@@ -83,59 +74,45 @@ void ABoid::deactivate()
 
 void ABoid::initializeCollisionParams()
 {
-
-
 	TArray<ABoid*> actors;
 	FindAllActors(GetWorld(), actors);
 
-	for (int i = 0; i < actors.Num(); i++) {
+	for (int i = 0; i < actors.Num(); i++)
 		collisionParams.AddIgnoredActor(actors[i]);
-	}
 }
 
 void ABoid::move()
 {
-	int velocity = 1500;
-	int jumpVelocity = 750;
-
 	FVector newLocation = GetActorLocation();
 	FRotator newRotation = GetActorRotation();
 	FVector currentVelocity = GetVelocity();
-	FVector newVelocity = FVector(0,0,currentVelocity.Z);
+	FVector newVelocity = FVector(0, 0, currentVelocity.Z);
 
 	FVector zVector = FVector(0.f, 0.f, 1.f);
 	FVector forwardVector = GetActorForwardVector();
 	zVector.Normalize(0.f);
 
-	if (forward) {
-		newVelocity += GetActorForwardVector()*velocity;
-	}
-	if (backwards) {
-		newVelocity -= GetActorForwardVector()*velocity;
-	}
-	if (left) {
+	if (forward)
+		newVelocity += GetActorForwardVector() * velocity;
+	if (backwards)
+		newVelocity -= GetActorForwardVector() * velocity;
+	if (left) 
 		newVelocity += FVector::CrossProduct(forwardVector, zVector) * velocity;
-	}
-	if (right) {
+	if (right)
 		newVelocity -= FVector::CrossProduct(forwardVector, zVector) * velocity;
-	}
+
 	newVelocity.Normalize();
-	newVelocity*=velocity;
+	newVelocity *= velocity;
 	newVelocity.Z = currentVelocity.Z;
 	if (jump) {
-		if (!isInAir) {
+		if (!isInAir)
 			newVelocity.Z = (jumpVelocity);
-		}
 	}
 
-
-	if (rotateCounterClockwise) {
+	if (rotateCounterClockwise) 
 		newRotation.Yaw += 5.f;
-	}
-	if (rotateClockwise) {
+	if (rotateClockwise)
 		newRotation.Yaw -= 5.f;
-	}
-
 
 	mesh->SetPhysicsLinearVelocity(newVelocity, false);
 	SetActorRotation(newRotation);
@@ -165,9 +142,8 @@ void ABoid::setId(int id)
 void ABoid::iterate()
 {
 	checkIfActive();
-	if (active) {
+	if (active) 
 		move();
-	}
 }
 
 void ABoid::checkIfActive()
@@ -191,34 +167,11 @@ vector<double> ABoid::getSensorData()
 
 void ABoid::updateMoveDirection(vector<double> neuralNetOutput)
 {
-	forward = false;
-	backwards = false;
-	left = false;
-	right = false;
-	jump = false;
-	rotateClockwise = false;
-	rotateCounterClockwise = false;
-
-	if (neuralNetOutput[0] > 0.5) {
-		forward = true;
-	}
-	if (neuralNetOutput[1] > 0.5) {
-		backwards = true;
-	}
-	if (neuralNetOutput[2] > 0.5) {
-		left = true;
-	}
-	if (neuralNetOutput[3] > 0.5) {
-		right = true;
-	}
-	if (neuralNetOutput[4] > 0.5f) {
-		rotateClockwise = true;
-	}
-	if (neuralNetOutput[5] > 0.5f) {
-		rotateCounterClockwise = true;
-	}
-	
-	if (neuralNetOutput[6] > 0.5) {
-		jump = true;
-	}
+	forward = neuralNetOutput[0] > 0.5f ? true : false;
+	backwards = neuralNetOutput[1] > 0.5f ? true : false;
+	left = neuralNetOutput[2] > 0.5f ? true : false;
+	right = neuralNetOutput[3] > 0.5f ? true : false;
+	rotateClockwise = neuralNetOutput[4] > 0.5f ? true : false;
+	rotateCounterClockwise = neuralNetOutput[5] > 0.5f ? true : false;
+	jump = neuralNetOutput[6] > 0.5f ? true : false;
 }

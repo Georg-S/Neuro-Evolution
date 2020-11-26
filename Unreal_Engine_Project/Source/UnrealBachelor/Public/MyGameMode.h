@@ -15,9 +15,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "MyGameMode.generated.h"
 
-/**
-*
-*/
 UCLASS()
 class UNREALBACHELOR_API AMyGameMode : public AGameModeBase
 {

@@ -15,11 +15,9 @@
 #include "GroundSensoric.h"
 #include "Obstacle.h"
 #include "SideAndGroundSensoric.h"
-
-
 #include "Boid.generated.h"
 
-using namespace std;
+
 
 UCLASS()
 class UNREALBACHELOR_API ABoid : public AActor
@@ -30,25 +28,6 @@ public:
 	// Sets default values for this actor's properties
 	ABoid();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	template<typename T>
-	void FindAllActors(UWorld* World, TArray<T*>& Out)
-	{
-		for (TActorIterator<AActor> It(World, T::StaticClass()); It; ++It)
-		{
-			T* Actor = Cast<T>(*It);
-			if (Actor && !Actor->IsPendingKill())
-			{
-				Out.Add(Actor);
-			}
-		}
-	}
-
-
-public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void resetVelocity();
@@ -69,16 +48,33 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* collisionSphere;
 
-	float sphereRadius;
-
 	UFUNCTION()
-	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent*
-		OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent*
+			OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
 		void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
+	float sphereRadius;
 	float moveFactor = 0.f;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	template<typename T>
+	void FindAllActors(UWorld* World, TArray<T*>& Out)
+	{
+		for (TActorIterator<AActor> It(World, T::StaticClass()); It; ++It)
+		{
+			T* Actor = Cast<T>(*It);
+			if (Actor && !Actor->IsPendingKill())
+			{
+				Out.Add(Actor);
+			}
+		}
+	}
+
 private:
 	FCollisionQueryParams collisionParams;
 	void initializeCollisionParams();
@@ -99,4 +95,6 @@ private:
 	bool rotateClockwise = false;
 	bool rotateCounterClockwise = false;
 	static const bool drawDebugSphere = false;
+	static const int velocity = 1500;
+	static const int jumpVelocity = 750;
 };
