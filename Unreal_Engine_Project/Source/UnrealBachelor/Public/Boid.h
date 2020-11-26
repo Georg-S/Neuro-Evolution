@@ -98,4 +98,5 @@ private:
 	bool jump = false;
 	bool rotateClockwise = false;
 	bool rotateCounterClockwise = false;
+	static const bool drawDebugSphere = false;
 };

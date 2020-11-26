@@ -10,7 +10,7 @@ ABoid::ABoid()
 	PrimaryActorTick.bCanEverTick = true;
 
 
-	sphereRadius = 51.0f;
+	sphereRadius = 51.f;
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("myMesh");
 	RootComponent = mesh;
 
@@ -41,7 +41,8 @@ void ABoid::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-//	DrawDebugSphere(GetWorld(), GetActorLocation(), sphereRadius, 10, FColor::Purple, false, -1, 0, 1);
+	if(this->drawDebugSphere)
+		DrawDebugSphere(GetWorld(), GetActorLocation(), sphereRadius, 10, FColor::Purple, false, -1, 0, 1);
 }
 
 void ABoid::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent*
@@ -54,7 +55,6 @@ void ABoid::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AAct
 			deactivate();
 		}
 	}
-
 }
 
 void ABoid::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
