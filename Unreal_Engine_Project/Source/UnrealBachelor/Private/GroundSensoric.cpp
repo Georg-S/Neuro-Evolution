@@ -7,23 +7,18 @@ GroundSensoric::GroundSensoric(FCollisionQueryParams collisionParams)
 	this->collisionParams = collisionParams;
 }
 
-GroundSensoric::~GroundSensoric()
+std::vector<double> GroundSensoric::getDataFromSensors(const FVector& forwardVector, const FVector& actorLocation, UWorld* world)
 {
-}
-
-vector<double> GroundSensoric::getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world)
-{
-	vector<double> sensorData;
 
 	int distance = 200;
 
 	FHitResult hitResult1;
 	FVector startVector = actorLocation;
-	FVector testVector1 = actorLocation + (forwardVector*distance);
+	FVector testVector1 = actorLocation + (forwardVector * distance);
 	testVector1.Z -= distance;
 
 	FHitResult hitResult2;
-	FVector testVector2 = actorLocation + (forwardVector*(-1 * distance));
+	FVector testVector2 = actorLocation + (-forwardVector * distance);
 	testVector2.Z -= distance;
 
 	FHitResult hitResult3;
@@ -48,80 +43,106 @@ vector<double> GroundSensoric::getDataFromSensors(const FVector &forwardVector, 
 	float hitResult2Distance = hitResult2.Distance;
 	float hitResult3Distance = hitResult3.Distance;
 	float hitResult4Distance = hitResult4.Distance;
-	if (!hitResult1.bBlockingHit) {
+	if (!hitResult1.bBlockingHit)
 		hitResult1Distance = distance;
-	}
-	else {
+	else
 		testVector1 = hitResult1.Location;
-	}
 
-	if (!hitResult2.bBlockingHit) {
+	if (!hitResult2.bBlockingHit)
 		hitResult2Distance = distance;
-	}
-	else {
+	else
 		testVector2 = hitResult2.Location;
-	}
 
-	if (!hitResult3.bBlockingHit) {
+	if (!hitResult3.bBlockingHit)
 		hitResult3Distance = distance;
-	}
-	else {
+	else
 		testVector3 = hitResult3.Location;
-	}
 
-	if (!hitResult4.bBlockingHit) {
+	if (!hitResult4.bBlockingHit)
 		hitResult4Distance = distance;
-	}
-	else {
+	else
 		testVector4 = hitResult4.Location;
-	}
+
 	double adjustedData1 = 1 - hitResult1Distance / distance;
 	double adjustedData2 = 1 - hitResult2Distance / distance;
 	double adjustedData3 = 1 - hitResult3Distance / distance;
 	double adjustedData4 = 1 - hitResult4Distance / distance;
 
-	DrawDebugLine(
-		world,
-		startVector,
-		testVector1,
-		FColor(0, 255, 0),
-		false, -1, 0,
-		6.333
-	);
+	if (this->drawSensor) {
+		DrawDebugLine(
+			world,
+			startVector,
+			testVector1,
+			FColor(0, 255, 0),
+			false, -1, 0,
+			6.333
+		);
 
 
-	DrawDebugLine(
-		world,
-		startVector,
-		testVector2,
-		FColor(255, 0, 0),
-		false, -1, 0,
-		6.333
-	);
+		DrawDebugLine(
+			world,
+			startVector,
+			testVector2,
+			FColor(255, 0, 0),
+			false, -1, 0,
+			6.333
+		);
 
-	DrawDebugLine(
-		world,
-		startVector,
-		testVector3,
-		FColor(255, 0, 0),
-		false, -1, 0,
-		6.333
-	);
+		DrawDebugLine(
+			world,
+			startVector,
+			testVector3,
+			FColor(255, 0, 0),
+			false, -1, 0,
+			6.333
+		);
 
-	DrawDebugLine(
-		world,
-		startVector,
-		testVector4,
-		FColor(255, 0, 0),
-		false, -1, 0,
-		6.333
-	);
-
-	sensorData.clear();
+		DrawDebugLine(
+			world,
+			startVector,
+			testVector4,
+			FColor(255, 0, 0),
+			false, -1, 0,
+			6.333
+		);
+	}
+	std::vector<double> sensorData;
 	sensorData.push_back(adjustedData1);
 	sensorData.push_back(adjustedData2);
 	sensorData.push_back(adjustedData3);
 	sensorData.push_back(adjustedData4);
 
 	return sensorData;
+}
+
+double GroundSensoric::buf(const FVector& origin, const FVector& destination, UWorld* world)
+{
+	int distance = 200;
+
+	FHitResult hitResult1;
+	FVector startVector = origin;
+	FVector testVector1 = destination;
+	testVector1.Z -= distance;
+
+	world->LineTraceSingleByChannel(hitResult1, startVector, testVector1, ECC_WorldStatic, collisionParams);
+	float hitResult1Distance = hitResult1.Distance;
+
+	if (!hitResult1.bBlockingHit)
+		hitResult1Distance = distance;
+	else
+		testVector1 = hitResult1.Location;
+
+	double adjustedData1 = 1 - hitResult1Distance / distance;
+
+	if (this->drawSensor) {
+		DrawDebugLine(
+			world,
+			startVector,
+			testVector1,
+			FColor(0, 255, 0),
+			false, -1, 0,
+			6.333
+		);
+	}
+	return adjustedData1;
 }

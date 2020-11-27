@@ -11,9 +11,9 @@ SideAndGroundSensoric::~SideAndGroundSensoric()
 {
 }
 
-vector<double> SideAndGroundSensoric::getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world)
+std::vector<double> SideAndGroundSensoric::getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world)
 {
-	vector<double> sensorData;
+	std::vector<double> sensorData;
 
 	int distance = 200;
 	FVector startVector = actorLocation;
@@ -76,7 +76,7 @@ vector<double> SideAndGroundSensoric::getDataFromSensors(const FVector &forwardV
 	testVector12 += actorLocation;
 
 
-	vector<FHitResult*> hitResults;
+	std::vector<FHitResult*> hitResults;
 	hitResults.push_back(&hitResult1);
 	hitResults.push_back(&hitResult2);	
 	hitResults.push_back(&hitResult3);
@@ -106,7 +106,7 @@ vector<double> SideAndGroundSensoric::getDataFromSensors(const FVector &forwardV
 
 
 
-	vector<FVector*> testVectors;
+	std::vector<FVector*> testVectors;
 	testVectors.push_back(&testVector1);
 	testVectors.push_back(&testVector2);
 	testVectors.push_back(&testVector3);

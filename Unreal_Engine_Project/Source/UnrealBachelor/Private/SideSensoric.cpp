@@ -11,9 +11,9 @@ SideSensoric::~SideSensoric()
 {
 }
 
-vector<double> SideSensoric::getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world)
+std::vector<double> SideSensoric::getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world)
 {
-	vector<double> sensorData;
+	std::vector<double> sensorData;
 
 	int distance = 200;
 

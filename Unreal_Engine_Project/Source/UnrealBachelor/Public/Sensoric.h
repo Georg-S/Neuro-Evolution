@@ -5,15 +5,11 @@
 #include <vector>
 #include "CoreMinimal.h"
 
-using namespace std;
-
 
 class UNREALBACHELOR_API Sensoric
 {
 public:
-	Sensoric();
-	~Sensoric();
-	virtual vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) = 0;
+	virtual std::vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) = 0;
 
 	template<typename T>
 	void FindAllActors(UWorld* World, TArray<T*>& Out)

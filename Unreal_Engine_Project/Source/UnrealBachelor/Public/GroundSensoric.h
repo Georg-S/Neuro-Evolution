@@ -14,10 +14,12 @@ class UNREALBACHELOR_API GroundSensoric : public Sensoric
 {
 public:
 	GroundSensoric(FCollisionQueryParams collisionParams);
-	~GroundSensoric();
-	vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) override;
+	std::vector<double> getDataFromSensors(const FVector& forwardVector, const FVector& actorLocation, UWorld* world) override;
 
 
 private:
+	double buf(const FVector& origin , const FVector& destination, UWorld* world);
+
 	FCollisionQueryParams collisionParams;
+	bool drawSensor = true;
 };

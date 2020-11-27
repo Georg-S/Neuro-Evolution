@@ -19,7 +19,7 @@ class UNREALBACHELOR_API SideSensoric : public Sensoric
 public:
 	SideSensoric(FCollisionQueryParams collisionParams);
 	~SideSensoric();
-	vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) override;
+	std::vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) override;
 private:
 	FCollisionQueryParams collisionParams;
 };

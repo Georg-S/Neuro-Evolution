@@ -9,15 +9,12 @@
 #include "DrawDebugHelpers.h"
 #include "Sensoric.h"
 
-/**
- * 
- */
 class UNREALBACHELOR_API SideAndGroundSensoric : public Sensoric
 {
 public:
 	SideAndGroundSensoric(FCollisionQueryParams collisionParams);
 	~SideAndGroundSensoric();
-	vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) override;
+	std::vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) override;
 
 private:
 	FCollisionQueryParams collisionParams;
