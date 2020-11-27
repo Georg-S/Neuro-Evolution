@@ -160,12 +160,12 @@ void ABoid::updateSensorData()
 	sensorDataForNeuralNet = sensoric->getDataFromSensors(GetActorForwardVector(), GetActorLocation(), GetWorld());
 }
 
-vector<double> ABoid::getSensorData()
+std::vector<double> ABoid::getSensorData()
 {
 	return sensorDataForNeuralNet;
 }
 
-void ABoid::updateMoveDirection(vector<double> neuralNetOutput)
+void ABoid::updateMoveDirection(std::vector<double> neuralNetOutput)
 {
 	forward = neuralNetOutput[0] > 0.5f ? true : false;
 	backwards = neuralNetOutput[1] > 0.5f ? true : false;

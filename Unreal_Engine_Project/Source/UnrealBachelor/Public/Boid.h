@@ -11,8 +11,6 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "Sensoric.h"
-#include "SideSensoric.h"
-#include "GroundSensoric.h"
 #include "Obstacle.h"
 #include "SideAndGroundSensoric.h"
 #include "Boid.generated.h"
@@ -39,8 +37,8 @@ public:
 	void setId(int id);
 	void iterate();
 	void updateSensorData();
-	vector <double> getSensorData();
-	void updateMoveDirection(vector<double> neuralNetOutput);
+	std::vector <double> getSensorData();
+	void updateMoveDirection(std::vector<double> neuralNetOutput);
 
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* mesh;
@@ -82,7 +80,7 @@ private:
 	void checkIfActive();
 	bool active = true;
 	int id = 0;
-	vector<double> sensorDataForNeuralNet;
+	std::vector<double> sensorDataForNeuralNet;
 	FVector pastPosition = FVector(0, 0, 0);
 	Sensoric* sensoric;
 	bool isInAir = false;
@@ -98,3 +96,4 @@ private:
 	static const int velocity = 1500;
 	static const int jumpVelocity = 750;
 };
+
