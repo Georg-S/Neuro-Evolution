@@ -1,10 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include <vector>
 #include "CoreMinimal.h"
-
 
 class UNREALBACHELOR_API Sensoric
 {
