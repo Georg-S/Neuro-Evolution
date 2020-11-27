@@ -74,11 +74,11 @@ void ABoid::deactivate()
 
 void ABoid::initializeCollisionParams()
 {
-	TArray<ABoid*> actors;
-	FindAllActors(GetWorld(), actors);
+	TArray<ABoid*> boids;
+	FindAllActors(GetWorld(), boids);
 
-	for (int i = 0; i < actors.Num(); i++)
-		collisionParams.AddIgnoredActor(actors[i]);
+	for (int i = 0; i < boids.Num(); i++)
+		collisionParams.AddIgnoredActor(boids[i]);
 }
 
 void ABoid::move()

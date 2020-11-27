@@ -9,30 +9,26 @@ AMyGameMode::AMyGameMode() {
 
 void AMyGameMode::BeginPlay()
 {
-	net = new NEAT(50, 12, 7);
-//	net = new NEAT("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Population.txt"
-//		, "C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Innovation.txt");
+	neat = new NEAT(50, 12, 7);
+	//	neat = new NEAT("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Population.txt"
+	//		, "C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Innovation.txt");
 
 	Super::BeginPlay();
 
 	initializeStartAndGoal();
-	FindAllActors(GetWorld(), actors);
+	FindAllActors(GetWorld(), boids);
 
-	FString test = GetWorld()->GetMapName();
-	if (test.Contains("FourthLevel")) {
-		initializeMovingObstaclesLevelFour = false;
-	}
-	else if (test.Contains("SecondLevel")) {
+	FString levelName = GetWorld()->GetMapName();
+	if (levelName.Contains("FourthLevel"))
+		initializeMovingObstaclesLevelFour = true;
+	else if (levelName.Contains("SecondLevel"))
 		distanceBoidMustChange = 1000;
-	}
-	else {
-		initializeMovingObstaclesLevelFive = false;
-	}
+	else
+		initializeMovingObstaclesLevelFiveAndSix = true;
 
-
-	std::string bli = std::to_string(net->getCurrentGeneration());
-	FString blitz(bli.c_str());
-	UE_LOG(LogTemp, Warning, TEXT("Current Generation %s"), *blitz);
+	initializeMovingObstaclesLevel4();
+	initializeMovingObstaclesLevel5And6();
+	printCurrentGeneration(neat);
 }
 
 void AMyGameMode::Tick(float DeltaTime)
@@ -42,17 +38,13 @@ void AMyGameMode::Tick(float DeltaTime)
 	if (start == nullptr || goal == nullptr)
 		return;
 
-	initializeMovingObstaclesLevel4();
-	initializeMovingObstaclesLevel5();
-
-	if (checkLevelSwitched()) {
+	if (checkLevelSwitched())
 		return;
-	}
 
 	/*
 	if (solutionFound) {
 		if (!writeOnce) {
-			net->writePopulationAndInnovationAsFiles("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/CreatedNetwork/Level7Population.txt"
+			neat->writePopulationAndInnovationAsFiles("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/CreatedNetwork/Level7Population.txt"
 				, "C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/CreatedNetwork/Level7Innovation.txt");
 			writeOnce = true;
 		}
@@ -62,35 +54,33 @@ void AMyGameMode::Tick(float DeltaTime)
 	*/
 
 	numberTicks++;
-	checkIfActorsMoved();
-	if (atleastOneActive()) {
-			updateActors();
-	}
+	checkIfActorsMovedEnough();
+	if (atleastOneActive())
+		updateActors();
 	else {
 		vector<double> fitness = calculateFitnessOfAllActors();
-		net->iterateOneGeneration(fitness);
+		neat->iterateOneGeneration(fitness);
 		resetActors();
 		resetMovingObstacles();
-		std::string bli = std::to_string(net->getCurrentGeneration());
-		FString blitz(bli.c_str());
-		UE_LOG(LogTemp, Warning, TEXT("Current Generation %s"), *blitz);
+		printCurrentGeneration(neat);
 	}
 }
 
-double AMyGameMode::getHighestFitness(vector<double> fitness)
+void AMyGameMode::printCurrentGeneration(NEAT* neat)
 {
-	double highestFitness = 0;
-	for (int i = 0; i < fitness.size(); i++) {
-		if (fitness[i] > highestFitness) {
-			highestFitness = fitness[i];
-		}
-	}
-	return highestFitness;
+	std::string bli = std::to_string(neat->getCurrentGeneration());
+	FString blitz(bli.c_str());
+	UE_LOG(LogTemp, Warning, TEXT("Current Generation %s"), *blitz);
+}
+
+double AMyGameMode::getHighestFitness(const std::vector<double>& fitness) const
+{
+	return *(std::max_element(fitness.begin(), fitness.end()));
 }
 
 void AMyGameMode::initializeMovingObstaclesLevel4()
 {
-	if (initializeMovingObstaclesLevelFour)
+	if (!initializeMovingObstaclesLevelFour)
 		return;
 
 	FindAllActors(GetWorld(), movingObstacles);
@@ -98,14 +88,13 @@ void AMyGameMode::initializeMovingObstaclesLevel4()
 	for (int i = 0; i < movingObstacles.Num(); i++) {
 		movingObstacles[i]->setMovePoints(FVector(0, 900, 0), FVector(0, -900, 0));
 		movingObstacles[i]->setVelocity(movingObstacleVelocity);
-		movingObstacleVelocity+= 50;
-		initializeMovingObstaclesLevelFour = true;
+		movingObstacleVelocity += 50;
 	}
 }
 
-void AMyGameMode::initializeMovingObstaclesLevel5()
+void AMyGameMode::initializeMovingObstaclesLevel5And6()
 {
-	if (initializeMovingObstaclesLevelFive)
+	if (!initializeMovingObstaclesLevelFiveAndSix)
 		return;
 
 	FindAllActors(GetWorld(), movingObstacles);
@@ -113,24 +102,22 @@ void AMyGameMode::initializeMovingObstaclesLevel5()
 	for (int i = 0; i < movingObstacles.Num(); i++) {
 		movingObstacles[i]->setMovePoints(FVector(0, 100, 0), FVector(0, -600, 0));
 		movingObstacles[i]->setVelocity(movingObstacleVelocity);
-		initializeMovingObstaclesLevelFive = true;
 	}
 }
 
 void AMyGameMode::resetMovingObstacles()
 {
-	for (int i = 0; i < movingObstacles.Num(); i++) {
+	for (int i = 0; i < movingObstacles.Num(); i++)
 		movingObstacles[i]->reset();
-	}
 }
 
-bool AMyGameMode::updateActive(ABoid * boid)
+bool AMyGameMode::updateActive(ABoid* boid)
 {
 	if (boid->GetActorLocation().Z < inactiveZthreshold) {
 		boid->deactivate();
 		return false;
 	}
-	if (((boid->GetActorLocation() - goal->GetActorLocation()).Size()) < goalReachedThreshhold) {
+	if (((boid->GetActorLocation() - goal->GetActorLocation()).Size()) <= goalReachedThreshhold) {
 		boid->deactivate();
 		return false;
 	}
@@ -144,35 +131,31 @@ void AMyGameMode::initializeStartAndGoal()
 	FindAllActors(GetWorld(), starts);
 	FindAllActors(GetWorld(), goals);
 
-	if (starts.Num() >= 1) {
+	if (starts.Num() >= 1)
 		start = starts[0];
-	}
-	if (goals.Num() >= 1) {
+
+	if (goals.Num() >= 1)
 		goal = goals[0];
-	}
 }
 
 void AMyGameMode::updateActors()
 {
-	for (int i = 0; i < actors.Num(); i++) {
-		if (!actors[i]->getActive()) {
-			continue;
-		}
-		updateActive(actors[i]);
-		if (!actors[i]->getActive())
+	for (int i = 0; i < boids.Num(); i++) {
+		updateActive(boids[i]);
+		if (!boids[i]->getActive())
 			continue;
 
-		actors[i]->updateSensorData();
-		vector<double> output = net->calculateOutputActiveOfSpecificGenotype(actors[i]->getSensorData(),i);
-		actors[i]->updateMoveDirection(output);
-		actors[i]->iterate();
+		boids[i]->updateSensorData();
+		vector<double> output = neat->calculateOutputActiveOfSpecificGenotype(boids[i]->getSensorData(), i);
+		boids[i]->updateMoveDirection(output);
+		boids[i]->iterate();
 	}
 }
 
 bool AMyGameMode::atleastOneActive()
 {
-	for (int i = 0; i < actors.Num(); i++) {
-		if (actors[i]->getActive())
+	for (int i = 0; i < boids.Num(); i++) {
+		if (boids[i]->getActive())
 			return true;
 	}
 	return false;
@@ -181,33 +164,33 @@ bool AMyGameMode::atleastOneActive()
 bool AMyGameMode::checkLevelSwitched()
 {
 	if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::One)) {
-		delete net;
-		UGameplayStatics::OpenLevel(GetWorld(),"FirstLevel");
+		delete neat;
+		UGameplayStatics::OpenLevel(GetWorld(), "FirstLevel");
 		return true;
 	}
 	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::Two)) {
-		delete net;
+		delete neat;
 		UGameplayStatics::OpenLevel(GetWorld(), "SecondLevel");
 		distanceBoidMustChange = 1000;
 		return true;
 	}
 	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::Three)) {
-		delete net;
+		delete neat;
 		UGameplayStatics::OpenLevel(GetWorld(), "ThirdLevel");
 		return true;
 	}
 	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::Four)) {
-		delete net;
+		delete neat;
 		UGameplayStatics::OpenLevel(GetWorld(), "FourthLevel");
 		return true;
 	}
 	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::Five)) {
-		delete net;
+		delete neat;
 		UGameplayStatics::OpenLevel(GetWorld(), "FifthLevel");
 		return true;
 	}
 	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::Six)) {
-		delete net;
+		delete neat;
 		UGameplayStatics::OpenLevel(GetWorld(), "SixthLevel");
 		return true;
 	}
@@ -220,20 +203,20 @@ vector<double> AMyGameMode::calculateFitnessOfAllActors()
 	vector<double> fitness;
 	bool printOnce = false;
 
-	for (int i = 0; i < actors.Num(); i++) {
-		fitness.push_back(calculateFitnessOfActor(actors[i]));
+	for (int i = 0; i < boids.Num(); i++) {
+		fitness.push_back(calculateFitnessOfActor(boids[i]));
 
 		if (solutionFound && (!printOnce)) {
 			printOnce = true;
-			std::string bufStd = std::to_string(net->getCurrentGeneration());
+			std::string bufStd = std::to_string(neat->getCurrentGeneration());
 			FString bufFStr(bufStd.c_str());
 			UE_LOG(LogTemp, Warning, TEXT("Solved in Generation %s"), *bufFStr);
 
-			bufStd = std::to_string(net->getHiddenNeuronCountOfSpecificGenotype(i));
+			bufStd = std::to_string(neat->getHiddenNeuronCountOfSpecificGenotype(i));
 			bufFStr = bufStd.c_str();
 			UE_LOG(LogTemp, Warning, TEXT("Hidden Node Count %s"), *bufFStr);
 
-			bufStd = std::to_string(net->getCountOfEnabledLinksOfSpecificGenotype(i));
+			bufStd = std::to_string(neat->getCountOfEnabledLinksOfSpecificGenotype(i));
 			bufFStr = bufStd.c_str();
 			UE_LOG(LogTemp, Warning, TEXT("Enabled Links %s"), *bufFStr);
 		}
@@ -241,19 +224,18 @@ vector<double> AMyGameMode::calculateFitnessOfAllActors()
 	return fitness;
 }
 
-double AMyGameMode::calculateFitnessOfActor(ABoid * actor)
+double AMyGameMode::calculateFitnessOfActor(ABoid* actor)
 {
 	double fitness = 0;
 	FVector actorLocation = actor->GetActorLocation();
 	double startLength = (start->GetActorLocation() - goal->GetActorLocation()).Size();
 	double actorDistanceFromGoal = (actorLocation - goal->GetActorLocation()).Size();
 
-	if (actorDistanceFromGoal > startLength) {
+	if (actorDistanceFromGoal > startLength)
 		return 0.f;
-	}
-	else {
+	else
 		fitness = startLength - actorDistanceFromGoal;
-	}
+
 	if (actorDistanceFromGoal < goalReachedThreshhold) {
 		fitness = startLength;
 		solutionFound = true;
@@ -264,25 +246,24 @@ double AMyGameMode::calculateFitnessOfActor(ABoid * actor)
 
 void AMyGameMode::resetActors()
 {
-
-	for (int i = 0; i < actors.Num(); i++) {
-		actors[i]->resetVelocity();
+	for (int i = 0; i < boids.Num(); i++) {
+		boids[i]->resetVelocity();
 		FVector startPosition = start->GetActorLocation();
-		actors[i]->SetActorLocationAndRotation(startPosition, FRotator(0.f,0.f,0.f), false, 0, ETeleportType::None);
-		actors[i]->activate();
+		boids[i]->SetActorLocationAndRotation(startPosition, FRotator(0.f, 0.f, 0.f));
+		boids[i]->activate();
 	}
 }
 
-void AMyGameMode::checkIfActorsMoved()
+void AMyGameMode::checkIfActorsMovedEnough()
 {
 	if (numberTicks == numberTicksPositionMustChange) {
 		numberTicks = 0;
 
-		for (int i = 0; i < actors.Num(); i++) {
-			if ((actors[i]->GetActorLocation() - actors[i]->getPastPosition()).Size() <= distanceBoidMustChange) {
-				actors[i]->deactivate();
+		for(auto boid : boids){
+			if ((boid->GetActorLocation() - boid->getPastPosition()).Size() < distanceBoidMustChange) {
+				boid->deactivate();
 			}
-			actors[i]->setPastPosition(actors[i]->GetActorLocation());
+			boid->setPastPosition(boid->GetActorLocation());
 		}
 	}
 }

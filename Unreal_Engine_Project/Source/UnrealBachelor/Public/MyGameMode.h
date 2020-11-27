@@ -22,13 +22,14 @@ class UNREALBACHELOR_API AMyGameMode : public AGameModeBase
 	GENERATED_BODY()
 public:
 	AMyGameMode();
-	virtual void Tick(float DeltaTime) override;
-	virtual void BeginPlay() override;
+	void Tick(float DeltaTime) override;
+	void BeginPlay() override;
 
 private:
-	double getHighestFitness(vector<double> fitness);
+	void printCurrentGeneration(NEAT* neat);
+	double getHighestFitness(const std::vector<double>& fitness) const;
 	void initializeMovingObstaclesLevel4();
-	void initializeMovingObstaclesLevel5();
+	void initializeMovingObstaclesLevel5And6();
 	void resetMovingObstacles();
 	bool updateActive(ABoid* boid);
 	void initializeStartAndGoal();
@@ -39,11 +40,11 @@ private:
 	vector<double> calculateFitnessOfAllActors();
 	double calculateFitnessOfActor(ABoid* actor);
 	void resetActors();
-	void checkIfActorsMoved();
+	void checkIfActorsMovedEnough();
 
-	//	NeuralNetwork* net;
-	NEAT* net;
-	TArray<ABoid*> actors;
+	//	NeuralNetwork* neat;
+	NEAT* neat;
+	TArray<ABoid*> boids;
 	TArray<AMovingObstacle*> movingObstacles;
 	int numberTicksPositionMustChange = 2300;
 	float distanceBoidMustChange = 3000;
@@ -54,8 +55,8 @@ private:
 	float inactiveZthreshold = -150.f;
 	bool solutionFound = false;
 	bool writeOnce = false;
-	bool initializeMovingObstaclesLevelFour = true;
-	bool initializeMovingObstaclesLevelFive = true;
+	bool initializeMovingObstaclesLevelFour = false;
+	bool initializeMovingObstaclesLevelFiveAndSix = false;
 	double highestFitness = 0;
 };
 
