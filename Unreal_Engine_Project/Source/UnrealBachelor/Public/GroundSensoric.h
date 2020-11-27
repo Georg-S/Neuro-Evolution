@@ -18,8 +18,8 @@ public:
 
 
 private:
-	double buf(const FVector& origin , const FVector& destination, UWorld* world);
+	double buf(const FVector& from , FVector to, UWorld* world);
 
 	FCollisionQueryParams collisionParams;
-	bool drawSensor = true;
+	bool drawSensor = false;
 };

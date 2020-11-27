@@ -11,134 +11,54 @@ std::vector<double> GroundSensoric::getDataFromSensors(const FVector& forwardVec
 {
 
 	int distance = 200;
-
-	FHitResult hitResult1;
-	FVector startVector = actorLocation;
-	FVector testVector1 = actorLocation + (forwardVector * distance);
-	testVector1.Z -= distance;
-
-	FHitResult hitResult2;
-	FVector testVector2 = actorLocation + (-forwardVector * distance);
-	testVector2.Z -= distance;
-
-	FHitResult hitResult3;
 	FVector zVector = FVector(0.f, 0.f, 1.f);
-	zVector.Normalize(0.f);
-	FVector testVector3 = FVector::CrossProduct(forwardVector, zVector) * distance;
-	testVector3 += actorLocation;
-	testVector3.Z -= distance;
-
-	FHitResult hitResult4;
-	FVector testVector4 = FVector::CrossProduct(zVector, forwardVector) * distance;
-	testVector4 += actorLocation;
-	testVector4.Z -= distance;
 
 
-	world->LineTraceSingleByChannel(hitResult1, startVector, testVector1, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult2, startVector, testVector2, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult3, startVector, testVector3, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult4, startVector, testVector4, ECC_WorldStatic, collisionParams);
+	FVector frontGround = actorLocation + (forwardVector * distance);
+	frontGround.Z -= distance;
 
-	float hitResult1Distance = hitResult1.Distance;
-	float hitResult2Distance = hitResult2.Distance;
-	float hitResult3Distance = hitResult3.Distance;
-	float hitResult4Distance = hitResult4.Distance;
-	if (!hitResult1.bBlockingHit)
-		hitResult1Distance = distance;
-	else
-		testVector1 = hitResult1.Location;
+	FVector backGround = actorLocation + (-forwardVector * distance);
+	backGround.Z -= distance;
 
-	if (!hitResult2.bBlockingHit)
-		hitResult2Distance = distance;
-	else
-		testVector2 = hitResult2.Location;
+	FVector rightGround = FVector::CrossProduct(forwardVector, zVector) * distance;
+	rightGround += actorLocation;
+	rightGround.Z -= distance;
 
-	if (!hitResult3.bBlockingHit)
-		hitResult3Distance = distance;
-	else
-		testVector3 = hitResult3.Location;
+	FVector leftGround = FVector::CrossProduct(zVector, forwardVector) * distance;
+	leftGround += actorLocation;
+	leftGround.Z -= distance;
 
-	if (!hitResult4.bBlockingHit)
-		hitResult4Distance = distance;
-	else
-		testVector4 = hitResult4.Location;
-
-	double adjustedData1 = 1 - hitResult1Distance / distance;
-	double adjustedData2 = 1 - hitResult2Distance / distance;
-	double adjustedData3 = 1 - hitResult3Distance / distance;
-	double adjustedData4 = 1 - hitResult4Distance / distance;
-
-	if (this->drawSensor) {
-		DrawDebugLine(
-			world,
-			startVector,
-			testVector1,
-			FColor(0, 255, 0),
-			false, -1, 0,
-			6.333
-		);
-
-
-		DrawDebugLine(
-			world,
-			startVector,
-			testVector2,
-			FColor(255, 0, 0),
-			false, -1, 0,
-			6.333
-		);
-
-		DrawDebugLine(
-			world,
-			startVector,
-			testVector3,
-			FColor(255, 0, 0),
-			false, -1, 0,
-			6.333
-		);
-
-		DrawDebugLine(
-			world,
-			startVector,
-			testVector4,
-			FColor(255, 0, 0),
-			false, -1, 0,
-			6.333
-		);
-	}
 	std::vector<double> sensorData;
-	sensorData.push_back(adjustedData1);
-	sensorData.push_back(adjustedData2);
-	sensorData.push_back(adjustedData3);
-	sensorData.push_back(adjustedData4);
+	sensorData.push_back(buf(actorLocation, frontGround, world));
+	sensorData.push_back(buf(actorLocation, backGround, world));
+	sensorData.push_back(buf(actorLocation, rightGround, world));
+	sensorData.push_back(buf(actorLocation, leftGround, world));
+
 
 	return sensorData;
 }
 
-double GroundSensoric::buf(const FVector& origin, const FVector& destination, UWorld* world)
+double GroundSensoric::buf(const FVector& from, FVector to, UWorld* world)
 {
-	int distance = 200;
+	int sensorLength = 200;
 
 	FHitResult hitResult1;
-	FVector startVector = origin;
-	FVector testVector1 = destination;
-	testVector1.Z -= distance;
 
-	world->LineTraceSingleByChannel(hitResult1, startVector, testVector1, ECC_WorldStatic, collisionParams);
+	world->LineTraceSingleByChannel(hitResult1, from, to, ECC_WorldStatic, collisionParams);
 	float hitResult1Distance = hitResult1.Distance;
 
 	if (!hitResult1.bBlockingHit)
-		hitResult1Distance = distance;
+		hitResult1Distance = sensorLength;
 	else
-		testVector1 = hitResult1.Location;
+		to = hitResult1.Location;
 
-	double adjustedData1 = 1 - hitResult1Distance / distance;
+	double adjustedData1 = 1 - hitResult1Distance / sensorLength;
 
 	if (this->drawSensor) {
 		DrawDebugLine(
 			world,
-			startVector,
-			testVector1,
+			from,
+			to,
 			FColor(0, 255, 0),
 			false, -1, 0,
 			6.333
