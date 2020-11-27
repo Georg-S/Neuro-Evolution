@@ -7,5 +7,5 @@
 class UNREALBACHELOR_API Sensoric
 {
 public:
-	virtual std::vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) = 0;
+	virtual std::vector<double> getDataFromSensors(const FVector& forwardVector, const FVector& actorLocation, UWorld* world) = 0;
 };

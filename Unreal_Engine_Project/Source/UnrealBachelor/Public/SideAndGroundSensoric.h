@@ -13,10 +13,11 @@ class UNREALBACHELOR_API SideAndGroundSensoric : public Sensoric
 {
 public:
 	SideAndGroundSensoric(FCollisionQueryParams collisionParams);
-	~SideAndGroundSensoric();
 	std::vector<double> getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world) override;
 
 private:
-	FCollisionQueryParams collisionParams;
-};
+	double scanSensor(const FVector& from, const FVector& direction, UWorld* world, bool drawRay = true, const FColor& color = FColor(255, 0, 0));
 
+	FCollisionQueryParams collisionParams;
+	int sensorLength = 200;
+};

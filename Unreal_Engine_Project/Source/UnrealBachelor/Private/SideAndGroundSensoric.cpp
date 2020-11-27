@@ -7,148 +7,78 @@ SideAndGroundSensoric::SideAndGroundSensoric(FCollisionQueryParams collisionPara
 	this->collisionParams = collisionParams;
 }
 
-SideAndGroundSensoric::~SideAndGroundSensoric()
+std::vector<double> SideAndGroundSensoric::getDataFromSensors(const FVector& forwardVector, const FVector& actorLocation, UWorld* world)
 {
-}
-
-std::vector<double> SideAndGroundSensoric::getDataFromSensors(const FVector &forwardVector, const FVector &actorLocation, UWorld* world)
-{
-	std::vector<double> sensorData;
-
-	int distance = 200;
-	FVector startVector = actorLocation;
-	FVector zVector = FVector(0.f, 0.f, 1.f);
-	zVector.Normalize(0.f);
+	const FVector zVector = FVector(0.f, 0.f, 1.f);
 
 	//Ground-Sensoric
-	FHitResult hitResult1;
-	FVector testVector1 = actorLocation + (forwardVector*distance);
-	testVector1.Z -= distance;
+	FVector frontDiagonalDown = forwardVector - zVector;
+	frontDiagonalDown.Normalize();
+	frontDiagonalDown *= this->sensorLength;
 
-	FHitResult hitResult2;
-	FVector testVector2 = actorLocation + (forwardVector*(-1 * distance));
-	testVector2.Z -= distance;
+	FVector backDiagonalDown = -frontDiagonalDown;
+	backDiagonalDown.Z = frontDiagonalDown.Z;
 
-	FHitResult hitResult3;
-	FVector testVector3 = FVector::CrossProduct(forwardVector, zVector) * distance;
-	testVector3 += actorLocation;
-	testVector3.Z -= distance;
+	FVector rightDiagonalDown = FVector::CrossProduct(zVector, forwardVector) - zVector;
+	rightDiagonalDown.Normalize();
+	rightDiagonalDown *= this->sensorLength;
 
-	FHitResult hitResult4;
-	FVector testVector4 = FVector::CrossProduct(zVector, forwardVector) * distance;
-	testVector4 += actorLocation;
-	testVector4.Z -= distance;
+	FVector leftDiagonalDown = -rightDiagonalDown;
+	leftDiagonalDown.Z = rightDiagonalDown.Z;
 
 	//Side-Sensoric
-	FHitResult hitResult5;
-	FVector testVector5 = actorLocation + (forwardVector*distance);
-
-	FHitResult hitResult6;
-	FVector testVector6 = actorLocation + (forwardVector*(-1 * distance));
-
-	FHitResult hitResult7;
-	FVector testVector7 = FVector::CrossProduct(forwardVector, zVector) * distance;
-	testVector7 += actorLocation;
-
-	FHitResult hitResult8;
-	FVector testVector8 = FVector::CrossProduct(zVector, forwardVector) * distance;
-	testVector8 += actorLocation;
+	FVector front = forwardVector * sensorLength;
+	FVector back = -forwardVector * sensorLength;
+	FVector left = FVector::CrossProduct(forwardVector, zVector) * sensorLength;
+	FVector right = FVector::CrossProduct(zVector, forwardVector) * sensorLength;
 
 	//Diagonal-Side-Sensoric
-	FHitResult hitResult9;
-	FVector testVector9 = ((forwardVector*-1) + FVector::CrossProduct(forwardVector, zVector));
-	testVector9.Normalize();
-	testVector9 *= distance;
-	FVector testVector11 = testVector9 * -1;
-	testVector9 += actorLocation;
+	FVector leftBackDiagonal = (FVector::CrossProduct(forwardVector, zVector) - forwardVector);
+	leftBackDiagonal.Normalize();
+	leftBackDiagonal *= sensorLength;
+	FVector rightFrontDiagonal = leftBackDiagonal * -1;
 
-	
-	FHitResult hitResult10;
-	FVector testVector10 = ((forwardVector*-1) + FVector::CrossProduct(zVector, forwardVector));
-	testVector10.Normalize();
-	testVector10 *= distance;
-	FVector testVector12 = testVector10 * -1;
-	testVector10 += actorLocation;
+	FVector rightBackDiagonal = (FVector::CrossProduct(zVector, forwardVector) - forwardVector);
+	rightBackDiagonal.Normalize();
+	rightBackDiagonal *= sensorLength;
+	FVector leftFrontDiagonal = -rightBackDiagonal;
 
-	FHitResult hitResult11;
-	testVector11 += actorLocation;
-	FHitResult hitResult12;
-	testVector12 += actorLocation;
+	std::vector<double> sensorData;
+	sensorData.push_back(scanSensor(actorLocation, frontDiagonalDown, world));
+	sensorData.push_back(scanSensor(actorLocation, backDiagonalDown, world));
+	sensorData.push_back(scanSensor(actorLocation, leftDiagonalDown, world));
+	sensorData.push_back(scanSensor(actorLocation, rightDiagonalDown, world));
 
+	sensorData.push_back(scanSensor(actorLocation, front, world, true, FColor(0, 255, 0)));
+	sensorData.push_back(scanSensor(actorLocation, back, world));
+	sensorData.push_back(scanSensor(actorLocation, left, world));
+	sensorData.push_back(scanSensor(actorLocation, right, world));
 
-	std::vector<FHitResult*> hitResults;
-	hitResults.push_back(&hitResult1);
-	hitResults.push_back(&hitResult2);	
-	hitResults.push_back(&hitResult3);
-	hitResults.push_back(&hitResult4);
-	hitResults.push_back(&hitResult5);
-	hitResults.push_back(&hitResult6);
-	hitResults.push_back(&hitResult7);
-	hitResults.push_back(&hitResult8);
-	hitResults.push_back(&hitResult9);
-	hitResults.push_back(&hitResult10);
-	hitResults.push_back(&hitResult11);
-	hitResults.push_back(&hitResult12);
+	sensorData.push_back(scanSensor(actorLocation, leftFrontDiagonal, world));
+	sensorData.push_back(scanSensor(actorLocation, rightFrontDiagonal, world));
+	sensorData.push_back(scanSensor(actorLocation, leftBackDiagonal, world));
+	sensorData.push_back(scanSensor(actorLocation, rightBackDiagonal, world));
 
-
-	world->LineTraceSingleByChannel(hitResult1, startVector, testVector1, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult2, startVector, testVector2, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult3, startVector, testVector3, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult4, startVector, testVector4, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult5, startVector, testVector5, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult6, startVector, testVector6, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult7, startVector, testVector7, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult8, startVector, testVector8, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult9, startVector, testVector9, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult10, startVector, testVector10, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult11, startVector, testVector11, ECC_WorldStatic, collisionParams);
-	world->LineTraceSingleByChannel(hitResult12, startVector, testVector12, ECC_WorldStatic, collisionParams);
-
-
-
-	std::vector<FVector*> testVectors;
-	testVectors.push_back(&testVector1);
-	testVectors.push_back(&testVector2);
-	testVectors.push_back(&testVector3);
-	testVectors.push_back(&testVector4);
-	testVectors.push_back(&testVector5);
-	testVectors.push_back(&testVector6);
-	testVectors.push_back(&testVector7);
-	testVectors.push_back(&testVector8);
-	testVectors.push_back(&testVector9);
-	testVectors.push_back(&testVector10);
-	testVectors.push_back(&testVector11);
-	testVectors.push_back(&testVector12);
-
-	sensorData.clear();
-
-	for (int i = 0; i < hitResults.size(); i++) {
-		float hitResultDistance = hitResults[i]->Distance;
-
-		if (!hitResults[i]->bBlockingHit) {
-			hitResultDistance = distance;
-		}
-		else {
-			testVectors[i] = &hitResults[i]->Location;
-		}
-
-		double adjustedData = 1 - hitResultDistance / distance;
-		sensorData.push_back(adjustedData);
-	}
-
-	for (int i = 0; i < testVectors.size(); i++) {
-		FColor color = FColor(255, 0, 0);
-		if (i == 4) {
-			color = FColor(0, 255, 0);
-		}
-		DrawDebugLine(
-			world,
-			startVector,
-			*testVectors[i],
-			color,
-			false, -1, 0,
-			6.333
-		);
-	}
 	return sensorData;
+}
+
+double SideAndGroundSensoric::scanSensor(const FVector& from, const FVector& direction,
+	UWorld* world, bool drawRay, const FColor& color)
+{
+	FHitResult hitResult;
+	FVector to = from + direction;
+
+	world->LineTraceSingleByChannel(hitResult, from, to, ECC_WorldStatic, collisionParams);
+	float hitResultDistance = hitResult.Distance;
+
+	if (!hitResult.bBlockingHit)
+		hitResultDistance = sensorLength;
+	else
+		to = hitResult.Location;
+
+	if (drawRay)
+		DrawDebugLine(world, from, to, color, false, -1, 0, 6.333);
+
+	double adjustedData = 1 - hitResultDistance / sensorLength;
+	return adjustedData;
 }
