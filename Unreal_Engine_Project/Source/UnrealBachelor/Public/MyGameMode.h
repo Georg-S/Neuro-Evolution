@@ -5,6 +5,7 @@
 
 #include <NEAT.h>
 #include <string>
+#include "Helper.h"
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 #include "Boid.h"
@@ -24,20 +25,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
 
-
-	template<typename T>
-	void FindAllActors(UWorld* World, TArray<T*>& Out)
-	{
-		for (TActorIterator<AActor> It(World, T::StaticClass()); It; ++It)
-		{
-			T* Actor = Cast<T>(*It);
-			if (Actor && !Actor->IsPendingKill())
-			{
-				Out.Add(Actor);
-			}
-		}
-	}
-
 private:
 	double getHighestFitness(vector<double> fitness);
 	void initializeMovingObstaclesLevel4();
@@ -48,13 +35,13 @@ private:
 	bool atleastOneActive();
 	bool checkLevelSwitched();
 	UFUNCTION()
-	void updateActors();
+		void updateActors();
 	vector<double> calculateFitnessOfAllActors();
 	double calculateFitnessOfActor(ABoid* actor);
 	void resetActors();
 	void checkIfActorsMoved();
 
-//	NeuralNetwork* net;
+	//	NeuralNetwork* net;
 	NEAT* net;
 	TArray<ABoid*> actors;
 	TArray<AMovingObstacle*> movingObstacles;

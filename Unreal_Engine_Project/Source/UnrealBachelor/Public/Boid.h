@@ -10,6 +10,7 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
+#include "Helper.h"
 #include "Sensoric.h"
 #include "Obstacle.h"
 #include "SideAndGroundSensoric.h"
@@ -60,19 +61,6 @@ protected:
 	// Called when the game starts or when spawned
 	void BeginPlay() override;
 
-	template<typename T>
-	void FindAllActors(UWorld* World, TArray<T*>& Out)
-	{
-		for (TActorIterator<AActor> It(World, T::StaticClass()); It; ++It)
-		{
-			T* Actor = Cast<T>(*It);
-			if (Actor && !Actor->IsPendingKill())
-			{
-				Out.Add(Actor);
-			}
-		}
-	}
-
 private:
 	FCollisionQueryParams collisionParams;
 	void initializeCollisionParams();
@@ -96,4 +84,3 @@ private:
 	static const int velocity = 1500;
 	static const int jumpVelocity = 750;
 };
-
