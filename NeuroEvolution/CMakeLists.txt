@@ -34,3 +34,4 @@ set(HEADERS
 
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})
 target_include_directories(NeuroEvolution PUBLIC include)
+
