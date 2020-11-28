@@ -35,3 +35,19 @@ set(HEADERS
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})
 target_include_directories(NeuroEvolution PUBLIC include)
 
+
+set(NEAT_LIB_PATH ${CMAKE_CURRENT_BINARY_DIR}"/"$<CONFIG>"/NeuroEvolution.lib")
+
+add_custom_command(
+        TARGET NeuroEvolution POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                ${CMAKE_SOURCE_DIR}"/NeuroEvolution/include"
+                ${CMAKE_SOURCE_DIR}"/test_delete"
+				)
+
+add_custom_command(
+		TARGET NeuroEvolution POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy
+				${NEAT_LIB_PATH}
+				${CMAKE_SOURCE_DIR}"/test_delete/NeuroEvolution.lib"
+			)
