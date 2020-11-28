@@ -6,11 +6,11 @@ namespace nev {
 	class RNG
 	{
 	public:
-		static int getRandomIntBetween(const int& from, const int& to);
-		static float getRandomFloatBetween(const int& from, const int& to);
-		static float getRandomFloatBetween(const float& from, const float& to);
+		static int getRandomIntBetween(int from, int to);
+		static float getRandomFloatBetween(int from, int to);
+		static float getRandomFloatBetween(float from, float to);
 		static float getRandomFloatBetween0and1();
-		static double getRandomDoubleBetween(const double& from, const double& to);
+		static double getRandomDoubleBetween(double from, double to);
 	};
 
 }

@@ -16,7 +16,7 @@ nev::NEAT::NEAT(const std::vector<Genotype>& population, const Innovation& innov
 	this->maxPopulationSize = population.size();
 }
 
-nev::NEAT::NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
+nev::NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 	const nev::af& activationFunction)
 {
 	std::srand(time(NULL));
@@ -56,7 +56,7 @@ std::vector<std::vector<double>> nev::NEAT::calculateOutputActive(const std::vec
 	return outputs;
 }
 
-std::vector<double> nev::NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index)
+std::vector<double> nev::NEAT::calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, int index)
 {
 	if (inputs.size() != countOfInputs)
 		return std::vector<double>();
@@ -119,12 +119,12 @@ double nev::NEAT::getWeightPertubation() const
 	return weightPertubation;
 }
 
-void nev::NEAT::setWeightPertubation(const double& weightPertubation)
+void nev::NEAT::setWeightPertubation(double weightPertubation)
 {
 	this->weightPertubation = std::clamp(weightPertubation,0.,1.);
 }
 
-void nev::NEAT::setAddNeuronProbability(const double& addNeuronProbability)
+void nev::NEAT::setAddNeuronProbability(double addNeuronProbability)
 {
 	this->addNeuronProbability = std::clamp(addNeuronProbability, 0., 1.);
 }

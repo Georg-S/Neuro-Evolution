@@ -16,12 +16,12 @@ namespace nev {
 
 		NEAT();
 		NEAT(const std::vector<Genotype>& population, const Innovation& innovation);
-		NEAT(const int& populationSize, const int& countOfInputs, const int& countOfOutputs,
+		NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 			const nev::af& activationFunction = nev::af::steepenedSigmoid);
 
 		std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double>& inputs);
 		std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
-		std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, const int& index);
+		std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, int index);
 		void iterateOneGeneration(const std::vector<double>& fitness);
 
 
@@ -32,8 +32,8 @@ namespace nev {
 		int getCurrentGeneration() const;
 		double getWeightPertubation() const;
 
-		void setWeightPertubation(const double& weightPertubation);
-		void setAddNeuronProbability(const double& addNeuronProbability);
+		void setWeightPertubation(double weightPertubation);
+		void setAddNeuronProbability(double addNeuronProbability);
 		void refreshPopulationActivationFunction();
 	private:
 		void deletePhenotypes();

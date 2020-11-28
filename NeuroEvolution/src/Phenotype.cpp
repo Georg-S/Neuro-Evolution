@@ -1,6 +1,6 @@
 #include "Phenotype.h"
 
-nev::Phenotype::Phenotype(const std::vector<PhenotypeNeuron*>& neurons, const int& maxDepth)
+nev::Phenotype::Phenotype(const std::vector<PhenotypeNeuron*>& neurons, int maxDepth)
 {
 	this->neurons = neurons;
 	this->maxDepth = maxDepth;
@@ -62,7 +62,7 @@ void nev::Phenotype::setInputs(const std::vector<double> &inputs)
 	}
 }
 
-std::vector<double> nev::Phenotype::updateOnce(const std::function<double(const double& input)>& activationFunction)
+std::vector<double> nev::Phenotype::updateOnce(const std::function<double(double input)>& activationFunction)
 {
 	std::vector<double> outputs;
 

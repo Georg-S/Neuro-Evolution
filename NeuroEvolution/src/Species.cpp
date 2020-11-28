@@ -5,7 +5,7 @@ nev::Species::Species()
 {
 }
 
-nev::Species::Species(const Genotype& representative, const int& speciesId)
+nev::Species::Species(const Genotype& representative, int speciesId)
 {
 	this->representative = representative;
 	this->representative.phenotype = nullptr;
@@ -18,8 +18,8 @@ nev::Species::~Species()
 {
 }
 
-double nev::Species::calculateCompatibilityScore(Genotype& toTestGenotype, const double& excessFactor,
-	const double& disjointFactor, const double& weightFactor)
+double nev::Species::calculateCompatibilityScore(Genotype& toTestGenotype, double excessFactor,
+	double disjointFactor, double weightFactor)
 {
 	return Genotype::calculateCompatibilityScore(representative, toTestGenotype, excessFactor, disjointFactor, weightFactor);
 }
@@ -50,7 +50,7 @@ void nev::Species::updateFitnessValues()
 	}
 }
 
-void nev::Species::calculateSpawnAmount(const double& populationAverage)
+void nev::Species::calculateSpawnAmount(double populationAverage)
 {
 	spawnAmount = 0;
 	for (int i = 0; i < members.size(); i++)

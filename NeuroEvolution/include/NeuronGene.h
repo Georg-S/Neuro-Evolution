@@ -7,7 +7,7 @@ namespace nev {
 		NeuronGene() {
 			this->id = -1;
 		}
-		NeuronGene(const NeuronType& neuronType, const int& id) {
+		NeuronGene(NeuronType neuronType, int id) {
 			this->neuronType = neuronType;
 			this->id = id;
 		}

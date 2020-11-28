@@ -20,26 +20,27 @@ namespace nev {
 	{
 	public:
 		Genotype();
-		Genotype(Innovation& innovation, const int& countOfInputs, const int& countOfOutputs,
-			const int& id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
+		Genotype(Innovation& innovation, int countOfInputs, int countOfOutputs,
+			int id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
 		Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
-			const int& id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
+			int id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
 		Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
-			const int& id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
+			int id, const nev::af& activationFunction = nev::af::steepenedSigmoid);
 
-		void randomlyAddNeuron(Innovation& innovation, const double& addNeuronProbability);
-		void randomlyMutateAllWeights(const double& mutationProbability, const double& newWeightProbability, const double& weightPertubation);
-		void randomlyAddLink(Innovation& innovation, const double& mutationProbability, const bool& recurrentAllowed);
-		static double calculateCompatibilityScore(Genotype& left, Genotype& right, const double& excessFactor, const double& disjointFactor, const double& weightFactor);
-		static Genotype crossOver(const Genotype& father, const Genotype& mother, const int& babyId);
+		void randomlyAddNeuron(Innovation& innovation, double addNeuronProbability);
+		void randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation);
+		void randomlyAddLink(Innovation& innovation, double mutationProbability, bool recurrentAllowed);
+		static double calculateCompatibilityScore(Genotype& left, Genotype& right, double excessFactor,
+			double disjointFactor, double weightFactor);
+		static Genotype crossOver(const Genotype& father, const Genotype& mother, int babyId);
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 		std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 		void createPhenotype();
 		void deletePhenotype();
 
 		void setActivationFunction(const nev::af& activationFunction);
-		void setAdjustedFitness(const double& fitness);
-		void setRawFitness(const double& fitness);
+		void setAdjustedFitness(double fitness);
+		void setRawFitness(double fitness);
 		double getAdjustedFitness() const;
 		double getRawFitness() const;
 		int getCountOfNeurons() const;
@@ -57,14 +58,14 @@ namespace nev {
 
 	private:
 		static ParentType getFittestParent(const Genotype& father, const Genotype& mother);
-		void mutateSingleWeight(const double& newWeightProbability, LinkGene& link, const double& weightPertubation);
-		NeuronGene getNeuronGeneFromId(const int& id) const;
-		static NeuronGene getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, const int& id);
+		void mutateSingleWeight(LinkGene& link, double newWeightProbability, double weightPertubation);
+		NeuronGene getNeuronGeneFromId(int id) const;
+		static NeuronGene getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, int id);
 		static void addLinkToVectorIfNotAlreadyInside(const LinkGene& link, std::vector<LinkGene>& linkVec);
 		static void addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron, std::vector<NeuronGene>& neuronVec);
-		static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex,
+		static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, int linkIndex,
 			std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec);
-		static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, const int& linkIndex, const double& weight,
+		static void addGeneToVectorIfNotAlreadyInside(const Genotype& geno, int linkIndex, double weight,
 			std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec);
 		void createFullyConnectedNetwork(Innovation& innovation);
 		void createNeurons();
@@ -72,14 +73,14 @@ namespace nev {
 		void calculateDepthOfEveryNeuron();
 		void updateDepthOfNeuronsConnectedToThis(NeuronGene& neuron);
 		bool isValidLinkForAddNeuron(const LinkGene& link) const;
-		bool areValidNeuronsForAddLink(const NeuronGene& fromNeuron, const NeuronGene& toNeuron, const bool& recurrentAllowed) const;
+		bool areValidNeuronsForAddLink(const NeuronGene& fromNeuron, const NeuronGene& toNeuron, bool recurrentAllowed) const;
 		bool doesLinkAlreadyExist(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const;
 		bool isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, const NeuronGene& toNeuron) const;
-		int getNeuronIndexFromId(const int& id) const;
-		static int getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, const int& id);
+		int getNeuronIndexFromId(int id) const;
+		static int getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, int id);
 		double getRandomLinkWeight() const;
-		void createLinkWithRandomWeight(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent);
-		void createLink(Innovation& innovation, const int& fromId, const int& toId, const bool& recurrent, const double& weightOfLink);
+		void createLinkWithRandomWeight(Innovation& innovation, int fromId, int toId, bool recurrent);
+		void createLink(Innovation& innovation, int fromId, int toId, bool recurrent, double weightOfLink);
 
 		nev::af activationFunction;
 		std::vector <NeuronGene> neurons;

@@ -10,13 +10,13 @@ namespace nev {
 
 	class Activation {
 	public:
-		static std::function<double(const double& input)> getFunction(const nev::af& af);
+		static std::function<double(double input)> getFunction(nev::af af);
 
 	private:
-		static double relu(const double& input);
-		static double steepenedSigmoid(const double& input);
+		static double relu(double input);
+		static double steepenedSigmoid(double input);
 
-		inline static const std::function<double(const double& input)> arr[]{relu, steepenedSigmoid};
+		inline static const std::function<double(double input)> arr[]{relu, steepenedSigmoid};
 	};
 
 }

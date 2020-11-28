@@ -6,7 +6,7 @@ namespace nev {
 
 	struct PhenotypeNeuron {
 		struct Link {
-			Link(PhenotypeNeuron* from, const double& weight) {
+			Link(PhenotypeNeuron* from, double weight) {
 				this->fromNeuron = from;
 				this->weight = weight;
 			}
@@ -14,7 +14,7 @@ namespace nev {
 			double weight;
 		};
 
-		PhenotypeNeuron(const NeuronType& neuronType, const int& neuronID) {
+		PhenotypeNeuron(NeuronType neuronType, int neuronID) {
 			this->neuronType = neuronType;
 			this->neuronID = neuronID;
 			outputOfNeuron = 0.0;

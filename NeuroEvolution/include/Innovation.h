@@ -9,16 +9,16 @@ namespace nev {
 	{
 	public:
 		Innovation();
-		Innovation(const int& currentInnovationNumber, const int& currentNeuronId, const std::vector<InnovationElement>& innovations);
+		Innovation(int currentInnovationNumber, int currentNeuronId, const std::vector<InnovationElement>& innovations);
 		~Innovation();
 
-		int createNewLinkInnovation(const int& fromId, const int& toId);
-		int createNewNeuronInnovation(const int& fromId, const int& toId);
+		int createNewLinkInnovation(int fromId, int toId);
+		int createNewNeuronInnovation(int fromId, int toId);
 
-		void setCurrentNeuronId(const int& currenNeuronId);
-		int getInnovationID(const int& fromID, const int& toID, const InnovationType& type) const;
+		void setCurrentNeuronId(int currenNeuronId);
+		int getInnovationID(int fromID, int toID, InnovationType type) const;
 		int getTotalInnovationsCount() const;
-		int getNeuronId(const int& fromNeuronId, const int& toNeuronId) const;
+		int getNeuronId(int fromNeuronId, int toNeuronId) const;
 		int getCountOfNewNeuronInnovations() const;
 		int getCountOfNewLinkInnovations() const;
 		int getCurrentInnovationNumber() const;

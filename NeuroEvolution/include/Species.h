@@ -8,14 +8,14 @@ namespace nev {
 	{
 	public:
 		Species();
-		Species(const Genotype& representative, const int& speciesId);
+		Species(const Genotype& representative, int speciesId);
 		~Species();
-		double calculateCompatibilityScore(Genotype& toTestGenotype, const double& excessFactor,
-			const double& disjointFactor, const double& weightFactor);
+		double calculateCompatibilityScore(Genotype& toTestGenotype, double excessFactor,
+			double disjointFactor, double weightFactor);
 		void reset();
 		void addMemberToSpecies(Genotype* genotype);
 		void updateFitnessValues();
-		void calculateSpawnAmount(const double& populationAverage);
+		void calculateSpawnAmount(double populationAverage);
 		void incrementCurrentGeneration();
 		Genotype spawnGenotypeRoulette();
 		Genotype getLeader() const;

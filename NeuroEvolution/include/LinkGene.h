@@ -4,8 +4,8 @@ namespace nev {
 
 	struct LinkGene {
 		LinkGene() {}
-		LinkGene(const int& fromNeuronID, const int& toNeuronID, const double& weight, const bool& enabled,
-			const int& innovationID, const bool& recurrent = false) {
+		LinkGene(int fromNeuronID, int toNeuronID, double weight, bool enabled,
+			int innovationID, bool recurrent = false) {
 
 			this->fromNeuronID = fromNeuronID;
 			this->toNeuronID = toNeuronID;
