@@ -11,8 +11,8 @@ public class UnrealBachelor : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
 
-		string libBinPath = Path.Combine(ModuleDirectory, "libs", "bin");
-		string libIncludePath = Path.Combine(ModuleDirectory, "libs", "include");
+		string libBinPath = Path.Combine(ModuleDirectory, "libs", "NEAT", "bin");
+		string libIncludePath = Path.Combine(ModuleDirectory, "libs", "NEAT", "include");
 
 		PublicAdditionalLibraries.Add(Path.Combine(libBinPath, "NEAT.lib"));
 		PublicIncludePaths.Add(Path.Combine(libIncludePath, "NEAT"));
