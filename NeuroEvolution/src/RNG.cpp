@@ -1,6 +1,11 @@
 #include "RNG.h"
 
 
+int nev::RNG::getRandomVectorIndex(int vecSize)
+{
+	return rand() % vecSize;
+}
+
 int nev::RNG::getRandomIntBetween(int from, int to)
 {
 	if (from >= to)

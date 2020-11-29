@@ -81,6 +81,8 @@ namespace nev {
 		double getRandomLinkWeight() const;
 		void createLinkWithRandomWeight(Innovation& innovation, int fromId, int toId, bool recurrent);
 		void createLink(Innovation& innovation, int fromId, int toId, bool recurrent, double weightOfLink);
+		std::vector<LinkGene> getAllValidLinksForAddNeuron();
+		void disableLink(const LinkGene& link);
 
 		nev::af activationFunction;
 		std::vector <NeuronGene> neurons;
@@ -91,7 +93,6 @@ namespace nev {
 		int maxDepth = 0;
 		int countOfInputs;
 		int countOfOutputs;
-		static const int numTriesToAddNeuron = 20;
 		static const int numTriesToAddLink = 20;
 		static constexpr int minimumLinkStartValue = -3;
 		static constexpr int maximumLinkStartValue = 3;

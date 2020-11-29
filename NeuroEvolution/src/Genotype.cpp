@@ -69,29 +69,20 @@ void nev::Genotype::randomlyAddNeuron(Innovation& innovation, double addNeuronPr
 	if (RNG::getRandomFloatBetween0and1() > addNeuronProbability)
 		return;
 
-	int linkIndex = -1;
-	for (int i = 0; i < numTriesToAddNeuron; i++) {
-		int randomLinkIndex = RNG::getRandomIntBetween(0, links.size() - 1);
-		if (isValidLinkForAddNeuron(links[randomLinkIndex])) {
-			linkIndex = randomLinkIndex;
-			break;
-		}
-	}
-
-	if (linkIndex == -1)
+	std::vector<LinkGene> possibleLinks = getAllValidLinksForAddNeuron();
+	if (possibleLinks.size() == 0)
 		return;
 
-	int fromId = links[linkIndex].fromNeuronID;
-	int toId = links[linkIndex].toNeuronID;
+	LinkGene link = possibleLinks[RNG::getRandomVectorIndex(possibleLinks.size())];
 
-	int newNeuronId = innovation.getNeuronId(links[linkIndex].fromNeuronID, links[linkIndex].toNeuronID);
+	int newNeuronId = innovation.getNeuronId(link.fromNeuronID, link.toNeuronID);
 	if (newNeuronId == -1)
-		newNeuronId = innovation.createNewNeuronInnovation(fromId, toId);
+		newNeuronId = innovation.createNewNeuronInnovation(link.fromNeuronID, link.toNeuronID);
 	neurons.push_back(NeuronGene(NeuronType::hidden, newNeuronId));
 
-	createLink(innovation, fromId, newNeuronId, false, 1.0);
-	createLink(innovation, newNeuronId, toId, false, links[linkIndex].weight);
-	links[linkIndex].enabled = false;
+	createLink(innovation, link.fromNeuronID, newNeuronId, false, 1.0);
+	createLink(innovation, newNeuronId, link.toNeuronID, false, link.weight);
+	disableLink(link);
 	calculateDepthOfEveryNeuron();
 }
 
@@ -571,6 +562,27 @@ void nev::Genotype::createLink(Innovation& innovation, int fromId, int toId, boo
 		innovationId = innovation.createNewLinkInnovation(fromId, toId);
 
 	links.push_back(LinkGene(fromId, toId, weightOfLink, true, innovationId, recurrent));
+}
+
+std::vector<nev::LinkGene> nev::Genotype::getAllValidLinksForAddNeuron()
+{
+	std::vector<LinkGene> result;
+	for (const LinkGene& link : links) {
+		if (isValidLinkForAddNeuron(link))
+			result.push_back(link);
+	}
+
+	return result;
+}
+
+void nev::Genotype::disableLink(const LinkGene& link)
+{
+	for (int i = 0; i < links.size(); i++) {
+		if ((links[i].fromNeuronID == link.fromNeuronID) && (links[i].toNeuronID == link.toNeuronID)) {
+			links[i].enabled = false;
+			return;
+		}
+	}
 }
 
 bool nev::operator<(const Genotype& lhs, const Genotype& rhs)
