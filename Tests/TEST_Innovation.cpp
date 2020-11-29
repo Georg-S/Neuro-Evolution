@@ -139,7 +139,7 @@ TEST(TEST_Innovation, addLinkAddsNewLinkInnovationsOnlyOneTime) {
 	nev::Genotype geno = nev::Genotype(inno, 2, 1, 1);
 	geno.randomlyAddNeuron(inno, 1.0);
 	nev::Genotype geno2 = geno;
-	for(int i = 0; i < 100; i++) 
+	for (int i = 0; i < 100; i++)
 		geno.randomlyAddLink(inno, 1.0, false);
 
 	int previousCountLinkInnovations = inno.getCountOfNewLinkInnovations();

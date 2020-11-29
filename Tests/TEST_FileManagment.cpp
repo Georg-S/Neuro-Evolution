@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include <Genotype.h>
 #include <Innovation.h>
 #include <Phenotype.h>
 #include <NeuronGene.h>
@@ -15,7 +14,7 @@ TEST(TEST_FileManagment, SaveToFileAndPopulationGetsParsedCorrectly) {
 	std::vector <double> inputs{ 1 };
 	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
 
-	nev::NEAT second = nev::FileReader::getNEATFromFiles("neat.txt","population.txt", "innovation.txt");
+	nev::NEAT second = nev::FileReader::getNEATFromFiles("neat.txt", "population.txt", "innovation.txt");
 	std::vector<std::vector<double>> secondNetworkOutputs = second.calculateOutputSnapshot(inputs);
 
 	for (int i = 0; i < outputs.size(); i++) {
@@ -78,7 +77,7 @@ TEST(TEST_FileManagment, NEAT_SomeParametersGetSavedAndParsedCorrectly) {
 
 	nev::FileWriter::writeNEATToFile(neat1);
 	nev::NEAT neat2 = nev::FileReader::getNEATFromFiles("neat.txt", "population.txt", "innovation.txt");
-	
+
 	ASSERT_DOUBLE_EQ(neat1.getWeightPertubation(), neat2.getWeightPertubation());
 	ASSERT_EQ(neat1.getCurrentGeneration(), neat2.getCurrentGeneration());
 }

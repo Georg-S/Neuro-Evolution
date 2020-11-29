@@ -216,20 +216,20 @@ void nev::NEAT::populate()
 		for (int countToSpawn = 0; countToSpawn < spawnAmount; countToSpawn++) {
 			if (!eliteSpawnedAlready && species[speciesIndex].getMemberCount() >= 5) {
 				eliteSpawnedAlready = true;
-				baby = std::shared_ptr<Genotype>(species[speciesIndex].getLeader());
+				baby = std::shared_ptr<Genotype>(species[speciesIndex].getDeepCopyOfSpeciesLeader());
 			}
 			else {
 				if (species[speciesIndex].getMemberCount() == 1) {
-					baby = species[speciesIndex].spawnGenotypeRoulette();
+					baby = species[speciesIndex].spawnNewGenotypeThroughRoulette();
 				}
 				else {
 					if (RNG::getRandomFloatBetween0and1() < crossOverProbability) {
-						std::shared_ptr<Genotype> father = species[speciesIndex].spawnGenotypeRoulette();
-						std::shared_ptr<Genotype> mother = species[speciesIndex].spawnGenotypeRoulette();
-						baby = std::shared_ptr<Genotype>(Genotype::crossOver(father, mother, currentGenotypeId++));
+						std::shared_ptr<Genotype> father = species[speciesIndex].spawnNewGenotypeThroughRoulette();
+						std::shared_ptr<Genotype> mother = species[speciesIndex].spawnNewGenotypeThroughRoulette();
+						baby = Genotype::crossOver(father, mother, currentGenotypeId++);
 					}
 					else {
-						baby = species[speciesIndex].spawnGenotypeRoulette();
+						baby = species[speciesIndex].spawnNewGenotypeThroughRoulette();
 						baby->randomlyMutateAllWeights(mutateLinkProbability, newLinkWeightProbability, weightPertubation);
 						baby->randomlyAddLink(innovation, addLinkProbability, recurrentAllowed);
 						baby->randomlyAddNeuron(innovation, addNeuronProbability);

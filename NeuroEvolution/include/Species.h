@@ -19,8 +19,8 @@ namespace nev {
 		void updateFitnessValues();
 		void calculateSpawnAmount(double populationAverage);
 		void incrementCurrentGeneration();
-		std::shared_ptr<Genotype> spawnGenotypeRoulette();
-		std::shared_ptr<Genotype> getLeader() const;
+		std::shared_ptr<Genotype> spawnNewGenotypeThroughRoulette() const;
+		std::shared_ptr<Genotype> getDeepCopyOfSpeciesLeader() const;
 		double getTotalCurrentAdjustedFitness() const;
 		int getGenerationOfSpecies() const;
 		int getSpeciesId() const;

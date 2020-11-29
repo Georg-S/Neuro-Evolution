@@ -19,19 +19,19 @@ nev::Genotype createXORGenotype() {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::hidden, 5));
 
 	std::vector<nev::LinkGene> links;
-	links.push_back(nev::LinkGene(1, 4, 20,1, true));
-	links.push_back(nev::LinkGene(2, 4, 20,1, true));
-	links.push_back(nev::LinkGene(0, 4, -10,1, true));
+	links.push_back(nev::LinkGene(1, 4, 20, 1, true));
+	links.push_back(nev::LinkGene(2, 4, 20, 1, true));
+	links.push_back(nev::LinkGene(0, 4, -10, 1, true));
 
-	links.push_back(nev::LinkGene(1, 5, -20,1, true));
-	links.push_back(nev::LinkGene(2, 5, -20,1, true));
-	links.push_back(nev::LinkGene(0, 5, 30,1, true));
+	links.push_back(nev::LinkGene(1, 5, -20, 1, true));
+	links.push_back(nev::LinkGene(2, 5, -20, 1, true));
+	links.push_back(nev::LinkGene(0, 5, 30, 1, true));
 
-	links.push_back(nev::LinkGene(4, 3, 20,1, true));
-	links.push_back(nev::LinkGene(5, 3, 20,1, true));
-	links.push_back(nev::LinkGene(0, 3, -30,1, true));
+	links.push_back(nev::LinkGene(4, 3, 20, 1, true));
+	links.push_back(nev::LinkGene(5, 3, 20, 1, true));
+	links.push_back(nev::LinkGene(0, 3, -30, 1, true));
 
-	return nev::Genotype(inno,neurons, links,1);
+	return nev::Genotype(inno, neurons, links, 1);
 }
 
 TEST(TEST_XOR, XORIsPossibleFirstInput) {
@@ -64,7 +64,7 @@ TEST(TEST_XOR, XORIsPossibleFourthInput) {
 	EXPECT_LT(output[0], 0.1);
 }
 
-std::vector<double> calculateFitness(nev::NEAT &neat) {
+std::vector<double> calculateFitness(nev::NEAT& neat) {
 	std::vector<double> fitness;
 
 	std::vector<std::vector<double>> outputs = neat.calculateOutputSnapshot(std::vector<double> {0, 0});
@@ -134,7 +134,7 @@ void testXorParameters() {
 		solutionFound = false;
 		double highestFitnessEver = 0;
 
-		while(!solutionFound){ 
+		while (!solutionFound) {
 			fitness.clear();
 			fitness = calculateFitness(neat);
 			double currentHighestFitness = getHighestFitness(fitness);
@@ -145,7 +145,8 @@ void testXorParameters() {
 				generationAverage += neat.getCurrentGeneration();
 				solutionFound = true;
 				std::cout << "Solution Found" << std::endl;
-			}else 
+			}
+			else
 				neat.iterateOneGeneration(fitness);
 		}
 	}

@@ -59,8 +59,8 @@ TEST(TEST_NEAT, after10IterationPopulationSizeIsTheSame) {
 	for (int i = 0; i < 50; i++)
 		fitness.push_back(1.0);
 
-	for(int i = 0; i < 10; i++)
-		neat.iterateOneGeneration(fitness);	
+	for (int i = 0; i < 10; i++)
+		neat.iterateOneGeneration(fitness);
 
 	EXPECT_EQ(neat.getPopulationSize(), 50);
 }

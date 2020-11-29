@@ -195,7 +195,7 @@ double nev::Genotype::calculateCompatibilityScore(std::shared_ptr<Genotype> left
 	return compatibilityScore;
 }
 
-nev::Genotype* nev::Genotype::crossOver(std::shared_ptr<Genotype> father, std::shared_ptr<Genotype> mother, int babyId)
+std::shared_ptr<nev::Genotype> nev::Genotype::crossOver(std::shared_ptr<Genotype> father, std::shared_ptr<Genotype> mother, int babyId)
 {
 	std::vector<LinkGene> motherLinks = mother->links;
 	std::vector<LinkGene> fatherLinks = father->links;
@@ -240,8 +240,7 @@ nev::Genotype* nev::Genotype::crossOver(std::shared_ptr<Genotype> father, std::s
 			fatherLinkIndex++;
 		}
 	}
-	Genotype* baby = new Genotype(babyNeurons, babyLinks, babyId, father->activationFunction);
-	return baby;
+	return std::make_shared<Genotype>(babyNeurons, babyLinks, babyId, father->activationFunction);
 }
 
 std::vector<double> nev::Genotype::calculateOutputSnapshot(const std::vector<double>& inputs)

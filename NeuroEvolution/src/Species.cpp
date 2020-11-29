@@ -7,9 +7,9 @@ nev::Species::Species()
 
 nev::Species::Species(std::shared_ptr<Genotype> representative, int speciesId)
 {
-	this->representative = representative;
+	this->representative = std::make_shared<Genotype>(*representative.get());
 	this->speciesId = speciesId;
-	members.push_back(this->representative.get());
+	members.push_back(representative.get());
 }
 
 
@@ -64,7 +64,7 @@ void nev::Species::incrementCurrentGeneration()
 	generationsNoImprovement++;
 }
 
-std::shared_ptr<nev::Genotype> nev::Species::spawnGenotypeRoulette()
+std::shared_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const 
 {
 	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
@@ -76,7 +76,7 @@ std::shared_ptr<nev::Genotype> nev::Species::spawnGenotypeRoulette()
 	}
 }
 
-std::shared_ptr<nev::Genotype> nev::Species::getLeader() const
+std::shared_ptr<nev::Genotype> nev::Species::getDeepCopyOfSpeciesLeader() const
 {
 	double highestFitness = DBL_MIN;
 	int highestFitnessIndex = -1;
