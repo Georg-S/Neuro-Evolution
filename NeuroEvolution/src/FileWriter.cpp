@@ -19,14 +19,14 @@ void nev::FileWriter::writeNEATParametersToFile(const std::string& fileName, con
 	neatFile.close();
 }
 
-void nev::FileWriter::writePopulationToFile(const std::string& fileName, std::vector<Genotype> population)
+void nev::FileWriter::writePopulationToFile(const std::string& fileName, std::vector<std::shared_ptr<Genotype>> population)
 {
 	std::ofstream populationFile;
 	populationFile.open(fileName);
 
 	sort(population.begin(), population.end());
 	for (int i = 0; i < population.size(); i++)
-		populationFile << stringifyGenotype(population[i]);
+		populationFile << stringifyGenotype(population[i].get());
 	populationFile.close();
 }
 
@@ -38,15 +38,15 @@ void nev::FileWriter::writeInnovationToFile(const std::string& fileName, const I
 	innovationFile.close();
 }
 
-std::string nev::FileWriter::stringifyGenotype(const Genotype& genotype)
+std::string nev::FileWriter::stringifyGenotype(const Genotype* genotype)
 {
 	std::string genotypeString = "'BeginGenotype'\n";
-	genotypeString = genotypeString + "CountOfInputs: '" + std::to_string(genotype.getCountOfInputs()) + "'\n";
-	genotypeString = genotypeString + "CountOfOuputs: '" + std::to_string(genotype.getCountOfOutputs()) + "'\n";
-	genotypeString = genotypeString + "MaxDepth: '" + std::to_string(genotype.getMaxDepth()) + "'\n \n";
+	genotypeString = genotypeString + "CountOfInputs: '" + std::to_string(genotype->getCountOfInputs()) + "'\n";
+	genotypeString = genotypeString + "CountOfOuputs: '" + std::to_string(genotype->getCountOfOutputs()) + "'\n";
+	genotypeString = genotypeString + "MaxDepth: '" + std::to_string(genotype->getMaxDepth()) + "'\n \n";
 	genotypeString = genotypeString + "BeginNeurons\n";
 
-	std::vector<NeuronGene> neurons = genotype.getNeurons();
+	std::vector<NeuronGene> neurons = genotype->getNeurons();
 	for (int i = 0; i < neurons.size(); i++) {
 		genotypeString = genotypeString + "NeuronStart" + "\n";
 		genotypeString = genotypeString + "Depth: '" + std::to_string(neurons[i].depth) + "'\n";
@@ -56,7 +56,7 @@ std::string nev::FileWriter::stringifyGenotype(const Genotype& genotype)
 	}
 	genotypeString = genotypeString + "EndNeurons\n\n";
 
-	std::vector<LinkGene> links = genotype.getLinks();
+	std::vector<LinkGene> links = genotype->getLinks();
 	genotypeString = genotypeString + "BeginLinks\n";
 	for (int i = 0; i < links.size(); i++) {
 		genotypeString = genotypeString + "LinkStart" + "\n";

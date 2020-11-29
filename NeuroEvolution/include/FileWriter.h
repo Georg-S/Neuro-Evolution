@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <algorithm>
+#include <memory>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -15,10 +16,10 @@ namespace nev {
 	public:
 		static void writeNEATToFile(const nev::NEAT& neat, const std::string& fileSuffix = "");
 		static void writeNEATParametersToFile(const std::string& fileName, const nev::NEAT& neat);
-		static void writePopulationToFile(const std::string& fileName, std::vector<Genotype> population);
+		static void writePopulationToFile(const std::string& fileName, std::vector<std::shared_ptr<Genotype>> population);
 		static void writeInnovationToFile(const std::string& fileName, const Innovation& innovation);
 	private:
-		static std::string stringifyGenotype(const Genotype& genotype);
+		static std::string stringifyGenotype(const Genotype* genotype);
 		static std::string stringifyInnovation(const Innovation& innovation);
 		static std::string stringifyNEAT(const NEAT& neat);
 

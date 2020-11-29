@@ -3,6 +3,7 @@
 #include <vector>
 #include <time.h>
 #include <functional>
+#include <memory>
 #include "Genotype.h"
 #include "Species.h"
 #include "Innovation.h"
@@ -15,7 +16,7 @@ namespace nev {
 	public:
 
 		NEAT();
-		NEAT(const std::vector<Genotype>& population, const Innovation& innovation);
+		NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation);
 		NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 			const nev::af& activationFunction = nev::af::steepenedSigmoid);
 
@@ -44,7 +45,7 @@ namespace nev {
 		void updateFitnessValues();
 		void calculateSpawnAmoutOfSpecies();
 		void populate();
-		Genotype getHighestRawFitnessGenotype() const;
+		std::shared_ptr<Genotype> getHighestRawFitnessGenotype() const;
 
 		//NEAT-Parameters
 		double excessFactor = 1;
@@ -66,7 +67,7 @@ namespace nev {
 		double weightPertubation = 0.1;
 
 		nev::af activationFunction = nev::af::steepenedSigmoid;
-		std::vector<Genotype> population;
+		std::vector<std::shared_ptr<Genotype>> population;
 		std::vector<Species> species;
 		Innovation innovation;
 		int currentGenotypeId = 0;

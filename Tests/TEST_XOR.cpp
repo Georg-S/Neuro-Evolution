@@ -158,7 +158,7 @@ void testXorParameters() {
 /*
 TEST(TEST_XOR, MemoryLeak) {
 	while (true) {
-		NEAT neat = NEAT(150, 2, 1);
+		nev::NEAT neat = nev::NEAT(150, 2, 1);
 		std::vector<std::vector<double>> outputs = neat.calculateOutputSnapshot(std::vector<double> {0, 0});
 	}
 }

@@ -14,10 +14,10 @@ nev::NEAT nev::FileReader::getNEATFromFiles(const std::string& neatFile, const s
 	return result;
 }
 
-std::vector<nev::Genotype> nev::FileReader::parsePopulationFromFile(const std::string& fileName)
+std::vector<std::shared_ptr<nev::Genotype>> nev::FileReader::parsePopulationFromFile(const std::string& fileName)
 {
 	int genotypeID = 0;
-	std::vector<Genotype> population;
+	std::vector<std::shared_ptr<Genotype>> population;
 	std::ifstream populationFile(fileName);
 	for (std::string line; getline(populationFile, line);) {
 		if (contains(line, "BeginGenotype")) {
@@ -27,7 +27,7 @@ std::vector<nev::Genotype> nev::FileReader::parsePopulationFromFile(const std::s
 	return population;
 }
 
-nev::Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile, int& genotypeID)
+std::shared_ptr<nev::Genotype> nev::FileReader::parseOneGenotype(std::ifstream& populationFile, int& genotypeID)
 {
 	int countOfInputs = 0;
 	int countOfOutputs = 0;
@@ -59,7 +59,7 @@ nev::Genotype nev::FileReader::parseOneGenotype(std::ifstream& populationFile, i
 			links = parseLinks(populationFile);
 		}
 	}
-	return Genotype(neurons, links, genotypeID++);
+	return std::make_shared<Genotype>(neurons, links, genotypeID++);
 }
 
 std::vector<nev::NeuronGene> nev::FileReader::parseNeurons(std::ifstream& populationFile)

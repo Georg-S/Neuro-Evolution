@@ -4,14 +4,14 @@
 nev::NEAT::NEAT()
 {
 }
-nev::NEAT::NEAT(const std::vector<Genotype>& population, const Innovation& innovation)
+nev::NEAT::NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation)
 {
 	this->population = population;
 	this->innovation = innovation;
 
 	if (population.size() > 0) {
-		this->countOfInputs = population[0].getCountOfInputs();
-		this->countOfOutputs = population[0].getCountOfOutputs();
+		this->countOfInputs = population[0]->getCountOfInputs();
+		this->countOfOutputs = population[0]->getCountOfOutputs();
 	}
 	this->maxPopulationSize = population.size();
 }
@@ -25,7 +25,7 @@ nev::NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 	this->activationFunction = activationFunction;
 	innovation = Innovation();
 	for (int i = 0; i < populationSize; i++)
-		population.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
+		population.push_back(std::make_shared<Genotype>(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
 
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
@@ -39,7 +39,7 @@ std::vector<std::vector<double>> nev::NEAT::calculateOutputSnapshot(const std::v
 
 	std::vector<std::vector<double>> outputs;
 	for (int i = 0; i < population.size(); i++)
-		outputs.push_back(population[i].calculateOutputSnapshot(inputs));
+		outputs.push_back(population[i]->calculateOutputSnapshot(inputs));
 
 	return outputs;
 }
@@ -51,7 +51,7 @@ std::vector<std::vector<double>> nev::NEAT::calculateOutputActive(const std::vec
 
 	std::vector<std::vector<double>> outputs;
 	for (int i = 0; i < population.size(); i++)
-		outputs.push_back(population[i].calculateOutputActive(inputs));
+		outputs.push_back(population[i]->calculateOutputActive(inputs));
 
 	return outputs;
 }
@@ -64,7 +64,7 @@ std::vector<double> nev::NEAT::calculateOutputActiveOfSpecificGenotype(const std
 	if (index >= population.size() || index < 0)
 		return std::vector<double>();
 
-	return population[index].calculateOutputActive(inputs);
+	return population[index]->calculateOutputActive(inputs);
 }
 
 void nev::NEAT::iterateOneGeneration(const std::vector<double>& fitness)
@@ -102,8 +102,8 @@ int nev::NEAT::getHighestGenotypeId() const
 {
 	int highestId = -1;
 	for (int i = 0; i < population.size(); i++) {
-		if (population[i].getGenotypeId() > highestId)
-			highestId = population[i].getGenotypeId();
+		if (population[i]->getGenotypeId() > highestId)
+			highestId = population[i]->getGenotypeId();
 	}
 
 	return highestId;
@@ -131,14 +131,14 @@ void nev::NEAT::setAddNeuronProbability(double addNeuronProbability)
 
 void nev::NEAT::refreshPopulationActivationFunction()
 {
-	for (Genotype& geno : population)
-		geno.setActivationFunction(activationFunction);
+	for (std::shared_ptr<Genotype> geno : population)
+		geno->setActivationFunction(activationFunction);
 }
 
 void nev::NEAT::deletePhenotypes()
 {
 	for (int i = 0; i < population.size(); i++)
-		population[i].deletePhenotype();
+		population[i]->deletePhenotype();
 }
 
 void nev::NEAT::resetSpecies()
@@ -150,7 +150,7 @@ void nev::NEAT::resetSpecies()
 void nev::NEAT::setFitnessOfPopulation(const std::vector<double>& fitness)
 {
 	for (int i = 0; i < population.size(); i++)
-		population[i].setRawFitness(fitness[i]);
+		population[i]->setRawFitness(fitness[i]);
 }
 
 void nev::NEAT::speciate()
@@ -169,7 +169,7 @@ void nev::NEAT::speciate()
 			}
 		}
 		if (lowestCompatibilityScore <= compatibilityDistanceThreshold)
-			species[lowestCompIndex].addMemberToSpecies(&population[i]);
+			species[lowestCompIndex].addMemberToSpecies(population[i].get());
 		else
 			species.push_back(Species(population[i], currentPopulationId++));
 	}
@@ -196,11 +196,11 @@ void nev::NEAT::updateSpecies()
 
 void nev::NEAT::populate()
 {
-	std::vector<Genotype> newPopulation;
+	std::vector<std::shared_ptr<Genotype>> newPopulation;
 	int currentSpawnedAmount = 0;
-	Genotype baby;
+	std::shared_ptr<Genotype> baby;
 
-	Genotype highestRawFitnessGenotype = getHighestRawFitnessGenotype();
+	auto highestRawFitnessGenotype = getHighestRawFitnessGenotype();
 	newPopulation.push_back(highestRawFitnessGenotype);
 	currentSpawnedAmount++;
 
@@ -216,7 +216,7 @@ void nev::NEAT::populate()
 		for (int countToSpawn = 0; countToSpawn < spawnAmount; countToSpawn++) {
 			if (!eliteSpawnedAlready && species[speciesIndex].getMemberCount() >= 5) {
 				eliteSpawnedAlready = true;
-				baby = species[speciesIndex].getLeader();
+				baby = std::shared_ptr<Genotype>(species[speciesIndex].getLeader());
 			}
 			else {
 				if (species[speciesIndex].getMemberCount() == 1) {
@@ -224,15 +224,15 @@ void nev::NEAT::populate()
 				}
 				else {
 					if (RNG::getRandomFloatBetween0and1() < crossOverProbability) {
-						Genotype father = species[speciesIndex].spawnGenotypeRoulette();
-						Genotype mother = species[speciesIndex].spawnGenotypeRoulette();
-						baby = Genotype::crossOver(father, mother, currentGenotypeId++);
+						std::shared_ptr<Genotype> father = species[speciesIndex].spawnGenotypeRoulette();
+						std::shared_ptr<Genotype> mother = species[speciesIndex].spawnGenotypeRoulette();
+						baby = std::shared_ptr<Genotype>(Genotype::crossOver(father, mother, currentGenotypeId++));
 					}
 					else {
 						baby = species[speciesIndex].spawnGenotypeRoulette();
-						baby.randomlyMutateAllWeights(mutateLinkProbability, newLinkWeightProbability, weightPertubation);
-						baby.randomlyAddLink(innovation, addLinkProbability, recurrentAllowed);
-						baby.randomlyAddNeuron(innovation, addNeuronProbability);
+						baby->randomlyMutateAllWeights(mutateLinkProbability, newLinkWeightProbability, weightPertubation);
+						baby->randomlyAddLink(innovation, addLinkProbability, recurrentAllowed);
+						baby->randomlyAddNeuron(innovation, addNeuronProbability);
 					}
 				}
 			}
@@ -244,22 +244,22 @@ void nev::NEAT::populate()
 	}
 
 	while (currentSpawnedAmount < maxPopulationSize) {
-		newPopulation.push_back(Genotype(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
+		newPopulation.push_back(std::make_shared<Genotype>(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
 		currentSpawnedAmount++;
 	}
 	population.clear();
 	population = newPopulation;
 }
 
-nev::Genotype nev::NEAT::getHighestRawFitnessGenotype() const
+std::shared_ptr<nev::Genotype> nev::NEAT::getHighestRawFitnessGenotype() const
 {
 	double highestRawFitness = DBL_MIN;
 	int highestRawFitnessIndex = -1;
 
 	for (int i = 0; i < population.size(); i++) {
-		if (population[i].getRawFitness() > highestRawFitness) {
+		if (population[i]->getRawFitness() > highestRawFitness) {
 			highestRawFitnessIndex = i;
-			highestRawFitness = population[i].getRawFitness();
+			highestRawFitness = population[i]->getRawFitness();
 		}
 	}
 	return population[highestRawFitnessIndex];
@@ -276,7 +276,7 @@ void nev::NEAT::calculateSpawnAmoutOfSpecies()
 	double populationAverageFitness = 0;
 	double populationTotalFitness = 0;
 	for (int i = 0; i < population.size(); i++)
-		populationTotalFitness += population[i].getAdjustedFitness();
+		populationTotalFitness += population[i]->getAdjustedFitness();
 
 	populationAverageFitness = populationTotalFitness / (double)population.size();
 

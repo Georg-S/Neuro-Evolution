@@ -5,12 +5,11 @@ nev::Species::Species()
 {
 }
 
-nev::Species::Species(const Genotype& representative, int speciesId)
+nev::Species::Species(std::shared_ptr<Genotype> representative, int speciesId)
 {
 	this->representative = representative;
-	this->representative.phenotype = nullptr;
 	this->speciesId = speciesId;
-	members.push_back(&this->representative);
+	members.push_back(this->representative.get());
 }
 
 
@@ -18,7 +17,7 @@ nev::Species::~Species()
 {
 }
 
-double nev::Species::calculateCompatibilityScore(Genotype& toTestGenotype, double excessFactor,
+double nev::Species::calculateCompatibilityScore(std::shared_ptr<Genotype> toTestGenotype, double excessFactor,
 	double disjointFactor, double weightFactor)
 {
 	return Genotype::calculateCompatibilityScore(representative, toTestGenotype, excessFactor, disjointFactor, weightFactor);
@@ -65,7 +64,7 @@ void nev::Species::incrementCurrentGeneration()
 	generationsNoImprovement++;
 }
 
-nev::Genotype nev::Species::spawnGenotypeRoulette()
+std::shared_ptr<nev::Genotype> nev::Species::spawnGenotypeRoulette()
 {
 	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
@@ -73,11 +72,11 @@ nev::Genotype nev::Species::spawnGenotypeRoulette()
 		accumalatedFitness += members[i]->getAdjustedFitness();
 
 		if (randomFitness <= accumalatedFitness)
-			return *(members[i]);
+			return std::make_shared<Genotype>(*(members[i]));
 	}
 }
 
-nev::Genotype nev::Species::getLeader() const
+std::shared_ptr<nev::Genotype> nev::Species::getLeader() const
 {
 	double highestFitness = DBL_MIN;
 	int highestFitnessIndex = -1;
@@ -88,7 +87,7 @@ nev::Genotype nev::Species::getLeader() const
 		}
 	}
 
-	return *(members[highestFitnessIndex]);
+	return (std::make_shared<Genotype>(*(members[highestFitnessIndex])));
 }
 
 double nev::Species::getTotalCurrentAdjustedFitness() const

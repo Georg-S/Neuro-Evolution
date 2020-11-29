@@ -154,26 +154,26 @@ TEST(TEST_Genotype, addLinkAddsALink) {
 
 TEST(TEST_Genotype, calculateCompatibilityScoreCalculates0ForTheSameGenotype) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype geno = nev::Genotype(inno, 1, 1, 1);
-	nev::Genotype geno2 = geno;
+	std::shared_ptr<nev::Genotype> geno = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
+	auto geno2 = geno;
 
 	EXPECT_EQ(nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 0);
 }
 
 TEST(TEST_Genotype, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype geno = nev::Genotype(inno, 1, 1, 1);
-	nev::Genotype geno2 = geno;
-	geno.randomlyAddNeuron(inno, 1.0);
+	std::shared_ptr<nev::Genotype> geno = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
+	auto geno2 = std::make_shared<nev::Genotype>(*geno.get());
+	geno->randomlyAddNeuron(inno, 1.0);
 
 	EXPECT_EQ(nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 2);
 }
 
 TEST(TEST_Genotype, testSymmetry) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype geno = nev::Genotype(inno, 1, 1, 1);
-	nev::Genotype geno2 = geno;
-	geno.randomlyAddNeuron(inno, 1.0);
+	std::shared_ptr<nev::Genotype> geno = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
+	auto geno2 = geno;
+	geno->randomlyAddNeuron(inno, 1.0);
 
 	
 	double result1 = nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4);
@@ -184,9 +184,8 @@ TEST(TEST_Genotype, testSymmetry) {
 
 TEST(TEST_Genotype, calculateCompatibilityScoreCalculatesNot0For2DifferentStartingGenotypes) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype geno = nev::Genotype(inno, 1, 1, 1);
-	nev::Genotype geno2 = nev::Genotype(inno, 1, 1, 1);
-
+	std::shared_ptr<nev::Genotype> geno = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
+	std::shared_ptr<nev::Genotype> geno2 = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
 	
 	EXPECT_NE(nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 0);
 }
@@ -221,55 +220,60 @@ TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf2For1HiddenNode) {
 
 TEST(TEST_Genotype, crossWithItSelfReturnsTheSame) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype father = nev::Genotype(inno, 2, 1, 0);
-	int previousLinkSize = father.getCountOfLinks();
-	int previousNeuronSize = father.getCountOfNeurons();
-	double previousLinkAverage = father.getLinkWeightAverage();
-	nev::Genotype baby = nev::Genotype::crossOver(father, father, 1);
+	std::shared_ptr<nev::Genotype> father = std::make_shared<nev::Genotype>(inno, 2, 1, 0);
 
-	EXPECT_EQ(baby.getCountOfLinks(), previousLinkSize);
-	EXPECT_EQ(baby.getCountOfNeurons(), previousNeuronSize);
-	EXPECT_EQ(baby.getLinkWeightAverage(), previousLinkAverage);
+	int previousLinkSize = father->getCountOfLinks();
+	int previousNeuronSize = father->getCountOfNeurons();
+	double previousLinkAverage = father->getLinkWeightAverage();
+	nev::Genotype* baby = nev::Genotype::crossOver(father, father, 1);
+
+	EXPECT_EQ(baby->getCountOfLinks(), previousLinkSize);
+	EXPECT_EQ(baby->getCountOfNeurons(), previousNeuronSize);
+	EXPECT_EQ(baby->getLinkWeightAverage(), previousLinkAverage);
+	delete baby;
 }
 
 TEST(TEST_Genotype, crossOverBabyHasTheRightAmountOfLinks) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype father = nev::Genotype(inno, 2, 1, 0);
-	nev::Genotype mother = father;
-	father.setRawFitness(1.0);
-	mother.setRawFitness(1.01);
-	mother.randomlyAddNeuron(inno, 1.0);
-	int previousLinkSize = mother.getCountOfLinks();
+	std::shared_ptr<nev::Genotype> father = std::make_shared<nev::Genotype>(inno, 2, 1, 0);
+	auto mother = std::make_shared<nev::Genotype>(*(father.get()));
+	father->setRawFitness(1.0);
+	mother->setRawFitness(1.01);
+	mother->randomlyAddNeuron(inno, 1.0);
+	int previousLinkSize = mother->getCountOfLinks();
 
-	nev::Genotype baby = nev::Genotype::crossOver(father, mother, 2);
+	nev::Genotype* baby = nev::Genotype::crossOver(father, mother, 2);
 
-	EXPECT_EQ(baby.getCountOfLinks(), previousLinkSize);
+	EXPECT_EQ(baby->getCountOfLinks(), previousLinkSize);
+	delete baby;
 }
 
 TEST(TEST_Genotype, crossOverBabyHasTheRightAmountOfLinksIfFitnessIsDifferent) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype father = nev::Genotype(inno, 2, 1, 0);
-	nev::Genotype mother = father;
-	father.setRawFitness(1.0);
-	mother.setRawFitness(0.9);
-	mother.randomlyAddNeuron(inno, 1.0);
-	int previousLinkSize = father.getCountOfLinks();
+	std::shared_ptr<nev::Genotype> father = std::make_shared<nev::Genotype>(inno, 2, 1, 0);
+	auto mother = std::make_shared<nev::Genotype>(*(father.get()));
+	father->setRawFitness(1.0);
+	mother->setRawFitness(0.9);
+	mother->randomlyAddNeuron(inno, 1.0);
+	int previousLinkSize = father->getCountOfLinks();
 
-	nev::Genotype baby = nev::Genotype::crossOver(father, mother, 2);
+	nev::Genotype* baby = nev::Genotype::crossOver(father, mother, 2);
 
-	EXPECT_EQ(baby.getCountOfLinks(), previousLinkSize);
+	EXPECT_EQ(baby->getCountOfLinks(), previousLinkSize);
+	delete baby;
 }
 
 TEST(TEST_Genotype, crossOverBabyHasTheRightDepth) {
 	nev::Innovation inno = nev::Innovation();
-	nev::Genotype father = nev::Genotype(inno, 2, 1, 0);
-	nev::Genotype mother = father;
-	father.setRawFitness(1.0);
-	mother.setRawFitness(1.01);
-	mother.randomlyAddNeuron(inno, 1.0);
-	int previousLinkSize = mother.getCountOfLinks();
+	std::shared_ptr<nev::Genotype> father = std::make_shared<nev::Genotype>(inno, 2, 1, 0);
+	auto mother = std::make_shared<nev::Genotype>(*(father.get()));
+	father->setRawFitness(1.0);
+	mother->setRawFitness(1.01);
+	mother->randomlyAddNeuron(inno, 1.0);
+	int previousLinkSize = mother->getCountOfLinks();
 
-	nev::Genotype baby = nev::Genotype::crossOver(father, mother, 2);
+	nev::Genotype* baby = nev::Genotype::crossOver(father, mother, 2);
 
-	EXPECT_EQ(baby.getMaxDepth(), 2);
+	EXPECT_EQ(baby->getMaxDepth(), 2);
+	delete baby;
 }

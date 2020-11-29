@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <NEAT.h>
+#include <memory>
 #include "Genotype.h"
 #include "Innovation.h"
 
@@ -13,13 +14,13 @@ namespace nev {
 	{
 	public:
 		static nev::NEAT getNEATFromFiles(const std::string& neatFile, const std::string& populationFile ,const std::string& innovationFile);
-		static std::vector<Genotype> parsePopulationFromFile(const std::string& fileName);
+		static std::vector<std::shared_ptr<nev::Genotype>> parsePopulationFromFile(const std::string& fileName);
 		static Innovation parseInnovationFromFile(const std::string& fileName);
 		static std::string getStringBetweenQuotationMark(const std::string& line);
 
 	private:
 		static bool contains(const std::string& line, const std::string& searched);
-		static Genotype parseOneGenotype(std::ifstream& populationFile, int& genotypeID);
+		static std::shared_ptr<Genotype> parseOneGenotype(std::ifstream& populationFile, int& genotypeID);
 		static std::vector<NeuronGene> parseNeurons(std::ifstream& populationFile);
 		static NeuronGene parseOneNeuron(std::ifstream& populationFile);
 		static std::vector<LinkGene> parseLinks(std::ifstream& populationFile);

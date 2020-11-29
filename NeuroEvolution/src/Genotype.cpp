@@ -146,11 +146,11 @@ void nev::Genotype::randomlyAddLink(Innovation& innovation, double mutationProba
 	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id, recurrent);
 }
 
-double nev::Genotype::calculateCompatibilityScore(Genotype& left, Genotype& right, double excessFactor,
+double nev::Genotype::calculateCompatibilityScore(std::shared_ptr<Genotype> left, std::shared_ptr<Genotype> right, double excessFactor,
 	double disjointFactor, double weightFactor)
 {
-	sort(right.links.begin(), right.links.end());
-	sort(left.links.begin(), left.links.end());
+	sort(right->links.begin(), right->links.end());
+	sort(left->links.begin(), left->links.end());
 	double countOfExzess = 0;
 	double countOfCommon = 0;
 	double countOfDisjoint = 0;
@@ -159,31 +159,31 @@ double nev::Genotype::calculateCompatibilityScore(Genotype& left, Genotype& righ
 	int genotypeIndex = 0;
 	int partnerIndex = 0;
 
-	while (genotypeIndex < left.links.size() || partnerIndex < right.links.size()) {
-		if (genotypeIndex >= left.links.size()) {
+	while (genotypeIndex < left->links.size() || partnerIndex < right->links.size()) {
+		if (genotypeIndex >= left->links.size()) {
 			partnerIndex++;
 			countOfExzess++;
 		}
-		else if (partnerIndex >= right.links.size()) {
+		else if (partnerIndex >= right->links.size()) {
 			genotypeIndex++;
 			countOfExzess++;
 		}
-		else if (left.links[genotypeIndex].innovationID == right.links[partnerIndex].innovationID) {
+		else if (left->links[genotypeIndex].innovationID == right->links[partnerIndex].innovationID) {
 			countOfCommon++;
-			totalWeightDifference += abs(left.links[genotypeIndex].weight - right.links[partnerIndex].weight);
+			totalWeightDifference += abs(left->links[genotypeIndex].weight - right->links[partnerIndex].weight);
 			genotypeIndex++;
 			partnerIndex++;
 		}
-		else if (left.links[genotypeIndex].innovationID > right.links[partnerIndex].innovationID) {
+		else if (left->links[genotypeIndex].innovationID > right->links[partnerIndex].innovationID) {
 			countOfDisjoint++;
 			partnerIndex++;
 		}
-		else if (left.links[genotypeIndex].innovationID < right.links[partnerIndex].innovationID) {
+		else if (left->links[genotypeIndex].innovationID < right->links[partnerIndex].innovationID) {
 			countOfDisjoint++;
 			genotypeIndex++;
 		}
 	}
-	double maxCountOfGenes = std::max(left.links.size(), right.links.size());
+	double maxCountOfGenes = std::max(left->links.size(), right->links.size());
 	if (maxCountOfGenes < 20)
 		maxCountOfGenes = 1;
 
@@ -195,10 +195,10 @@ double nev::Genotype::calculateCompatibilityScore(Genotype& left, Genotype& righ
 	return compatibilityScore;
 }
 
-nev::Genotype nev::Genotype::crossOver(const Genotype& father, const Genotype& mother, int babyId)
+nev::Genotype* nev::Genotype::crossOver(std::shared_ptr<Genotype> father, std::shared_ptr<Genotype> mother, int babyId)
 {
-	std::vector<LinkGene> motherLinks = mother.links;
-	std::vector<LinkGene> fatherLinks = father.links;
+	std::vector<LinkGene> motherLinks = mother->links;
+	std::vector<LinkGene> fatherLinks = father->links;
 	int fatherLinkIndex = 0;
 	int motherLinkIndex = 0;
 	sort(fatherLinks.begin(), fatherLinks.end());
@@ -206,41 +206,41 @@ nev::Genotype nev::Genotype::crossOver(const Genotype& father, const Genotype& m
 	std::vector<LinkGene> babyLinks;
 	std::vector<NeuronGene> babyNeurons;
 
-	ParentType highestFitness = getFittestParent(father, mother);
+	ParentType highestFitness = getFittestParent(*father, *mother);
 
 	while ((motherLinkIndex < motherLinks.size()) || (fatherLinkIndex < fatherLinks.size())) {
 		if (fatherLinkIndex >= fatherLinks.size()) {
 			if (highestFitness == ParentType::Mother)
-				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(*mother, motherLinkIndex, babyNeurons, babyLinks);
 			motherLinkIndex++;
 		}
 		else if (motherLinkIndex >= motherLinks.size()) {
 			if (highestFitness == ParentType::Father)
-				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(*father, fatherLinkIndex, babyNeurons, babyLinks);
 			fatherLinkIndex++;
 		}
 		else if (motherLinks[motherLinkIndex].innovationID > fatherLinks[fatherLinkIndex].innovationID) {
 			if (highestFitness == ParentType::Father)
-				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(*father, fatherLinkIndex, babyNeurons, babyLinks);
 			fatherLinkIndex++;
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID > motherLinks[motherLinkIndex].innovationID) {
 			if (highestFitness == ParentType::Mother)
-				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(*mother, motherLinkIndex, babyNeurons, babyLinks);
 			motherLinkIndex++;
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID == motherLinks[motherLinkIndex].innovationID) {
 			double weight = RNG::getRandomIntBetween(0, 1) == 0 ? fatherLinks[fatherLinkIndex].weight : motherLinks[motherLinkIndex].weight;
 			if (highestFitness == ParentType::Mother)
-				addGeneToVectorIfNotAlreadyInside(mother, motherLinkIndex, weight, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(*mother, motherLinkIndex, weight, babyNeurons, babyLinks);
 			else
-				addGeneToVectorIfNotAlreadyInside(father, fatherLinkIndex, weight, babyNeurons, babyLinks);
+				addGeneToVectorIfNotAlreadyInside(*father, fatherLinkIndex, weight, babyNeurons, babyLinks);
 
 			motherLinkIndex++;
 			fatherLinkIndex++;
 		}
 	}
-	Genotype baby = Genotype(babyNeurons, babyLinks, babyId, father.activationFunction);
+	Genotype* baby = new Genotype(babyNeurons, babyLinks, babyId, father->activationFunction);
 	return baby;
 }
 
