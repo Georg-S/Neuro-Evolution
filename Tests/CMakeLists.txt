@@ -12,6 +12,8 @@ set(TESTSOURCES
 	"TEST_Species.cpp"
 	"TEST_Phenotype.cpp"
 	"TEST_NEAT.cpp"
+	"TEST_HistoricalGenotype.cpp"
+	"TEST_HNE.cpp"
 	)
 
 

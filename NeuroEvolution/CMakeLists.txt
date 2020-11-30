@@ -11,6 +11,8 @@ set(SOURCES
 	"src/RNG.cpp"
 	"src/Species.cpp"
 	"src/ActivationFunction.cpp"
+	"src/HNE/HistoricalGenotype.cpp"
+	"src/HNE/HNE.cpp"
 	)
 
 set(HEADERS 
@@ -30,6 +32,8 @@ set(HEADERS
 	"include/RNG.h"
 	"include/Species.h"
 	"include/ActivationFunction.h"
+	"include/HNE/HistoricalGenotype.h"
+	"include/HNE/HNE.h"
 	)
 
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})
