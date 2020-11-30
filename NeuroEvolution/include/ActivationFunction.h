@@ -16,7 +16,7 @@ namespace nev {
 		static double relu(double input);
 		static double steepenedSigmoid(double input);
 
-		inline static const std::function<double(double input)> arr[]{relu, steepenedSigmoid};
+		inline static const std::function<double(double input)> arr[]{ relu, steepenedSigmoid };
 	};
 
 }

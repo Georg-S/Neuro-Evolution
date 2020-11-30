@@ -13,7 +13,7 @@ namespace nev {
 	class FileReader
 	{
 	public:
-		static nev::NEAT getNEATFromFiles(const std::string& neatFile, const std::string& populationFile ,const std::string& innovationFile);
+		static nev::NEAT getNEATFromFiles(const std::string& neatFile, const std::string& populationFile, const std::string& innovationFile);
 		static std::vector<std::shared_ptr<nev::Genotype>> parsePopulationFromFile(const std::string& fileName);
 		static Innovation parseInnovationFromFile(const std::string& fileName);
 		static std::string getStringBetweenQuotationMark(const std::string& line);

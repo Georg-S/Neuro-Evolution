@@ -40,7 +40,7 @@ std::vector<double> nev::Phenotype::calculateOutputActive(const std::vector<doub
 
 void nev::Phenotype::setBias()
 {
-	for(PhenotypeNeuron* neuron : neurons) {
+	for (PhenotypeNeuron* neuron : neurons) {
 		if (neuron->neuronType == NeuronType::bias) {
 			neuron->outputOfNeuron = 1;
 			return;
@@ -48,10 +48,10 @@ void nev::Phenotype::setBias()
 	}
 }
 
-void nev::Phenotype::setInputs(const std::vector<double> &inputs)
+void nev::Phenotype::setInputs(const std::vector<double>& inputs)
 {
 	int inputIndex = 0;
-	for(PhenotypeNeuron* neuron : neurons) {
+	for (PhenotypeNeuron* neuron : neurons) {
 		if (inputIndex >= inputs.size())
 			return;
 
@@ -66,15 +66,15 @@ std::vector<double> nev::Phenotype::updateOnce(const std::function<double(double
 {
 	std::vector<double> outputs;
 
-	for(PhenotypeNeuron* neuron : neurons) {
+	for (PhenotypeNeuron* neuron : neurons) {
 		if (neuron->neuronType == NeuronType::input || neuron->neuronType == NeuronType::bias)
 			continue;
 
 		double sumOfActivation = 0.0;
 
-		for(PhenotypeNeuron::Link link : neuron->linksIn)
+		for (PhenotypeNeuron::Link link : neuron->linksIn)
 			sumOfActivation += (link.fromNeuron->outputOfNeuron * link.weight);
-		
+
 		neuron->outputOfNeuron = activationFunction(sumOfActivation);
 
 		if (neuron->neuronType == NeuronType::output)

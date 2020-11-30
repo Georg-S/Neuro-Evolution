@@ -6,6 +6,7 @@ namespace nev {
 	class RNG
 	{
 	public:
+		static int getRandomVectorIndex(int vecSize);
 		static int getRandomIntBetween(int from, int to);
 		static float getRandomFloatBetween(int from, int to);
 		static float getRandomFloatBetween(float from, float to);

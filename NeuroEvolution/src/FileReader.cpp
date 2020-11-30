@@ -3,7 +3,7 @@
 
 nev::NEAT nev::FileReader::getNEATFromFiles(const std::string& neatFile, const std::string& populationFile, const std::string& innovationFile)
 {
-	
+
 	auto population = parsePopulationFromFile(populationFile);
 	auto innovation = parseInnovationFromFile(innovationFile);
 	NEAT result = NEAT(population, innovation);

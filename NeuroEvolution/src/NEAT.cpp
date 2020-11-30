@@ -72,7 +72,6 @@ void nev::NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 	if (fitness.size() != population.size())
 		return;
 
-	deletePhenotypes();
 	resetSpecies();
 	setFitnessOfPopulation(fitness);
 	speciate();
@@ -80,6 +79,7 @@ void nev::NEAT::iterateOneGeneration(const std::vector<double>& fitness)
 	updateSpecies();
 	calculateSpawnAmoutOfSpecies();
 	populate();
+	deletePhenotypes();
 	currentGeneration++;
 }
 
@@ -121,7 +121,7 @@ double nev::NEAT::getWeightPertubation() const
 
 void nev::NEAT::setWeightPertubation(double weightPertubation)
 {
-	this->weightPertubation = std::clamp(weightPertubation,0.,1.);
+	this->weightPertubation = std::clamp(weightPertubation, 0., 1.);
 }
 
 void nev::NEAT::setAddNeuronProbability(double addNeuronProbability)
@@ -215,8 +215,8 @@ void nev::NEAT::populate()
 
 		for (int countToSpawn = 0; countToSpawn < spawnAmount; countToSpawn++) {
 			if (!eliteSpawnedAlready && species[speciesIndex].getMemberCount() >= 5) {
+				baby = species[speciesIndex].getDeepCopyOfSpeciesLeader();
 				eliteSpawnedAlready = true;
-				baby = std::shared_ptr<Genotype>(species[speciesIndex].getDeepCopyOfSpeciesLeader());
 			}
 			else {
 				if (species[speciesIndex].getMemberCount() == 1) {

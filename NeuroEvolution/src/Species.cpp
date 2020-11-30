@@ -64,7 +64,7 @@ void nev::Species::incrementCurrentGeneration()
 	generationsNoImprovement++;
 }
 
-std::shared_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const 
+std::shared_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const
 {
 	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
@@ -74,6 +74,7 @@ std::shared_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() c
 		if (randomFitness <= accumalatedFitness)
 			return std::make_shared<Genotype>(*(members[i]));
 	}
+	return representative;
 }
 
 std::shared_ptr<nev::Genotype> nev::Species::getDeepCopyOfSpeciesLeader() const

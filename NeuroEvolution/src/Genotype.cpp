@@ -90,11 +90,11 @@ void nev::Genotype::randomlyMutateAllWeights(double mutationProbability, double 
 {
 	for (int i = 0; i < links.size(); i++) {
 		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
-			mutateSingleWeight( links[i], newWeightProbability, weightPertubation);
+			mutateSingleWeight(links[i], newWeightProbability, weightPertubation);
 	}
 }
 
-void nev::Genotype::mutateSingleWeight(LinkGene& link, double newWeightProbability,  double weightPertubation)
+void nev::Genotype::mutateSingleWeight(LinkGene& link, double newWeightProbability, double weightPertubation)
 {
 	if (RNG::getRandomFloatBetween0and1() <= newWeightProbability)
 		link.weight = getRandomLinkWeight();

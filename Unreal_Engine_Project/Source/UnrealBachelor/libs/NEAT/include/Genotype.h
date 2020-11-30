@@ -30,9 +30,9 @@ namespace nev {
 		void randomlyAddNeuron(Innovation& innovation, double addNeuronProbability);
 		void randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation);
 		void randomlyAddLink(Innovation& innovation, double mutationProbability, bool recurrentAllowed);
-		static double calculateCompatibilityScore(Genotype& left, Genotype& right, double excessFactor,
+		static double calculateCompatibilityScore(std::shared_ptr<Genotype> left, std::shared_ptr<Genotype> right, double excessFactor,
 			double disjointFactor, double weightFactor);
-		static Genotype crossOver(const Genotype& father, const Genotype& mother, int babyId);
+		static std::shared_ptr<Genotype> crossOver(std::shared_ptr<Genotype> father, std::shared_ptr<Genotype> mother, int babyId);
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 		std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 		void createPhenotype();
@@ -81,6 +81,8 @@ namespace nev {
 		double getRandomLinkWeight() const;
 		void createLinkWithRandomWeight(Innovation& innovation, int fromId, int toId, bool recurrent);
 		void createLink(Innovation& innovation, int fromId, int toId, bool recurrent, double weightOfLink);
+		std::vector<LinkGene> getAllValidLinksForAddNeuron();
+		void disableLink(const LinkGene& link);
 
 		nev::af activationFunction;
 		std::vector <NeuronGene> neurons;
@@ -91,7 +93,6 @@ namespace nev {
 		int maxDepth = 0;
 		int countOfInputs;
 		int countOfOutputs;
-		static const int numTriesToAddNeuron = 20;
 		static const int numTriesToAddLink = 20;
 		static constexpr int minimumLinkStartValue = -3;
 		static constexpr int maximumLinkStartValue = 3;
