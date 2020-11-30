@@ -6,7 +6,6 @@
 #include "HistoricalGenotype.h"
 #include "Innovation.h"
 
-using namespace std;
 
 namespace nev {
 
@@ -14,12 +13,12 @@ namespace nev {
 	{
 	public:
 		HNE(int centuryDuration, int populationSize, int countOfInputs, int countOfOutputs);
-		HNE(vector<nev::HistoricalGenotype> population, int countOfInputs, int countOfOutputs);
+		HNE(std::vector<nev::HistoricalGenotype> population, int countOfInputs, int countOfOutputs);
 		~HNE();
 
-		vector<vector<double>> getOutputs(const vector<double>& inputs);
-		void iterateOneGeneration(const vector<double>& fitness);
-		vector<double> getOutputActiveByIndex(int index, const vector<double>& inputs);
+		std::vector<std::vector<double>> getOutputs(const std::vector<double>& inputs);
+		void iterateOneGeneration(const std::vector<double>& fitness);
+		std::vector<double> getOutputActiveByIndex(int index, const std::vector<double>& inputs);
 
 		int calculateElitismCount();
 		void setParametersOfPopulation();
@@ -48,7 +47,7 @@ namespace nev {
 		int currentGeneration = 0;
 
 		std::shared_ptr<nev::Innovation> innovation;
-		vector<nev::HistoricalGenotype> population;
+		std::vector<nev::HistoricalGenotype> population;
 		int populationSize = 0;
 		int countOfInputs = 0;
 		int countOfOutputs = 0;

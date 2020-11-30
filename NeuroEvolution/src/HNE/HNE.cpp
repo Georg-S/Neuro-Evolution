@@ -17,7 +17,7 @@ nev::HNE::HNE(int centuryDuration, int populationSize, int countOfInputs, int co
 	srand(time(NULL));
 }
 
-nev::HNE::HNE(vector<HistoricalGenotype> population, int countOfInputs, int countOfOutputs)
+nev::HNE::HNE(std::vector<HistoricalGenotype> population, int countOfInputs, int countOfOutputs)
 {
 	this->population = population;
 	this->countOfInputs = countOfInputs;
@@ -33,9 +33,9 @@ nev::HNE::~HNE()
 		population[i].deletePhenotype();
 }
 
-vector<vector<double>> nev::HNE::getOutputs(const vector<double> &inputs)
+std::vector<std::vector<double>> nev::HNE::getOutputs(const std::vector<double> &inputs)
 {
-	vector<vector<double>> outputs;
+	std::vector<std::vector<double>> outputs;
 
 	if (inputs.size() != countOfInputs)
 		return outputs;
@@ -48,7 +48,7 @@ vector<vector<double>> nev::HNE::getOutputs(const vector<double> &inputs)
 	return outputs;
 }
 
-void nev::HNE::iterateOneGeneration(const vector<double>& fitness)
+void nev::HNE::iterateOneGeneration(const std::vector<double>& fitness)
 {
 	if (fitness.size() != population.size())
 		return;
@@ -85,9 +85,9 @@ void nev::HNE::iterateOneGeneration(const vector<double>& fitness)
 	currentGeneration++;
 }
 
-vector<double> nev::HNE::getOutputActiveByIndex(int index, const vector<double> &inputs)
+std::vector<double> nev::HNE::getOutputActiveByIndex(int index, const std::vector<double> &inputs)
 {
-	vector<double> output;
+	std::vector<double> output;
 
 	if (index >= population.size()) {
 		return output;

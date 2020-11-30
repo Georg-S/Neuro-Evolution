@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <HNE/HNE.h>
 
+using namespace std;
 using namespace nev;
 
 TEST(HistoricalGenotype, HistorySizeIs1AfterCreation) {

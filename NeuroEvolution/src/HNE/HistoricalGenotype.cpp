@@ -17,16 +17,16 @@ nev::HistoricalGenotype::HistoricalGenotype(Genotype genotype, int countOfInputs
 
 }
 
-vector<double> nev::HistoricalGenotype::calculateOutputSnapshotFromLastGenotype(const vector<double> &input)
+std::vector<double> nev::HistoricalGenotype::calculateOutputSnapshotFromLastGenotype(const std::vector<double> &input)
 {
 //	Genotype geno = ;
-	vector<double> output = genotypeHistory[genotypeHistory.size() - 1].calculateOutputSnapshot(input);
+	std::vector<double> output = genotypeHistory[genotypeHistory.size() - 1].calculateOutputSnapshot(input);
 	return output;
 }
 
-vector<double> nev::HistoricalGenotype::calculateOutputActiveFromLastGenotype(const vector<double>& input)
+std::vector<double> nev::HistoricalGenotype::calculateOutputActiveFromLastGenotype(const std::vector<double>& input)
 {
-	vector<double> output = genotypeHistory[genotypeHistory.size() - 1].calculateOutputActive(input);
+	std::vector<double> output = genotypeHistory[genotypeHistory.size() - 1].calculateOutputActive(input);
 
 	return output;
 }
@@ -131,7 +131,7 @@ void nev::HistoricalGenotype::setHighestFitnessAtStartOfCentury(double highestFi
 
 nev::Genotype nev::HistoricalGenotype::getHighestPerformingGenotype(Innovation& inno)
 {
-	sort(genotypeHistory.begin(), genotypeHistory.end());
+	std::sort(genotypeHistory.begin(), genotypeHistory.end());
 
 	if (genotypeHistory.size() == 0)
 		return Genotype(inno, countOfInputs, countOfOutputs, 0);

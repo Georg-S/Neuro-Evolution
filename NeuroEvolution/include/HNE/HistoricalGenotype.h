@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
 namespace nev {
 
 	class HistoricalGenotype
@@ -12,8 +11,8 @@ namespace nev {
 		HistoricalGenotype(Innovation& inno, int countOfInputs, int countOfOutputs);
 		HistoricalGenotype(Genotype genotype, int countOfInputs, int countOfOutputs);
 
-		vector<double> calculateOutputSnapshotFromLastGenotype(const vector<double>& input);
-		vector<double> calculateOutputActiveFromLastGenotype(const vector<double>& input);
+		std::vector<double> calculateOutputSnapshotFromLastGenotype(const std::vector<double>& input);
+		std::vector<double> calculateOutputActiveFromLastGenotype(const std::vector<double>& input);
 		void setFitness(const double& fitness);
 		void iterate(Innovation& inno);
 		void evolution(Innovation& inno);
@@ -45,7 +44,7 @@ namespace nev {
 		double highestFitnessAtStartOfCentury = 0;
 		double improvementNeeded = 0.1;
 
-		vector<Genotype> genotypeHistory;
+		std::vector<Genotype> genotypeHistory;
 		int countOfInputs;
 		int countOfOutputs;
 		double addLinkProbability = 0.05;
