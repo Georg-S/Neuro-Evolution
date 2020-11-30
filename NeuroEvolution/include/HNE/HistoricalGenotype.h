@@ -9,25 +9,18 @@ namespace nev {
 	{
 	public:
 		HistoricalGenotype(Innovation& inno, int countOfInputs, int countOfOutputs);
-		HistoricalGenotype(Genotype genotype, int countOfInputs, int countOfOutputs);
-
+		HistoricalGenotype(const Genotype& genotype, int countOfInputs, int countOfOutputs);
 		std::vector<double> calculateOutputSnapshotFromLastGenotype(const std::vector<double>& input);
 		std::vector<double> calculateOutputActiveFromLastGenotype(const std::vector<double>& input);
 		void setFitness(const double& fitness);
 		void iterate(Innovation& inno);
 		void evolution(Innovation& inno);
 		void mutate(Innovation& inno, Genotype& genotype);
-
-
-		friend bool operator<(HistoricalGenotype& lhs, HistoricalGenotype& rhs) {
-			return lhs.getHighestFitness() > rhs.getHighestFitness();
-		}
-
 		void deletePhenotype();
 		void purgeAllExceptHighestPerformingGenotype(Innovation& inno);
-		int getHistorySize();
-		double getHighestFitness();
-		double getHighestFitnessAtStartOfCentury();
+		int getHistorySize() const;
+		double getHighestFitness() const;
+		double getHighestFitnessAtStartOfCentury() const;
 		void setImprovementNeeded(double improvementNeeded);
 		void setHighestFitnessAtStartOfCentury(double highestFitnessAtStartOfCentury);
 		void setAddLinkProbability(double addLinkProbability);
@@ -36,14 +29,15 @@ namespace nev {
 		void setNewWeightProbability(double newWeightProbability);
 		void setMaxWeightPertubation(double maxWeightPertubation);
 		void setRecurrentAllowed(bool recurrentAllowed);
+		friend bool operator<(const HistoricalGenotype& lhs, const HistoricalGenotype& rhs);
+
 	private:
-		bool improvedEnough();
+		bool improvedEnough() const;
 		void reset(Innovation& inno);
 		Genotype getHighestPerformingGenotype(Innovation& inno);
 
 		double highestFitnessAtStartOfCentury = 0;
 		double improvementNeeded = 0.1;
-
 		std::vector<Genotype> genotypeHistory;
 		int countOfInputs;
 		int countOfOutputs;
