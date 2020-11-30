@@ -123,12 +123,12 @@ TEST(TEST_Innovation, addNeuronAdds3MoreTotalInnovationsOnlyOnce) {
 	EXPECT_EQ(previousTotalInnovations + 3, inno.getTotalInnovationsCount());
 }
 
-TEST(TEST_Innovation, addLinkAddsNewLinkInnovation) {
+TEST(TEST_Innovation, addLinkRecurrentAllowedAddsNewLinkInnovation) {
 	nev::Innovation inno = nev::Innovation();
 	nev::Genotype geno = nev::Genotype(inno, 2, 1, 1);
 	geno.randomlyAddNeuron(inno, 1.0);
 	int previousCountLinkInnovations = inno.getCountOfNewLinkInnovations();
-	geno.randomlyAddLink(inno, 1.0, false);
+	geno.randomlyAddLink(inno, 1.0, true);
 
 	EXPECT_EQ(previousCountLinkInnovations + 1, inno.getCountOfNewLinkInnovations());
 }

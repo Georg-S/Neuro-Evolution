@@ -3,47 +3,37 @@
 
 nev::HNE::HNE(int centuryDuration, int populationSize, int countOfInputs, int countOfOutputs)
 {
+	srand(time(NULL));
 	this->centuryDuration = centuryDuration;
 	this->populationSize = populationSize;
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
 	this->innovation = std::make_shared<nev::Innovation>();
 
-	for (int i = 0; i < populationSize; i++) {
-		population.push_back(nev::HistoricalGenotype(*innovation,countOfInputs, countOfOutputs));
-	}
-	setParametersOfPopulation();
+	for (int i = 0; i < populationSize; i++)
+		population.push_back(nev::HistoricalGenotype(*innovation, countOfInputs, countOfOutputs));
 
-	srand(time(NULL));
+	setParametersOfPopulation();
 }
 
-nev::HNE::HNE(std::vector<HistoricalGenotype> population, int countOfInputs, int countOfOutputs)
+nev::HNE::HNE(const std::vector<HistoricalGenotype>& population, int countOfInputs, int countOfOutputs)
 {
+	srand(time(NULL));
 	this->population = population;
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
 	setParametersOfPopulation();
-	srand(time(NULL));
 }
 
-nev::HNE::~HNE()
-{
-	
-	for (int i = 0; i < population.size(); i++)
-		population[i].deletePhenotype();
-}
-
-std::vector<std::vector<double>> nev::HNE::getOutputs(const std::vector<double> &inputs)
+std::vector<std::vector<double>> nev::HNE::getOutputsSnapshot(const std::vector<double>& inputs)
 {
 	std::vector<std::vector<double>> outputs;
 
 	if (inputs.size() != countOfInputs)
 		return outputs;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		outputs.push_back(population[i].calculateOutputSnapshotFromLastGenotype(inputs));
-	}
-
 
 	return outputs;
 }
@@ -53,18 +43,16 @@ void nev::HNE::iterateOneGeneration(const std::vector<double>& fitness)
 	if (fitness.size() != population.size())
 		return;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].deletePhenotype();
-	}
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setFitness(fitness[i]);
-	}
-	
+
 	if (currentCentury < centuryDuration) {
-		for (int i = 0; i < population.size(); i++) {
+		for (int i = 0; i < population.size(); i++)
 			population[i].iterate(*innovation);
-		}
+
 		currentCentury++;
 	}
 	else {
@@ -85,13 +73,12 @@ void nev::HNE::iterateOneGeneration(const std::vector<double>& fitness)
 	currentGeneration++;
 }
 
-std::vector<double> nev::HNE::getOutputActiveByIndex(int index, const std::vector<double> &inputs)
+std::vector<double> nev::HNE::getOutputActiveByIndex(int index, const std::vector<double>& inputs)
 {
 	std::vector<double> output;
 
-	if (index >= population.size()) {
+	if (index >= population.size())
 		return output;
-	}
 
 	output = population[index].calculateOutputActiveFromLastGenotype(inputs);
 
@@ -115,16 +102,15 @@ void nev::HNE::setParametersOfPopulation()
 	}
 }
 
-int nev::HNE::getPopulationSize()
+int nev::HNE::getPopulationSize() const
 {
 	return population.size();
 }
 
 void nev::HNE::setHighestFitnessAtStartOfCentury(double highestFitnessAtStartOfCentury)
 {
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setHighestFitnessAtStartOfCentury(highestFitnessAtStartOfCentury);
-	}
 }
 
 void nev::HNE::setCenturyDuration(int centuryDuration)
@@ -136,54 +122,48 @@ void nev::HNE::setAddLinkProbability(double addLinkProbability)
 {
 	this->addLinkProbability = addLinkProbability;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setAddLinkProbability(addLinkProbability);
-	}
 }
 
 void nev::HNE::setAddNeuronProbability(double addNeuronProbability)
 {
 	this->addNeuronProbability = addNeuronProbability;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setAddNeuronProbability(addNeuronProbability);
-	}
 }
 
 void nev::HNE::setMutateWeightProbability(double mutateWeightProbability)
 {
 	this->mutateWeightProbability = mutateWeightProbability;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setMutateWeightProbability(mutateWeightProbability);
-	}
 }
 
 void nev::HNE::setNewWeightProbability(double newWeightProbability)
 {
 	this->newWeightProbability = newWeightProbability;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setNewWeightProbability(newWeightProbability);
-	}
 }
 
 void nev::HNE::setMaxWeightPertubation(double maxWeightPertubation)
 {
 	this->maxWeightPertubation = maxWeightPertubation;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setMaxWeightPertubation(maxWeightPertubation);
-	}
 }
 
 void nev::HNE::setRecurrentAllowed(bool recurrentAllowed)
 {
 	this->recurrentAllowed = recurrentAllowed;
 
-	for (int i = 0; i < population.size(); i++) {
+	for (int i = 0; i < population.size(); i++)
 		population[i].setRecurrentAllowed(recurrentAllowed);
-	}
 }
 
 void nev::HNE::setElitismPercentage(double elitismPercentage)
@@ -191,7 +171,7 @@ void nev::HNE::setElitismPercentage(double elitismPercentage)
 	this->elitismPercentage = elitismPercentage;
 }
 
-double nev::HNE::getHighestFitness()
+double nev::HNE::getHighestFitness() const
 {
 	double highestFitness = 0;
 
@@ -204,7 +184,7 @@ double nev::HNE::getHighestFitness()
 	return highestFitness;
 }
 
-int nev::HNE::getCurrentGeneration()
+int nev::HNE::getCurrentGeneration() const
 {
 	return currentGeneration;
 }

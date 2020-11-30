@@ -21,7 +21,7 @@ TEST(HNE, populationOf1CalculatesTheCorrectValue) {
 
 	HNE epoch = HNE(histGenotype, 1, 1);
 
-	vector<vector<double>> outputs = epoch.getOutputs(vector<double>{1.0});
+	vector<vector<double>> outputs = epoch.getOutputsSnapshot(vector<double>{1.0});
 
 	EXPECT_DOUBLE_EQ(outputs[0][0], 0.99260845865571812);
 }
@@ -42,7 +42,7 @@ TEST(HNE, populationOf2CalculatesTheCorrectValue) {
 
 	HNE epoch = HNE(histGenotype,1,1);
 
-	vector<vector<double>> outputs = epoch.getOutputs(vector<double>{1.0});
+	vector<vector<double>> outputs = epoch.getOutputsSnapshot(vector<double>{1.0});
 	
 	for (int i = 0; i < outputs.size(); i++) {
 		EXPECT_DOUBLE_EQ(outputs[i][0], 0.99260845865571812);
@@ -65,7 +65,7 @@ TEST(HNE, populationOf3CalculatesTheCorrectValue) {
 
 	HNE epoch = HNE(histGenotype,1,1);
 
-	vector<vector<double>> outputs = epoch.getOutputs(vector<double>{1.0});
+	vector<vector<double>> outputs = epoch.getOutputsSnapshot(vector<double>{1.0});
 	
 	for (int i = 0; i < outputs.size(); i++) {
 		EXPECT_DOUBLE_EQ(outputs[i][0], 0.99260845865571812);
@@ -146,12 +146,12 @@ TEST(HNE, theEliteDoesntGetPurgedAndReturnsTheSameOutput) {
 	epoch.setElitismPercentage(0.5);
 	epoch.setHighestFitnessAtStartOfCentury(1);
 	for (int i = 0; i < 100; i++) {
-		vector <vector<double>> outputs = epoch.getOutputs(vector<double> {1.0});
+		vector <vector<double>> outputs = epoch.getOutputsSnapshot(vector<double> {1.0});
 		double previousOutput = outputs[0][0];
 		epoch.iterateOneGeneration(vector<double> {1.05, 1.0,1.0});
 		epoch.iterateOneGeneration(vector<double> {1.00, 1.0,1.0});
 		epoch.iterateOneGeneration(vector<double> {1.00, 1.0 , 1.0});
-		outputs = epoch.getOutputs(vector<double> {1.0});
+		outputs = epoch.getOutputsSnapshot(vector<double> {1.0});
 		double currentOutput = outputs[0][0];
 
 		EXPECT_EQ(previousOutput, currentOutput);
@@ -161,10 +161,10 @@ TEST(HNE, theEliteDoesntGetPurgedAndReturnsTheSameOutput) {
 TEST(Epoch, theOutputChangesAfterIteration) {
 	HNE epoch = HNE(10, 1, 1, 1);;
 	epoch.setMutateWeightProbability(1.0);
-	vector<vector<double>> results = epoch.getOutputs(vector<double>{1.0});
+	vector<vector<double>> results = epoch.getOutputsSnapshot(vector<double>{1.0});
 	double previousResult = results[0][0];
 	epoch.iterateOneGeneration(vector<double> {1.0});
-	results = epoch.getOutputs(vector<double>{1.0});
+	results = epoch.getOutputsSnapshot(vector<double>{1.0});
 	double currenResult = results[0][0];
 
 	EXPECT_NE(previousResult, currenResult);

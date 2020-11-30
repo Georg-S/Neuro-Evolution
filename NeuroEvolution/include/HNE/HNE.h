@@ -13,16 +13,15 @@ namespace nev {
 	{
 	public:
 		HNE(int centuryDuration, int populationSize, int countOfInputs, int countOfOutputs);
-		HNE(std::vector<nev::HistoricalGenotype> population, int countOfInputs, int countOfOutputs);
-		~HNE();
-
-		std::vector<std::vector<double>> getOutputs(const std::vector<double>& inputs);
+		HNE(const std::vector<nev::HistoricalGenotype>& population, int countOfInputs, int countOfOutputs);
+		std::vector<std::vector<double>> getOutputsSnapshot(const std::vector<double>& inputs);
 		void iterateOneGeneration(const std::vector<double>& fitness);
 		std::vector<double> getOutputActiveByIndex(int index, const std::vector<double>& inputs);
-
 		int calculateElitismCount();
 		void setParametersOfPopulation();
-		int getPopulationSize();
+		int getPopulationSize() const;
+		double getHighestFitness() const;
+		int getCurrentGeneration() const;
 		void setHighestFitnessAtStartOfCentury(double highestFitnessAtStartOfCentury);
 		void setCenturyDuration(int centuryDuration);
 		void setAddLinkProbability(double addLinkProbability);
@@ -32,8 +31,7 @@ namespace nev {
 		void setMaxWeightPertubation(double maxWeightPertubation);
 		void setRecurrentAllowed(bool recurrentAllowed);
 		void setElitismPercentage(double elitismPercentage);
-		double getHighestFitness();
-		int getCurrentGeneration();
+
 	private:
 		double elitismPercentage = 0.5;
 		double addLinkProbability = 0.8;
@@ -45,7 +43,6 @@ namespace nev {
 		int centuryDuration;
 		int currentCentury = 0;
 		int currentGeneration = 0;
-
 		std::shared_ptr<nev::Innovation> innovation;
 		std::vector<nev::HistoricalGenotype> population;
 		int populationSize = 0;
