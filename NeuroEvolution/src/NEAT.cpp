@@ -4,6 +4,7 @@
 nev::NEAT::NEAT()
 {
 }
+
 nev::NEAT::NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation)
 {
 	this->population = population;

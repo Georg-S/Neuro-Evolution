@@ -14,7 +14,6 @@ namespace nev {
 	class NEAT
 	{
 	public:
-
 		NEAT();
 		NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation);
 		NEAT(int populationSize, int countOfInputs, int countOfOutputs,
