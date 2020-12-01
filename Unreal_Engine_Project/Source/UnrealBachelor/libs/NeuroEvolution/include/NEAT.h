@@ -14,28 +14,26 @@ namespace nev {
 	class NEAT
 	{
 	public:
-
 		NEAT();
 		NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation);
 		NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 			const nev::af& activationFunction = nev::af::steepenedSigmoid);
-
 		std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double>& inputs);
 		std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
 		std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, int index);
 		void iterateOneGeneration(const std::vector<double>& fitness);
-
-
 		int getPopulationSize() const;
 		int getSpeciesCount() const;
 		int getTotalCountOfInnovations() const;
 		int getHighestGenotypeId() const;
 		int getCurrentGeneration() const;
 		double getWeightPertubation() const;
-
+		int getHiddenNeuronCountOfSpecificGenotype(int index) const;
+		int getCountOfEnabledLinksOfSpecificGenotype(int index) const;
 		void setWeightPertubation(double weightPertubation);
 		void setAddNeuronProbability(double addNeuronProbability);
 		void refreshPopulationActivationFunction();
+
 	private:
 		void deletePhenotypes();
 		void resetSpecies();

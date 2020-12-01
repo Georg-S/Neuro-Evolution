@@ -50,6 +50,8 @@ namespace nev {
 		int getGenotypeId() const;
 		int getCountOfInputs() const;
 		int getCountOfOutputs() const;
+		int getCountOfEnabledLink() const;
+		int getCountOfHiddenNeurons() const;
 		std::vector<NeuronGene> getNeurons() const;
 		std::vector<LinkGene> getLinks() const;
 		friend bool operator<(const Genotype& lhs, const Genotype& rhs);

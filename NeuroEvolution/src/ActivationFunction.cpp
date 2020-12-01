@@ -10,5 +10,7 @@ double nev::Activation::relu(double input) {
 }
 
 std::function<double(double input)> nev::Activation::getFunction(nev::af af) {
+	static const std::function<double(double input)> arr[]{ relu, steepenedSigmoid };
+
 	return arr[(int)af];
 }

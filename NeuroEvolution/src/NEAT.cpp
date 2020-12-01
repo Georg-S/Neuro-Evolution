@@ -120,6 +120,20 @@ double nev::NEAT::getWeightPertubation() const
 	return weightPertubation;
 }
 
+int nev::NEAT::getHiddenNeuronCountOfSpecificGenotype(int index) const
+{
+	if((index >= 0) && (index < population.size()))
+		return population[index]->getCountOfHiddenNeurons();
+	return -1;
+}
+
+int nev::NEAT::getCountOfEnabledLinksOfSpecificGenotype(int index) const
+{
+	if ((index >= 0) && (index < population.size()))
+		return population[index]->getCountOfEnabledLink();
+	return -1;
+}
+
 void nev::NEAT::setWeightPertubation(double weightPertubation)
 {
 	this->weightPertubation = std::clamp(weightPertubation, 0., 1.);

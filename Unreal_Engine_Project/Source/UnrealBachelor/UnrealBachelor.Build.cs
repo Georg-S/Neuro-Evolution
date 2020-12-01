@@ -11,11 +11,10 @@ public class UnrealBachelor : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
 
-		string libBinPath = Path.Combine(ModuleDirectory, "libs", "NEAT", "bin");
-		string libIncludePath = Path.Combine(ModuleDirectory, "libs", "NEAT", "include");
+		string libBinPath = Path.Combine(ModuleDirectory, "libs", "NeuroEvolution", "bin");
+		string libIncludePath = Path.Combine(ModuleDirectory, "libs", "NeuroEvolution", "include");
 
-		PublicAdditionalLibraries.Add(Path.Combine(libBinPath, "NEAT.lib"));
-		PublicIncludePaths.Add(Path.Combine(libIncludePath, "NEAT"));
-		//PublicAdditionalLibraries.Add("C:/Users/Georg/Downloads/Unreal_Engine_Project/Source/libraries/HistoricalNeuroEvolution.lib");
+		PublicAdditionalLibraries.Add(Path.Combine(libBinPath, "NeuroEvolution.lib"));
+		PublicIncludePaths.Add(libIncludePath);
 	}
 }

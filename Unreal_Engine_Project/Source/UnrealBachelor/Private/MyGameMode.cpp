@@ -9,7 +9,7 @@ AMyGameMode::AMyGameMode() {
 
 void AMyGameMode::BeginPlay()
 {
-	neat = new NEAT(50, 12, 7);
+	neat = new nev::NEAT(50, 12, 7);
 	//	neat = new NEAT("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Population.txt"
 	//		, "C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Innovation.txt");
 
@@ -58,7 +58,7 @@ void AMyGameMode::Tick(float DeltaTime)
 	if (atleastOneActive())
 		updateActors();
 	else {
-		vector<double> fitness = calculateFitnessOfAllActors();
+		std::vector<double> fitness = calculateFitnessOfAllActors();
 		neat->iterateOneGeneration(fitness);
 		resetActors();
 		resetMovingObstacles();
@@ -66,7 +66,7 @@ void AMyGameMode::Tick(float DeltaTime)
 	}
 }
 
-void AMyGameMode::printCurrentGeneration(NEAT* neat)
+void AMyGameMode::printCurrentGeneration(nev::NEAT* neat)
 {
 	std::string bli = std::to_string(neat->getCurrentGeneration());
 	FString blitz(bli.c_str());
@@ -146,7 +146,7 @@ void AMyGameMode::updateActors()
 			continue;
 
 		boids[i]->updateSensorData();
-		vector<double> output = neat->calculateOutputActiveOfSpecificGenotype(boids[i]->getSensorData(), i);
+		std::vector<double> output = neat->calculateOutputActiveOfSpecificGenotype(boids[i]->getSensorData(), i);
 		boids[i]->updateMoveDirection(output);
 		boids[i]->iterate();
 	}
@@ -198,9 +198,9 @@ bool AMyGameMode::checkLevelSwitched()
 }
 
 
-vector<double> AMyGameMode::calculateFitnessOfAllActors()
+std::vector<double> AMyGameMode::calculateFitnessOfAllActors()
 {
-	vector<double> fitness;
+	std::vector<double> fitness;
 	bool printOnce = false;
 
 	for (int i = 0; i < boids.Num(); i++) {

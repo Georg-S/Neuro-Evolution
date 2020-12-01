@@ -26,7 +26,7 @@ public:
 	void BeginPlay() override;
 
 private:
-	void printCurrentGeneration(NEAT* neat);
+	void printCurrentGeneration(nev::NEAT* neat);
 	double getHighestFitness(const std::vector<double>& fitness) const;
 	void initializeMovingObstaclesLevel4();
 	void initializeMovingObstaclesLevel5And6();
@@ -37,13 +37,13 @@ private:
 	bool checkLevelSwitched();
 	UFUNCTION()
 		void updateActors();
-	vector<double> calculateFitnessOfAllActors();
+	std::vector<double> calculateFitnessOfAllActors();
 	double calculateFitnessOfActor(ABoid* actor);
 	void resetActors();
 	void checkIfActorsMovedEnough();
 
 	//	NeuralNetwork* neat;
-	NEAT* neat;
+	nev::NEAT* neat;
 	TArray<ABoid*> boids;
 	TArray<AMovingObstacle*> movingObstacles;
 	int numberTicksPositionMustChange = 2300;

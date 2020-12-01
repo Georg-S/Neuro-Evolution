@@ -46,12 +46,12 @@ add_custom_command(
         TARGET NeuroEvolution POST_BUILD
         COMMAND if $<CONFIG:Release> neq 0 ( ${CMAKE_COMMAND} -E copy_directory
                 ${CMAKE_SOURCE_DIR}"/NeuroEvolution/include"
-                ${CMAKE_SOURCE_DIR}"/Unreal_Engine_Project/Source/UnrealBachelor/libs/NEAT/include")
+                ${CMAKE_SOURCE_DIR}"/Unreal_Engine_Project/Source/UnrealBachelor/libs/NeuroEvolution/include")
 				)
 
 add_custom_command(
 		TARGET NeuroEvolution POST_BUILD
 		COMMAND if $<CONFIG:Release> neq 0 ( ${CMAKE_COMMAND} -E copy
 				${NEAT_LIB_PATH}
-				${CMAKE_SOURCE_DIR}"/Unreal_Engine_Project/Source/UnrealBachelor/libs/NEAT/bin/NeuroEvolution.lib")
+				${CMAKE_SOURCE_DIR}"/Unreal_Engine_Project/Source/UnrealBachelor/libs/NeuroEvolution/bin/NeuroEvolution.lib")
 			)

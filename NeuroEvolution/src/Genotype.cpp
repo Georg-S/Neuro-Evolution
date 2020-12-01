@@ -344,6 +344,26 @@ int nev::Genotype::getCountOfOutputs() const
 	return countOfOutputs;
 }
 
+int nev::Genotype::getCountOfEnabledLink() const
+{
+	int count = 0;
+	for (auto link : links) {
+		if (link.enabled)
+			count++;
+	}
+	return count;
+}
+
+int nev::Genotype::getCountOfHiddenNeurons() const
+{
+	int count = 0;
+	for (auto neuron : neurons) {
+		if (neuron.neuronType == nev::NeuronType::hidden)
+			count++;
+	}
+	return count;
+}
+
 std::vector<nev::NeuronGene> nev::Genotype::getNeurons() const
 {
 	return neurons;

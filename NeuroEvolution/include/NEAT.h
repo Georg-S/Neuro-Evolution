@@ -28,6 +28,8 @@ namespace nev {
 		int getHighestGenotypeId() const;
 		int getCurrentGeneration() const;
 		double getWeightPertubation() const;
+		int getHiddenNeuronCountOfSpecificGenotype(int index) const;
+		int getCountOfEnabledLinksOfSpecificGenotype(int index) const;
 		void setWeightPertubation(double weightPertubation);
 		void setAddNeuronProbability(double addNeuronProbability);
 		void refreshPopulationActivationFunction();
