@@ -9,12 +9,12 @@ AMyGameMode::AMyGameMode() {
 
 void AMyGameMode::BeginPlay()
 {
-	neat = new nev::NEAT(50, 12, 7);
-	//	neat = new NEAT("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Population.txt"
-	//		, "C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/WorkingNeuralNets/Level7Innovation.txt");
+	const int populationSize = 50;
+	const int sensorCount = 12;
+	const int possibleActions = 7;
+	neat = new nev::NEAT(populationSize, sensorCount, possibleActions);
 
 	Super::BeginPlay();
-
 	initializeStartAndGoal();
 	FindAllActors(GetWorld(), boids);
 
@@ -41,17 +41,14 @@ void AMyGameMode::Tick(float DeltaTime)
 	if (checkLevelSwitched())
 		return;
 
-	/*
 	if (solutionFound) {
 		if (!writeOnce) {
-			neat->writePopulationAndInnovationAsFiles("C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/CreatedNetwork/Level7Population.txt"
-				, "C://Users/Georg/Documents/Studium/8.Semester/Bachelorarbeit/UnrealBachelor/CreatedNetwork/Level7Innovation.txt");
+			nev::FileWriter::writeNEATToFile(*neat, getSaveString());
 			writeOnce = true;
 		}
 		else
 			return;
 	}
-	*/
 
 	numberTicks++;
 	checkIfActorsMovedEnough();
@@ -266,4 +263,24 @@ void AMyGameMode::checkIfActorsMovedEnough()
 			boid->setPastPosition(boid->GetActorLocation());
 		}
 	}
+}
+
+std::string AMyGameMode::getRootDir() const
+{
+	return convertFstringToStd(FPaths::ProjectDir());
+}
+
+std::string AMyGameMode::getSaveString() const
+{
+	return getRootDir() + "/NeuralNetworks/Current/" + getLevelName() + "_";
+}
+
+std::string AMyGameMode::getLoadString() const
+{
+	return getRootDir() + "/NeuralNetworks/Saved/" + getLevelName() + "_";
+}
+
+std::string AMyGameMode::getLevelName() const 
+{
+	return convertFstringToStd(GetWorld()->GetMapName());
 }

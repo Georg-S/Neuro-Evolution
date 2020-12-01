@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 
@@ -13,4 +14,12 @@ static void FindAllActors(UWorld* World, TArray<T*>& Out)
 			Out.Add(Actor);
 		}
 	}
+}
+
+static std::string convertFstringToStd(const FString& fstr) {
+	return TCHAR_TO_UTF8(*fstr);
+}
+
+static void printWarningMessageToConsole(const std::string& str) {
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(str.c_str()));
 }

@@ -2,9 +2,9 @@
 
 #pragma once
 
-
 #include <NEAT.h>
 #include <string>
+#include <FileWriter.h>
 #include "Helper.h"
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
@@ -41,6 +41,10 @@ private:
 	double calculateFitnessOfActor(ABoid* actor);
 	void resetActors();
 	void checkIfActorsMovedEnough();
+	std::string getRootDir() const;
+	std::string getSaveString() const;
+	std::string getLoadString() const;
+	std::string getLevelName() const;
 
 	//	NeuralNetwork* neat;
 	nev::NEAT* neat;
