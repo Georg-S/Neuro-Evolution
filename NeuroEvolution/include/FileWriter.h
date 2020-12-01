@@ -14,7 +14,7 @@ namespace nev {
 	class FileWriter
 	{
 	public:
-		static void writeNEATToFile(const nev::NEAT& neat, const std::string& fileSuffix = "");
+		static void writeNEATToFile(const nev::NEAT& neat, const std::string& filePrefix = "");
 		static void writeNEATParametersToFile(const std::string& fileName, const nev::NEAT& neat);
 		static void writePopulationToFile(const std::string& fileName, std::vector<std::shared_ptr<Genotype>> population);
 		static void writeInnovationToFile(const std::string& fileName, const Innovation& innovation);

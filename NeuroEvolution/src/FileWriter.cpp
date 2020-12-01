@@ -1,10 +1,10 @@
 #include "FileWriter.h"
 
-void nev::FileWriter::writeNEATToFile(const nev::NEAT& neat, const std::string& fileSuffix)
+void nev::FileWriter::writeNEATToFile(const nev::NEAT& neat, const std::string& filePrefix)
 {
-	std::string populationFileName = "population" + fileSuffix + ".txt";
-	std::string innovationFileName = "innovation" + fileSuffix + ".txt";
-	std::string neatFileName = "neat" + fileSuffix + ".txt";
+	std::string populationFileName = filePrefix + "population.txt";
+	std::string innovationFileName = filePrefix + "innovation.txt";
+	std::string neatFileName = filePrefix + "neat.txt";
 
 	writePopulationToFile(populationFileName, neat.population);
 	writeInnovationToFile(innovationFileName, neat.innovation);
