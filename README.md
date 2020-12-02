@@ -5,6 +5,7 @@ This is the implementation of my Bachelor's thesis project.
 The folder "NeuroEvolution" contains the source code for two neuro evolutionary algorithms.
 
 The first one is called "NEAT" ("NeuroEvolution of Augmented Topologies") and is an Algorithm discovered by Ken Stanley.
+
 The second one is called "HNE" ("Historical Neuro Evolution") and was developed by me. 
 
 ## Unreal Engine Project
