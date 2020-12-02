@@ -44,10 +44,8 @@ void AMyGameMode::Tick(float DeltaTime)
 	if (solutionFound) {
 		if (!writeOnce) {
 			nev::FileWriter::writeNEATToFile(*neat, getSaveString());
-			writeOnce = true;
+			solutionFound = false;
 		}
-		else
-			return;
 	}
 
 	numberTicks++;
@@ -233,7 +231,7 @@ double AMyGameMode::calculateFitnessOfActor(ABoid* actor)
 	else
 		fitness = startLength - actorDistanceFromGoal;
 
-	if (actorDistanceFromGoal < goalReachedThreshhold) {
+	if (actorDistanceFromGoal <= goalReachedThreshhold) {
 		fitness = startLength;
 		solutionFound = true;
 	}
