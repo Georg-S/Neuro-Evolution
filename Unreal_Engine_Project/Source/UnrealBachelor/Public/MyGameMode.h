@@ -30,6 +30,8 @@ public:
 	void BeginPlay() override;
 
 	int getCurrentGeneration();
+
+
 private:
 	void printCurrentGeneration(nev::NEAT* neat);
 	double getHighestFitness(const std::vector<double>& fitness) const;

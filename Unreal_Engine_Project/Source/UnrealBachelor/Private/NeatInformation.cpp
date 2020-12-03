@@ -5,6 +5,26 @@
 
 ANeatInformation::ANeatInformation()
 {
+    static ConstructorHelpers::FClassFinder<UMyUserWidget> WidgetAsset(TEXT("/Game/NEAT_Experiment/test_BP"));
+    if (WidgetAsset.Succeeded())
+    {
+        WidgetClass = WidgetAsset.Class;
+    }
+}
+
+void ANeatInformation::BeginPlay() 
+{
+    Super::BeginPlay();
+
+    if (WidgetClass)
+    {
+        Widget = CreateWidget<UMyUserWidget>(GetWorld(), WidgetClass);
+
+        if (Widget)
+        {
+            Widget->AddToViewport();
+        }
+    }
 
 }
 
