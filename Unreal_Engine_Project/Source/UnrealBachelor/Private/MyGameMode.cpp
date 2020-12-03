@@ -270,5 +270,7 @@ std::string AMyGameMode::getLoadString() const
 
 std::string AMyGameMode::getLevelName() const 
 {
-	return convertFstringToStd(GetWorld()->GetMapName());
+	FString LevelName = GetWorld()->GetMapName();
+	LevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+	return convertFstringToStd(LevelName);
 }

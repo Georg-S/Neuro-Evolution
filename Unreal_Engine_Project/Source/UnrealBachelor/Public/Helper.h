@@ -23,3 +23,8 @@ static std::string convertFstringToStd(const FString& fstr) {
 static void printWarningMessageToConsole(const std::string& str) {
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(str.c_str()));
 }
+
+static void printDebugMessageOnScreen(const std::string& str, const FColor& color = FColor::Red) {
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, color, *FString(str.c_str()));
+}

@@ -6,6 +6,7 @@
 #include <string>
 #include <FileWriter.h>
 #include "Helper.h"
+#include "Engine/LevelStreaming.h"
 #include "EngineUtils.h"
 #include "EngineMinimal.h"
 #include "Boid.h"
