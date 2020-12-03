@@ -63,9 +63,7 @@ void AMyGameMode::Tick(float DeltaTime)
 
 void AMyGameMode::printCurrentGeneration(nev::NEAT* neat)
 {
-	std::string bli = std::to_string(neat->getCurrentGeneration());
-	FString blitz(bli.c_str());
-	UE_LOG(LogTemp, Warning, TEXT("Current Generation %s"), *blitz);
+	printWarningMessageToConsole("Current Generation " + std::to_string(neat->getCurrentGeneration()));
 }
 
 double AMyGameMode::getHighestFitness(const std::vector<double>& fitness) const
@@ -203,17 +201,9 @@ std::vector<double> AMyGameMode::calculateFitnessOfAllActors()
 
 		if (solutionFound && (!printOnce)) {
 			printOnce = true;
-			std::string bufStd = std::to_string(neat->getCurrentGeneration());
-			FString bufFStr(bufStd.c_str());
-			UE_LOG(LogTemp, Warning, TEXT("Solved in Generation %s"), *bufFStr);
-
-			bufStd = std::to_string(neat->getHiddenNeuronCountOfSpecificGenotype(i));
-			bufFStr = bufStd.c_str();
-			UE_LOG(LogTemp, Warning, TEXT("Hidden Node Count %s"), *bufFStr);
-
-			bufStd = std::to_string(neat->getCountOfEnabledLinksOfSpecificGenotype(i));
-			bufFStr = bufStd.c_str();
-			UE_LOG(LogTemp, Warning, TEXT("Enabled Links %s"), *bufFStr);
+			printWarningMessageToConsole("Solved in Generation " + std::to_string(neat->getCurrentGeneration()));
+			printWarningMessageToConsole("Hidden Node Count " + std::to_string(neat->getHiddenNeuronCountOfSpecificGenotype(i)));
+			printWarningMessageToConsole("Enabled Links " + std::to_string(neat->getCountOfEnabledLinksOfSpecificGenotype(i)));
 		}
 	}
 	return fitness;
