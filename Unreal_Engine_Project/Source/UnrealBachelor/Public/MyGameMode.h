@@ -16,6 +16,8 @@
 #include "Public/Start.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "NeatInformation.h"
+
 #include "MyGameMode.generated.h"
 
 UCLASS()
@@ -27,6 +29,7 @@ public:
 	void Tick(float DeltaTime) override;
 	void BeginPlay() override;
 
+	int getCurrentGeneration();
 private:
 	void printCurrentGeneration(nev::NEAT* neat);
 	double getHighestFitness(const std::vector<double>& fitness) const;
@@ -36,7 +39,7 @@ private:
 	bool updateActive(ABoid* boid);
 	void initializeStartAndGoal();
 	bool atleastOneActive();
-	bool checkLevelSwitched();
+	bool handleKeyboardInput();
 	UFUNCTION()
 		void updateActors();
 	std::vector<double> calculateFitnessOfAllActors();

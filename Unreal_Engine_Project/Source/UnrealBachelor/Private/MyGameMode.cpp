@@ -3,6 +3,7 @@
 #include "MyGameMode.h"
 
 AMyGameMode::AMyGameMode() {
+	HUDClass = ANeatInformation::StaticClass();
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -40,7 +41,7 @@ void AMyGameMode::Tick(float DeltaTime)
 	if (start == nullptr || goal == nullptr)
 		return;
 
-	if (checkLevelSwitched())
+	if (handleKeyboardInput())
 		return;
 
 	if (solutionFound) {
@@ -61,6 +62,14 @@ void AMyGameMode::Tick(float DeltaTime)
 		resetMovingObstacles();
 		printCurrentGeneration(neat);
 	}
+}
+
+int AMyGameMode::getCurrentGeneration()
+{
+	if (this->neat != nullptr)
+		return neat->getCurrentGeneration();
+	
+	return -1;
 }
 
 void AMyGameMode::printCurrentGeneration(nev::NEAT* neat)
@@ -156,7 +165,7 @@ bool AMyGameMode::atleastOneActive()
 	return false;
 }
 
-bool AMyGameMode::checkLevelSwitched()
+bool AMyGameMode::handleKeyboardInput()
 {
 	if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::One)) {
 		delete neat;
