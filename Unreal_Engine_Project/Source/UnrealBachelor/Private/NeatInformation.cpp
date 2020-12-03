@@ -5,7 +5,7 @@
 
 ANeatInformation::ANeatInformation()
 {
-    static ConstructorHelpers::FClassFinder<UMyUserWidget> WidgetAsset(TEXT("/Game/NEAT_Experiment/test_BP"));
+    static ConstructorHelpers::FClassFinder<UNeatWidget> WidgetAsset(TEXT("/Game/NEAT_Experiment/Widget/NeatWidget_BP"));
     if (WidgetAsset.Succeeded())
     {
         WidgetClass = WidgetAsset.Class;
@@ -18,8 +18,8 @@ void ANeatInformation::BeginPlay()
 
     if (WidgetClass)
     {
-        Widget = CreateWidget<UMyUserWidget>(GetWorld(), WidgetClass);
-
+        Widget = CreateWidget<UNeatWidget>(GetWorld(), WidgetClass);
+        
         if (Widget)
         {
             Widget->AddToViewport();
@@ -31,15 +31,5 @@ void ANeatInformation::BeginPlay()
 void ANeatInformation::Tick(float DeltaSeconds) 
 {
 	Super::Tick(DeltaSeconds);
-}
-
-void ANeatInformation::DrawHUD() 
-{
-	Super::DrawHUD();
-	drawCurrentGeneration();
-}
-
-void ANeatInformation::drawCurrentGeneration() 
-{
-	DrawText("Current Generation: " + FString::FromInt(generation), FLinearColor::Red, 100, 100, NULL, 1.5f);
+    Widget->currentGeneration = generation;
 }

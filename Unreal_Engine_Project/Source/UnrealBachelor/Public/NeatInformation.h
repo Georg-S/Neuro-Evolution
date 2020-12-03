@@ -6,8 +6,7 @@
 #include "CoreMinimal.h"
 #include "Math/Vector2D.h"
 #include "Helper.h"
-#include "UserWidget.h"
-#include "MyUserWidget.h"
+#include "NeatWidget.h"
 #include "NeatInformation.generated.h"
 
 UCLASS()
@@ -15,16 +14,14 @@ class UNREALBACHELOR_API ANeatInformation : public AHUD
 {
 	GENERATED_BODY()
 public:
-	virtual void BeginPlay() override;
 	ANeatInformation();
 
-	void DrawHUD() override;
-	void drawCurrentGeneration();
+	void BeginPlay() override;
 	void Tick(float DeltaSeconds) override;
+
+
 	int generation = -1;
-
-
-
+private:
 	TSubclassOf<class UUserWidget> WidgetClass;
-	class UMyUserWidget* Widget;
+	class UNeatWidget* Widget;
 };
