@@ -47,6 +47,7 @@ private:
 	void resetActors();
 	void checkIfActorsMovedEnough();
 	void loadNEATFromFile();
+	void updateUIValues();
 	std::string getRootDir() const;
 	std::string getSaveString() const;
 	std::string getLoadString() const;

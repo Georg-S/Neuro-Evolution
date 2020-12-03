@@ -37,6 +37,7 @@ void AMyGameMode::BeginPlay()
 void AMyGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	updateUIValues();
 
 	if (start == nullptr || goal == nullptr)
 		return;
@@ -282,6 +283,12 @@ void AMyGameMode::loadNEATFromFile()
 	std::string neatString = getLoadString() + "neat.txt";
 
 	neat = nev::FileReader::getNewNEATFromFiles(neatString, populationString, innovationString);
+}
+
+void AMyGameMode::updateUIValues()
+{
+	ANeatInformation* hud = Cast<ANeatInformation>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
+	hud->generation = neat->getCurrentGeneration();
 }
 
 std::string AMyGameMode::getRootDir() const

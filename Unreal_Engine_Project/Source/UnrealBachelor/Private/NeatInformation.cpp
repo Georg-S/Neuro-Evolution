@@ -21,10 +21,5 @@ void ANeatInformation::DrawHUD()
 
 void ANeatInformation::drawCurrentGeneration() 
 {
-	int generation = -1;
-	if (AMyGameMode* GameMode = Cast<AMyGameMode>(GetWorld()->GetAuthGameMode()))
-	{
-		generation = GameMode->getCurrentGeneration();
-	}
 	DrawText("Current Generation: " + FString::FromInt(generation), FLinearColor::Red, 100, 100, NULL, 1.5f);
 }
