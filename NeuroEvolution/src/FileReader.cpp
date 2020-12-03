@@ -1,9 +1,20 @@
 #include "FileReader.h"
 
 
+nev::NEAT* nev::FileReader::getNewNEATFromFiles(const std::string& neatFile, const std::string& populationFile, const std::string& innovationFile)
+{
+	auto population = parsePopulationFromFile(populationFile);
+	auto innovation = parseInnovationFromFile(innovationFile);
+	NEAT* result = new NEAT(population, innovation);
+	result->currentGenotypeId = population.size();
+	parseNEATParameters(neatFile, *result);
+	result->refreshPopulationActivationFunction();
+
+	return result;
+}
+
 nev::NEAT nev::FileReader::getNEATFromFiles(const std::string& neatFile, const std::string& populationFile, const std::string& innovationFile)
 {
-
 	auto population = parsePopulationFromFile(populationFile);
 	auto innovation = parseInnovationFromFile(innovationFile);
 	NEAT result = NEAT(population, innovation);

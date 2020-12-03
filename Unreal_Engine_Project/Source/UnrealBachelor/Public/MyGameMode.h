@@ -5,6 +5,7 @@
 #include <NEAT.h>
 #include <string>
 #include <FileWriter.h>
+#include <FileReader.h>
 #include "Helper.h"
 #include "Engine/LevelStreaming.h"
 #include "EngineUtils.h"
@@ -42,6 +43,7 @@ private:
 	double calculateFitnessOfActor(ABoid* actor);
 	void resetActors();
 	void checkIfActorsMovedEnough();
+	void loadNEATFromFile();
 	std::string getRootDir() const;
 	std::string getSaveString() const;
 	std::string getLoadString() const;

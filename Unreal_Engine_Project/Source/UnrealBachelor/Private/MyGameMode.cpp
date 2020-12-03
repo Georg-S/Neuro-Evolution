@@ -12,6 +12,8 @@ void AMyGameMode::BeginPlay()
 	const int populationSize = 50;
 	const int sensorCount = 12;
 	const int possibleActions = 7;
+
+
 	neat = new nev::NEAT(populationSize, sensorCount, possibleActions);
 
 	Super::BeginPlay();
@@ -187,6 +189,17 @@ bool AMyGameMode::checkLevelSwitched()
 		UGameplayStatics::OpenLevel(GetWorld(), "SixthLevel");
 		return true;
 	}
+	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::L)) {
+		delete neat;
+		loadNEATFromFile();
+		resetActors();
+		resetMovingObstacles();
+	}
+	else if (GetWorld()->GetFirstPlayerController()->WasInputKeyJustPressed(EKeys::R)) {
+		resetActors();
+		resetMovingObstacles();
+	}
+
 	return false;
 }
 
@@ -244,13 +257,22 @@ void AMyGameMode::checkIfActorsMovedEnough()
 	if (numberTicks == numberTicksPositionMustChange) {
 		numberTicks = 0;
 
-		for(auto boid : boids){
+		for (auto boid : boids) {
 			if ((boid->GetActorLocation() - boid->getPastPosition()).Size() < distanceBoidMustChange) {
 				boid->deactivate();
 			}
 			boid->setPastPosition(boid->GetActorLocation());
 		}
 	}
+}
+
+void AMyGameMode::loadNEATFromFile()
+{
+	std::string populationString = getLoadString() + "population.txt";
+	std::string innovationString = getLoadString() + "innovation.txt";
+	std::string neatString = getLoadString() + "neat.txt";
+
+	neat = nev::FileReader::getNewNEATFromFiles(neatString, populationString, innovationString);
 }
 
 std::string AMyGameMode::getRootDir() const
@@ -268,7 +290,7 @@ std::string AMyGameMode::getLoadString() const
 	return getRootDir() + "/NeuralNetworks/Saved/" + getLevelName() + "_";
 }
 
-std::string AMyGameMode::getLevelName() const 
+std::string AMyGameMode::getLevelName() const
 {
 	FString LevelName = GetWorld()->GetMapName();
 	LevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
