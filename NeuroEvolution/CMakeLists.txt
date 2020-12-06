@@ -37,7 +37,7 @@ set(HEADERS
 	)
 
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})
-target_include_directories(NeuroEvolution PUBLIC include)
+target_include_directories(NeuroEvolution PUBLIC "include")
 
 
 set(NEAT_LIB_PATH ${CMAKE_CURRENT_BINARY_DIR}"/"$<CONFIG>"/NeuroEvolution.lib")
