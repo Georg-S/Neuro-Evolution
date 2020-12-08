@@ -24,7 +24,7 @@ Furthermore, they must progress or they get set to inactive.
 
 If every agent is set to inactive a new iteration starts:
 
-![Sensoric](/readme_files/Iteration.gif)
+![Iteration](/readme_files/Iteration.gif)
 
 ## Main sources for the devlopment of NEAT
 
