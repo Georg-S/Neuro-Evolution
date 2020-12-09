@@ -28,6 +28,6 @@ If every agent is set to inactive a new iteration starts:
 
 ## Main sources for the devlopment of NEAT
 
-[Downloadlink to in depth description of NEAT!](https://repositories.lib.utexas.edu/bitstream/handle/2152/1266/stanleyk74304.pdf)
+[Downloadlink for in depth description of NEAT](https://repositories.lib.utexas.edu/bitstream/handle/2152/1266/stanleyk74304.pdf)
 
-AI Techniques For Game Programming Mat Buckland 2002
+Mat Buckland, 2002, AI Techniques For Game Programming 
