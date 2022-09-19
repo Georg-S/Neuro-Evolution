@@ -2,8 +2,6 @@
 project(NeuroEvolution)
 
 set(SOURCES 
-	"src/FileReader.cpp"
-	"src/FileWriter.cpp"
 	"src/Genotype.cpp"
 	"src/Innovation.cpp"
 	"src/NEAT.cpp"
@@ -13,11 +11,10 @@ set(SOURCES
 	"src/ActivationFunction.cpp"
 	"src/HNE/HistoricalGenotype.cpp"
 	"src/HNE/HNE.cpp"
+	"src/NEATFileIO.cpp"
 	)
 
 set(HEADERS 
-	"include/FileReader.h" 
-	"include/FileWriter.h" 
 	"include/Genotype.h"
 	"include/InnovationElement.h"
 	"include/InnovationType.h"
@@ -34,6 +31,8 @@ set(HEADERS
 	"include/ActivationFunction.h"
 	"include/HNE/HistoricalGenotype.h"
 	"include/HNE/HNE.h"
+	"include/json.hpp"
+	"include/NEATFileIO.h"
 	)
 
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})

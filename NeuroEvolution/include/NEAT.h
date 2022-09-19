@@ -14,7 +14,7 @@ namespace nev {
 	class NEAT
 	{
 	public:
-		NEAT();
+		NEAT() = delete;
 		NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation);
 		NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 			const nev::af& activationFunction = nev::af::steepenedSigmoid);
@@ -75,8 +75,7 @@ namespace nev {
 		int currentPopulationId = 0;
 		int currentGeneration = 0;
 
-		friend class FileWriter;
-		friend class FileReader;
+		friend class FileIO;
 	};
 
 }
