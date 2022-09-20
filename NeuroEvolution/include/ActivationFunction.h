@@ -2,19 +2,22 @@
 #include <math.h>
 #include <functional>
 
-namespace nev {
-
-	enum class af {
+namespace nev
+{
+	enum class af
+	{
 		relu, steepenedSigmoid
 	};
 
-	class Activation {
+	using activationFunction = std::function<double(double input)>;
+
+	class Activation
+	{
 	public:
-		static std::function<double(double input)> getFunction(nev::af af);
+		static activationFunction getFunction(nev::af af);
 
 	private:
 		static double relu(double input);
 		static double steepenedSigmoid(double input);
 	};
-
 }
