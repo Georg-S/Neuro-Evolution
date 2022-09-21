@@ -645,7 +645,7 @@ bool nev::operator<(const Genotype& lhs, const Genotype& rhs)
 	return lhs.rawFitness > rhs.rawFitness;
 }
 
-nev::ParentType nev::Genotype::getFittestParent(const Genotype& father, const Genotype& mother)
+nev::Genotype::ParentType nev::Genotype::getFittestParent(const Genotype& father, const Genotype& mother)
 {
 	if (mother.rawFitness > father.rawFitness)
 		return ParentType::Mother;

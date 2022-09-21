@@ -11,7 +11,6 @@
 #include "NeuronGene.h"
 #include "RNG.h"
 #include "Phenotype.h"
-#include "ParentType.h"
 #include "ActivationFunction.h"
 
 namespace nev {

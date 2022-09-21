@@ -22,7 +22,6 @@ set(HEADERS
 	"include/NEAT.h"
 	"include/NeuronGene.h"
 	"include/NeuronType.h"
-	"include/ParentType.h"
 	"include/Phenotype.h"
 	"include/PhenotypeNeuron.h"
 	"include/RNG.h"
