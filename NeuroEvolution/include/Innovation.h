@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "InnovationType.h"
+#include <algorithm>
 #include "InnovationElement.h"
 
 namespace nev {
@@ -8,9 +8,8 @@ namespace nev {
 	class Innovation
 	{
 	public:
-		Innovation();
-		Innovation(int currentInnovationNumber, int currentNeuronId, const std::vector<InnovationElement>& innovations);
-		~Innovation();
+		Innovation() = default;
+		Innovation(int currentInnovationNumber, int currentNeuronId, std::vector<InnovationElement>&& innovations);
 
 		int createNewLinkInnovation(int fromId, int toId);
 		int createNewNeuronInnovation(int fromId, int toId);
@@ -26,9 +25,9 @@ namespace nev {
 		std::vector<InnovationElement> getInnovations() const;
 
 	private:
-		std::vector<InnovationElement> innovations;
-		int currentInnovationNumber = 0;
-		int currentNeuronId = -1;
+		int m_currentInnovationNumber = 0;
+		int m_currentNeuronId = -1;
+		std::vector<InnovationElement> m_innovations;
 	};
 
 }

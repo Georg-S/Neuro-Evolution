@@ -1,7 +1,8 @@
 #pragma once
 #include <stdlib.h>
 
-namespace nev {
+namespace nev
+{
 	//RNG is short for Random Number Generator
 	class RNG
 	{
@@ -13,5 +14,4 @@ namespace nev {
 		static float getRandomFloatBetween0and1();
 		static double getRandomDoubleBetween(double from, double to);
 	};
-
 }

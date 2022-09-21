@@ -15,7 +15,6 @@
 #include "ActivationFunction.h"
 
 namespace nev {
-
 	class Genotype
 	{
 	public:
@@ -59,6 +58,10 @@ namespace nev {
 		std::shared_ptr<Phenotype> phenotype;
 
 	private:
+		enum class ParentType
+		{
+			Mother, Father
+		};
 		static ParentType getFittestParent(const Genotype& father, const Genotype& mother);
 		void mutateSingleWeight(LinkGene& link, double newWeightProbability, double weightPertubation);
 		NeuronGene getNeuronGeneFromId(int id) const;

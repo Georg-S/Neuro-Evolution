@@ -1,28 +1,28 @@
 #pragma once
-#include "InnovationType.h"
 
-namespace nev {
+namespace nev
+{
+	enum class InnovationType
+	{
+		newNeuron, newLink
+	};
 
-	struct InnovationElement {
-		InnovationElement(int innovationId, int fromNeuronId, int toNeuronId, InnovationType innovationType) {
-			this->neuronId = -1;
-			this->innovationId = innovationId;
-			this->fromNeuronId = fromNeuronId;
-			this->toNeuronId = toNeuronId;
-			this->innovationType = innovationType;
+	struct InnovationElement
+	{
+		InnovationElement(int innovationId, int fromNeuronId, int toNeuronId, InnovationType innovationType)
+			: innovationId(innovationId), fromNeuronId(fromNeuronId), toNeuronId(toNeuronId), neuronId(-1), innovationType(innovationType)
+		{
 		}
-		InnovationElement(int innovationID, int fromNeuronId, int toNeuronId, int neuronId, InnovationType innovationType) {
-			this->fromNeuronId = fromNeuronId;
-			this->toNeuronId = toNeuronId;
-			this->innovationId = innovationID;
-			this->neuronId = neuronId;
-			this->innovationType = innovationType;
+
+		InnovationElement(int innovationId, int fromNeuronId, int toNeuronId, int neuronId, InnovationType innovationType)
+			: innovationId(innovationId), fromNeuronId(fromNeuronId), toNeuronId(toNeuronId), neuronId(neuronId), innovationType(innovationType)
+		{
 		}
+
 		int innovationId;
 		int fromNeuronId;
 		int toNeuronId;
 		int neuronId;
 		InnovationType innovationType;
 	};
-
 }

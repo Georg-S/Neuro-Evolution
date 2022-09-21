@@ -201,7 +201,7 @@ nev::Innovation nev::FileIO::loadInnovationFromFile(const std::filesystem::path&
 		innovations.emplace_back(innovationId, fromId, toId, neuronId, innovationType);
 	}
 
-	return Innovation(currentInnovationNumber, startNeuronNumber, innovations);
+	return Innovation(currentInnovationNumber, startNeuronNumber, std::move(innovations));
 }
 
 void nev::FileIO::loadNEATParametersFromFile(const std::filesystem::path& file, NEAT* outNeat, bool* outSuccess)
