@@ -6,8 +6,7 @@ nev::Phenotype::Phenotype(std::vector<std::unique_ptr<PhenotypeNeuron>>&& neuron
 	m_maxDepth = maxDepth;
 }
 
-std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs,
-	const nev::af& activationFunction)
+std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs, const nev::af& activationFunction)
 {
 	setBias();
 	setInputs(inputs);
@@ -22,8 +21,7 @@ std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<do
 	return output;
 }
 
-std::vector<double> nev::Phenotype::calculateOutputActive(const std::vector<double>& inputs,
-	const nev::af& activationFunction)
+std::vector<double> nev::Phenotype::calculateOutputActive(const std::vector<double>& inputs, const nev::af& activationFunction)
 {
 	setBias();
 	setInputs(inputs);

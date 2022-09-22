@@ -1,127 +1,126 @@
 #include "Species.h"
 
-
-nev::Species::Species()
+nev::Species::Species(const Genotype* representative, int speciesId)
+	: m_representative(std::make_unique<Genotype>(*representative)), m_speciesId(speciesId)
 {
+	m_members.emplace_back(m_representative.get());
 }
 
-nev::Species::Species(std::shared_ptr<Genotype> representative, int speciesId)
+double nev::Species::calculateCompatibilityScore(Genotype* toTestGenotype, double excessFactor, double disjointFactor, double weightFactor)
 {
-	this->representative = std::make_shared<Genotype>(*representative.get());
-	this->speciesId = speciesId;
-	members.push_back(representative.get());
-}
-
-
-nev::Species::~Species()
-{
-}
-
-double nev::Species::calculateCompatibilityScore(std::shared_ptr<Genotype> toTestGenotype, double excessFactor,
-	double disjointFactor, double weightFactor)
-{
-	return Genotype::calculateCompatibilityScore(representative, toTestGenotype, excessFactor, disjointFactor, weightFactor);
+	return Genotype::calculateCompatibilityScore(m_representative.get(), toTestGenotype, excessFactor, disjointFactor, weightFactor);
 }
 
 void nev::Species::reset()
 {
-	members.clear();
+	m_members.clear();
 }
 
 void nev::Species::addMemberToSpecies(Genotype* genotype)
 {
-	members.push_back(genotype);
+	m_members.emplace_back(genotype);
 }
 
 void nev::Species::updateFitnessValues()
 {
-	totalCurrentAdjustedFitness = 0;
+	m_totalCurrentAdjustedFitness = 0;
 
-	for (int i = 0; i < members.size(); i++) {
-		double adjustedFitness = members[i]->getRawFitness() / (double)members.size();
-		totalCurrentAdjustedFitness += adjustedFitness;
-		members[i]->setAdjustedFitness(adjustedFitness);
+	for (auto member : m_members)
+	{
+		double adjustedFitness = member->getRawFitness() / m_members.size();
+		m_totalCurrentAdjustedFitness += adjustedFitness;
+		member->setAdjustedFitness(adjustedFitness);
 	}
 
-	if (totalCurrentAdjustedFitness > highestAdjustedFitnessEver) {
-		highestAdjustedFitnessEver = totalCurrentAdjustedFitness;
-		generationsNoImprovement = 0;
+	if (m_totalCurrentAdjustedFitness > m_highestAdjustedFitnessEver)
+	{
+		m_highestAdjustedFitnessEver = m_totalCurrentAdjustedFitness;
+		m_generationsNoImprovement = 0;
 	}
 }
 
 void nev::Species::calculateSpawnAmount(double populationAverage)
 {
-	spawnAmount = 0;
-	for (int i = 0; i < members.size(); i++)
-		spawnAmount += members[i]->getAdjustedFitness();
+	m_spawnAmount = 0;
+	for (auto member : m_members)
+		m_spawnAmount += member->getAdjustedFitness();
 
-	spawnAmount /= populationAverage;
+	m_spawnAmount /= populationAverage;
 }
 
 void nev::Species::incrementCurrentGeneration()
 {
-	currentGeneration++;
-	generationsNoImprovement++;
+	m_currentGeneration++;
+	m_generationsNoImprovement++;
 }
 
-std::shared_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const
+std::unique_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const
 {
-	double randomFitness = RNG::getRandomDoubleBetween(0, totalCurrentAdjustedFitness);
+	double randomFitness = RNG::getRandomDoubleBetween(0, m_totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
-	for (int i = 0; i < members.size(); i++) {
-		accumalatedFitness += members[i]->getAdjustedFitness();
+	for (auto genotype : m_members)
+	{
+		accumalatedFitness += genotype->getAdjustedFitness();
 
 		if (randomFitness <= accumalatedFitness)
-			return std::make_shared<Genotype>(*(members[i]));
+			return std::make_unique<Genotype>(*genotype);
 	}
-	return representative;
+	assert(!"Reached invalid state while spawning new Genotype");
+	return std::make_unique<Genotype>(*m_representative);
 }
 
-std::shared_ptr<nev::Genotype> nev::Species::getDeepCopyOfSpeciesLeader() const
+std::unique_ptr<nev::Genotype> nev::Species::getDeepCopyOfSpeciesLeader() const
 {
 	double highestFitness = DBL_MIN;
-	int highestFitnessIndex = -1;
-	for (int i = 0; i < members.size(); i++) {
-		if (highestFitness <= members[i]->getRawFitness()) {
-			highestFitnessIndex = i;
-			highestFitness = members[i]->getRawFitness();
+	Genotype* highestFitnessGenotype = nullptr;
+
+	for (auto member : m_members)
+	{
+		if (highestFitness <= member->getRawFitness())
+		{
+			highestFitnessGenotype = member;
+			highestFitness = member->getRawFitness();
 		}
 	}
 
-	return (std::make_shared<Genotype>(*(members[highestFitnessIndex])));
+	assert(highestFitnessGenotype);
+	if (!highestFitnessGenotype)
+		return nullptr;
+
+	return std::make_unique<Genotype>(*highestFitnessGenotype);
 }
 
 double nev::Species::getTotalCurrentAdjustedFitness() const
 {
-	return totalCurrentAdjustedFitness;
+	return m_totalCurrentAdjustedFitness;
 }
 
 int nev::Species::getGenerationOfSpecies() const
 {
-	return currentGeneration;
+	return m_currentGeneration;
 }
 
 int nev::Species::getSpeciesId() const
 {
-	return speciesId;
+	return m_speciesId;
 }
 
 int nev::Species::getMemberCount() const
 {
-	return members.size();
+	return m_members.size();
 }
 
 int nev::Species::getSpawnAmount() const
 {
-	return spawnAmount;
+	return m_spawnAmount;
 }
 
 int nev::Species::getGenerationNoImprovement() const
 {
-	return generationsNoImprovement;
+	return m_generationsNoImprovement;
 }
 
 bool nev::operator<(const Species& lhs, const Species& rhs)
 {
-	return lhs.totalCurrentAdjustedFitness > rhs.totalCurrentAdjustedFitness;
+	return lhs.m_totalCurrentAdjustedFitness > rhs.m_totalCurrentAdjustedFitness;
 }

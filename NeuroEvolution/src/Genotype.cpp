@@ -143,8 +143,7 @@ void nev::Genotype::randomlyAddLink(Innovation& innovation, double mutationProba
 	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id, recurrent);
 }
 
-double nev::Genotype::calculateCompatibilityScore(std::shared_ptr<Genotype> left, std::shared_ptr<Genotype> right, double excessFactor,
-	double disjointFactor, double weightFactor)
+double nev::Genotype::calculateCompatibilityScore(Genotype* left, Genotype* right, double excessFactor, double disjointFactor, double weightFactor)
 {
 	sort(right->links.begin(), right->links.end());
 	sort(left->links.begin(), left->links.end());

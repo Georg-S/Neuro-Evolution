@@ -28,7 +28,7 @@ namespace nev {
 		void randomlyAddNeuron(Innovation& innovation, double addNeuronProbability);
 		void randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation);
 		void randomlyAddLink(Innovation& innovation, double mutationProbability, bool recurrentAllowed);
-		static double calculateCompatibilityScore(std::shared_ptr<Genotype> left, std::shared_ptr<Genotype> right, double excessFactor,
+		static double calculateCompatibilityScore(Genotype* left, Genotype* right, double excessFactor,
 			double disjointFactor, double weightFactor);
 		static std::shared_ptr<Genotype> crossOver(std::shared_ptr<Genotype> father, std::shared_ptr<Genotype> mother, int babyId);
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);

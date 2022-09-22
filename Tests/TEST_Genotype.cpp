@@ -157,7 +157,7 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculates0ForTheSameGenotype) {
 	std::shared_ptr<nev::Genotype> geno = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
 	auto geno2 = std::make_shared<nev::Genotype>(*geno.get());
 
-	EXPECT_EQ(nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 0);
+	EXPECT_EQ(nev::Genotype::calculateCompatibilityScore(geno.get(), geno2.get(), 1, 1, 0.4), 0);
 }
 
 TEST(TEST_Genotype, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
@@ -166,7 +166,7 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculates2For2InnovationsMore) {
 	auto geno2 = std::make_shared<nev::Genotype>(*geno.get());
 	geno->randomlyAddNeuron(inno, 1.0);
 
-	EXPECT_EQ(nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 2);
+	EXPECT_EQ(nev::Genotype::calculateCompatibilityScore(geno.get(), geno2.get(), 1, 1, 0.4), 2);
 }
 
 TEST(TEST_Genotype, testSymmetry) {
@@ -175,8 +175,8 @@ TEST(TEST_Genotype, testSymmetry) {
 	auto geno2 = std::make_shared<nev::Genotype>(*geno.get());
 	geno->randomlyAddNeuron(inno, 1.0);
 
-	double result1 = nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4);
-	double result2 = nev::Genotype::calculateCompatibilityScore(geno2, geno, 1, 1, 0.4);
+	double result1 = nev::Genotype::calculateCompatibilityScore(geno.get(), geno2.get(), 1, 1, 0.4);
+	double result2 = nev::Genotype::calculateCompatibilityScore(geno2.get(), geno.get(), 1, 1, 0.4);
 
 	EXPECT_EQ(result1, result2);
 }
@@ -186,7 +186,7 @@ TEST(TEST_Genotype, calculateCompatibilityScoreCalculatesNot0For2DifferentStarti
 	std::shared_ptr<nev::Genotype> geno = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
 	std::shared_ptr<nev::Genotype> geno2 = std::make_shared<nev::Genotype>(inno, 1, 1, 1);
 
-	EXPECT_NE(nev::Genotype::calculateCompatibilityScore(geno, geno2, 1, 1, 0.4), 0);
+	EXPECT_NE(nev::Genotype::calculateCompatibilityScore(geno.get(), geno2.get(), 1, 1, 0.4), 0);
 }
 
 TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf1ForNoHiddenNodes) {

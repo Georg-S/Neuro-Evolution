@@ -171,7 +171,7 @@ void nev::NEAT::speciate()
 		int lowestCompIndex = -1;
 
 		for (int speciesIndex = 0; speciesIndex < species.size(); speciesIndex++) {
-			double compatibilityScore = species[speciesIndex].calculateCompatibilityScore(population[i],
+			double compatibilityScore = species[speciesIndex].calculateCompatibilityScore(population[i].get(),
 				excessFactor, disjointFactor, weightFactor);
 
 			if (compatibilityScore < lowestCompatibilityScore) {
@@ -182,7 +182,7 @@ void nev::NEAT::speciate()
 		if (lowestCompatibilityScore <= compatibilityDistanceThreshold)
 			species[lowestCompIndex].addMemberToSpecies(population[i].get());
 		else
-			species.push_back(Species(population[i], currentPopulationId++));
+			species.push_back(Species(population[i].get(), currentPopulationId++));
 	}
 }
 
@@ -199,10 +199,10 @@ void nev::NEAT::updateSpecies()
 				continue;
 
 			species[i].incrementCurrentGeneration();
-			updatedSpecies.push_back(species[i]);
+			updatedSpecies.emplace_back(std::move(species[i]));
 		}
 	}
-	species = updatedSpecies;
+	species = std::move(updatedSpecies);
 }
 
 void nev::NEAT::populate()

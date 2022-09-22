@@ -11,10 +11,8 @@ namespace nev
 	{
 	public:
 		Phenotype(std::vector<std::unique_ptr<PhenotypeNeuron>>&& neurons, int maxDepth);
-		std::vector <double> calculateOutputSnapshot(const std::vector <double>& input,
-			const nev::af& activationFunction);
-		std::vector <double> calculateOutputActive(const std::vector <double>& input,
-			const nev::af& activationFunction);
+		std::vector <double> calculateOutputSnapshot(const std::vector <double>& input, const nev::af& activationFunction);
+		std::vector <double> calculateOutputActive(const std::vector <double>& input, const nev::af& activationFunction);
 
 	private:
 		void setBias();
