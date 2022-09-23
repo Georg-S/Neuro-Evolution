@@ -1,71 +1,68 @@
 #include "Genotype.h"
 
-
-nev::Genotype::Genotype()
+nev::Genotype::Genotype(Innovation* innovation, int countOfInputs, int countOfOutputs,
+	int id, nev::af activationFunction)
+	: m_countOfInputs(countOfInputs)
+	, m_countOfOutputs(countOfOutputs)
+	, m_id(id)
+	, m_activationFunction(activationFunction)
 {
-}
-
-nev::Genotype::Genotype(Innovation& innovation, int countOfInputs, int countOfOutputs,
-	int id, const nev::af& activationFunction)
-{
-	this->activationFunction = activationFunction;
-	this->countOfInputs = countOfInputs;
-	this->countOfOutputs = countOfOutputs;
-	this->id = id;
 	createFullyConnectedNetwork(innovation);
 }
 
+// TODO make vectors R value references
 nev::Genotype::Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
-	int id, const nev::af& activationFunction)
+	int id, nev::af activationFunction)
+	: m_neurons(neurons)
+	, m_links(links)
+	, m_id(id)
+	, m_activationFunction(activationFunction)
 {
-	this->activationFunction = activationFunction;
-	this->neurons = neurons;
-	this->links = links;
-	this->id = id;
-	this->countOfInputs = 0;
-	this->countOfOutputs = 0;
+	m_countOfInputs = 0;
+	m_countOfOutputs = 0;
 
-	for (int i = 0; i < neurons.size(); i++)
+	for (const auto& neuron : m_neurons)
 	{
-		if (neurons[i].neuronType == NeuronType::input)
-			this->countOfInputs++;
+		if (neuron.neuronType == NeuronType::input)
+			m_countOfInputs++;
 
-		if (neurons[i].neuronType == NeuronType::output)
-			this->countOfOutputs++;
+		if (neuron.neuronType == NeuronType::output)
+			m_countOfOutputs++;
 	}
 
 	calculateDepthOfEveryNeuron();
 }
 
-nev::Genotype::Genotype(Innovation& innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
-	int id, const nev::af& activationFunction)
+nev::Genotype::Genotype(Innovation* innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
+	int id, nev::af activationFunction)
+	: m_neurons(neurons)
+	, m_links(links)
+	, m_id(id)
+	, m_activationFunction(activationFunction)
 {
-	this->activationFunction = activationFunction;
-	this->countOfInputs = 0;
-	this->countOfOutputs = 0;
+	m_countOfInputs = 0;
+	m_countOfOutputs = 0;
+
 	int highestNeuronId = 0;
-	for (int i = 0; i < neurons.size(); i++)
+	for (const auto& neuron : m_neurons)
 	{
-		if (neurons[i].neuronType == NeuronType::input)
-			this->countOfInputs++;
+		if (neuron.neuronType == NeuronType::input)
+			this->m_countOfInputs++;
 
-		if (neurons[i].neuronType == NeuronType::output)
-			this->countOfOutputs++;
+		if (neuron.neuronType == NeuronType::output)
+			this->m_countOfOutputs++;
 
-		if (neurons[i].id > highestNeuronId)
-			highestNeuronId = neurons[i].id;
+		if (neuron.id > highestNeuronId)
+			highestNeuronId = neuron.id;
 	}
 
-	this->neurons = neurons;
-	this->links = links;
-	this->id = id;
-	innovation.setCurrentNeuronId(highestNeuronId);
+	innovation->setCurrentNeuronId(highestNeuronId);
 	calculateDepthOfEveryNeuron();
 }
 
-void nev::Genotype::randomlyAddNeuron(Innovation& innovation, double addNeuronProbability)
+void nev::Genotype::randomlyAddNeuron(Innovation* innovation, double addNeuronProbability)
 {
-	if (links.size() == 0)
+	if (m_links.size() == 0)
 		return;
 
 	if (RNG::getRandomFloatBetween0and1() > addNeuronProbability)
@@ -77,10 +74,10 @@ void nev::Genotype::randomlyAddNeuron(Innovation& innovation, double addNeuronPr
 
 	LinkGene link = possibleLinks[RNG::getRandomVectorIndex(possibleLinks.size())];
 
-	int newNeuronId = innovation.getNeuronId(link.fromNeuronID, link.toNeuronID);
+	int newNeuronId = innovation->getNeuronId(link.fromNeuronID, link.toNeuronID);
 	if (newNeuronId == -1)
-		newNeuronId = innovation.createNewNeuronInnovation(link.fromNeuronID, link.toNeuronID);
-	neurons.push_back(NeuronGene(NeuronType::hidden, newNeuronId));
+		newNeuronId = innovation->createNewNeuronInnovation(link.fromNeuronID, link.toNeuronID);
+	m_neurons.emplace_back(NeuronType::hidden, newNeuronId);
 
 	createLink(innovation, link.fromNeuronID, newNeuronId, false, 1.0);
 	createLink(innovation, newNeuronId, link.toNeuronID, false, link.weight);
@@ -90,45 +87,46 @@ void nev::Genotype::randomlyAddNeuron(Innovation& innovation, double addNeuronPr
 
 void nev::Genotype::randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation)
 {
-	for (int i = 0; i < links.size(); i++)
+	for (auto& link : m_links) 
 	{
 		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
-			mutateSingleWeight(links[i], newWeightProbability, weightPertubation);
+			mutateSingleWeight(&link, newWeightProbability, weightPertubation);
 	}
 }
 
-void nev::Genotype::mutateSingleWeight(LinkGene& link, double newWeightProbability, double weightPertubation)
+void nev::Genotype::mutateSingleWeight(LinkGene* link, double newWeightProbability, double weightPertubation)
 {
 	if (RNG::getRandomFloatBetween0and1() <= newWeightProbability)
-		link.weight = getRandomLinkWeight();
-	else
 	{
-		double pertubationAmount = weightPertubation;
-		if (RNG::getRandomIntBetween(0, 1) == 0)
-			pertubationAmount *= -1;
-
-		link.weight += pertubationAmount;
+		link->weight = getRandomLinkWeight();
+		return;
 	}
-	link.weight = std::min(link.weight, maximumLinkWeight);
-	link.weight = std::max(link.weight, minimumLinkWeight);
+
+	double pertubationAmount = weightPertubation;
+	if (RNG::getRandomIntBetween(0, 1) == 0)
+		pertubationAmount *= -1;
+
+	link->weight += pertubationAmount;
+	link->weight = std::clamp(link->weight, MinimumLinkWeight, MaximumLinkWeight);
 }
 
-void nev::Genotype::randomlyAddLink(Innovation& innovation, double mutationProbability, bool recurrentAllowed)
+void nev::Genotype::randomlyAddLink(Innovation* innovation, double mutationProbability, bool recurrentAllowed)
 {
-	if (neurons.size() == 0)
+	if (m_neurons.size() == 0)
 		return;
+
 	if (RNG::getRandomFloatBetween0and1() > mutationProbability)
 		return;
 
 	int fromIndex = -1;
 	int toIndex = -1;
 
-	for (int triesToFindValidIndizes = 0; triesToFindValidIndizes < numTriesToAddLink; triesToFindValidIndizes++)
+	for (int triesToFindValidIndices = 0; triesToFindValidIndices < NumTriesToAddLink; triesToFindValidIndices++)
 	{
-		int randomFromIndex = RNG::getRandomIntBetween(0, neurons.size() - 1);
-		int randomToIndex = RNG::getRandomIntBetween(0, neurons.size() - 1);
+		int randomFromIndex = RNG::getRandomIntBetween(0, m_neurons.size() - 1);
+		int randomToIndex = RNG::getRandomIntBetween(0, m_neurons.size() - 1);
 
-		if (areValidNeuronsForAddLink(neurons[randomFromIndex], neurons[randomToIndex], recurrentAllowed))
+		if (areValidNeuronsForAddLink(m_neurons[randomFromIndex], m_neurons[randomToIndex], recurrentAllowed))
 		{
 			fromIndex = randomFromIndex;
 			toIndex = randomToIndex;
@@ -139,56 +137,46 @@ void nev::Genotype::randomlyAddLink(Innovation& innovation, double mutationProba
 	if (fromIndex == -1 || toIndex == -1)
 		return;
 
-	const bool recurrent = isRecurrentBetweenNeurons(neurons[fromIndex], neurons[toIndex]);
-	createLinkWithRandomWeight(innovation, neurons[fromIndex].id, neurons[toIndex].id, recurrent);
+	const bool recurrent = isRecurrentBetweenNeurons(m_neurons[fromIndex], m_neurons[toIndex]);
+	createLinkWithRandomWeight(innovation, m_neurons[fromIndex].id, m_neurons[toIndex].id, recurrent);
 }
 
 double nev::Genotype::calculateCompatibilityScore(Genotype* left, Genotype* right, double excessFactor, double disjointFactor, double weightFactor)
 {
-	sort(right->links.begin(), right->links.end());
-	sort(left->links.begin(), left->links.end());
-	double countOfExzess = 0;
+	// TODO maybe think about if the sorting should happen elsewhere
+	sort(right->m_links.begin(), right->m_links.end());
+	sort(left->m_links.begin(), left->m_links.end());
 	double countOfCommon = 0;
 	double countOfDisjoint = 0;
+	const double countOfExzess = fabs(static_cast<int>(left->m_links.size() - right->m_links.size())); // cast is needed because size - size = unsigned integer
 	double totalWeightDifference = 0;
 
 	int genotypeIndex = 0;
 	int partnerIndex = 0;
 
-	while (genotypeIndex < left->links.size() || partnerIndex < right->links.size())
+	while (genotypeIndex < left->m_links.size() && partnerIndex < right->m_links.size())
 	{
-		if (genotypeIndex >= left->links.size())
-		{
-			partnerIndex++;
-			countOfExzess++;
-		}
-		else if (partnerIndex >= right->links.size())
-		{
-			genotypeIndex++;
-			countOfExzess++;
-		}
-		else if (left->links[genotypeIndex].innovationID == right->links[partnerIndex].innovationID)
+		if (left->m_links[genotypeIndex].innovationID == right->m_links[partnerIndex].innovationID)
 		{
 			countOfCommon++;
-			totalWeightDifference += abs(left->links[genotypeIndex].weight - right->links[partnerIndex].weight);
+			totalWeightDifference += abs(left->m_links[genotypeIndex].weight - right->m_links[partnerIndex].weight);
 			genotypeIndex++;
 			partnerIndex++;
 		}
-		else if (left->links[genotypeIndex].innovationID > right->links[partnerIndex].innovationID)
+		else if (left->m_links[genotypeIndex].innovationID > right->m_links[partnerIndex].innovationID)
 		{
 			countOfDisjoint++;
 			partnerIndex++;
 		}
-		else if (left->links[genotypeIndex].innovationID < right->links[partnerIndex].innovationID)
+		else if (left->m_links[genotypeIndex].innovationID < right->m_links[partnerIndex].innovationID)
 		{
 			countOfDisjoint++;
 			genotypeIndex++;
 		}
 	}
-	double maxCountOfGenes = std::max(left->links.size(), right->links.size());
+	double maxCountOfGenes = std::max(left->m_links.size(), right->m_links.size());
 	if (maxCountOfGenes < 20)
 		maxCountOfGenes = 1;
-
 
 	const double compatibilityScore = ((countOfExzess * excessFactor) / maxCountOfGenes)
 		+ ((countOfDisjoint * disjointFactor) / maxCountOfGenes)
@@ -199,8 +187,8 @@ double nev::Genotype::calculateCompatibilityScore(Genotype* left, Genotype* righ
 
 std::shared_ptr<nev::Genotype> nev::Genotype::crossOver(std::shared_ptr<Genotype> father, std::shared_ptr<Genotype> mother, int babyId)
 {
-	std::vector<LinkGene> motherLinks = mother->links;
-	std::vector<LinkGene> fatherLinks = father->links;
+	std::vector<LinkGene> motherLinks = mother->m_links;
+	std::vector<LinkGene> fatherLinks = father->m_links;
 	int fatherLinkIndex = 0;
 	int motherLinkIndex = 0;
 	sort(fatherLinks.begin(), fatherLinks.end());
@@ -248,7 +236,7 @@ std::shared_ptr<nev::Genotype> nev::Genotype::crossOver(std::shared_ptr<Genotype
 			fatherLinkIndex++;
 		}
 	}
-	return std::make_shared<Genotype>(babyNeurons, babyLinks, babyId, father->activationFunction);
+	return std::make_shared<Genotype>(babyNeurons, babyLinks, babyId, father->m_activationFunction);
 }
 
 std::vector<double> nev::Genotype::calculateOutputSnapshot(const std::vector<double>& inputs)
@@ -256,7 +244,7 @@ std::vector<double> nev::Genotype::calculateOutputSnapshot(const std::vector<dou
 	if (phenotype == nullptr)
 		createPhenotype();
 
-	return phenotype->calculateOutputSnapshot(inputs, this->activationFunction);
+	return phenotype->calculateOutputSnapshot(inputs, this->m_activationFunction);
 }
 
 std::vector<double> nev::Genotype::calculateOutputActive(const std::vector<double>& inputs)
@@ -264,16 +252,16 @@ std::vector<double> nev::Genotype::calculateOutputActive(const std::vector<doubl
 	if (phenotype == nullptr)
 		createPhenotype();
 
-	return phenotype->calculateOutputActive(inputs, this->activationFunction);
+	return phenotype->calculateOutputActive(inputs, this->m_activationFunction);
 }
 
 void nev::Genotype::createPhenotype()
 {
 	std::vector<std::unique_ptr<PhenotypeNeuron>> phenoNeurons;
-	for (const auto& neuron : neurons) 
+	for (const auto& neuron : m_neurons) 
 		phenoNeurons.emplace_back(std::make_unique<PhenotypeNeuron>(neuron.neuronType, neuron.id));
 
-	for (const auto& link : links) 
+	for (const auto& link : m_links) 
 	{
 		if (!link.enabled)
 			continue;
@@ -285,7 +273,7 @@ void nev::Genotype::createPhenotype()
 		toNeuron->linksIn.emplace_back(fromNeuron, link.weight);
 	}
 
-	phenotype = std::make_shared<Phenotype>(std::move(phenoNeurons), maxDepth);
+	phenotype = std::make_shared<Phenotype>(std::move(phenoNeurons), m_maxDepth);
 }
 
 void nev::Genotype::deletePhenotype()
@@ -293,78 +281,78 @@ void nev::Genotype::deletePhenotype()
 	phenotype = nullptr;
 }
 
-void nev::Genotype::setActivationFunction(const nev::af& activationFunction)
+void nev::Genotype::setActivationFunction(nev::af activationFunction)
 {
-	this->activationFunction = activationFunction;
+	this->m_activationFunction = activationFunction;
 }
 
 void nev::Genotype::setAdjustedFitness(double fitness)
 {
-	this->adjustedFitness = fitness;
+	this->m_adjustedFitness = fitness;
 }
 
 void nev::Genotype::setRawFitness(double fitness)
 {
-	this->rawFitness = fitness;
+	this->m_rawFitness = fitness;
 }
 
 double nev::Genotype::getAdjustedFitness() const
 {
-	return adjustedFitness;
+	return m_adjustedFitness;
 }
 
 double nev::Genotype::getRawFitness() const
 {
-	return rawFitness;
+	return m_rawFitness;
 }
 
 int nev::Genotype::getCountOfNeurons() const
 {
-	return neurons.size();
+	return m_neurons.size();
 }
 
 int nev::Genotype::getCountOfLinks() const
 {
-	return links.size();
+	return m_links.size();
 }
 
 int nev::Genotype::getMaxDepth() const
 {
-	return maxDepth;
+	return m_maxDepth;
 }
 
 double nev::Genotype::getLinkWeightAverage() const
 {
 	double total = 0;
-	if (links.size() == 0)
+	if (m_links.size() == 0)
 		return 0;
 
-	for (int i = 0; i < links.size(); i++)
+	for (int i = 0; i < m_links.size(); i++)
 	{
-		total += links[i].weight;
+		total += m_links[i].weight;
 	}
-	return total / links.size();
+	return total / m_links.size();
 }
 
 int nev::Genotype::getGenotypeId() const
 {
-	return id;
+	return m_id;
 }
 
 int nev::Genotype::getCountOfInputs() const
 {
-	return countOfInputs;
+	return m_countOfInputs;
 }
 
 int nev::Genotype::getCountOfOutputs() const
 {
-	return countOfOutputs;
+	return m_countOfOutputs;
 }
 
 int nev::Genotype::getCountOfEnabledLink() const
 {
 	int count = 0;
-	for (auto link : links)
+	for (auto link : m_links)
 	{
 		if (link.enabled)
 			count++;
@@ -375,7 +363,7 @@ int nev::Genotype::getCountOfEnabledLink() const
 int nev::Genotype::getCountOfHiddenNeurons() const
 {
 	int count = 0;
-	for (auto neuron : neurons)
+	for (auto neuron : m_neurons)
 	{
 		if (neuron.neuronType == nev::NeuronType::hidden)
 			count++;
@@ -385,17 +373,17 @@ int nev::Genotype::getCountOfHiddenNeurons() const
 
 std::vector<nev::NeuronGene> nev::Genotype::getNeurons() const
 {
-	return neurons;
+	return m_neurons;
 }
 
 std::vector<nev::LinkGene> nev::Genotype::getLinks() const
 {
-	return links;
+	return m_links;
 }
 
 nev::NeuronGene nev::Genotype::getNeuronGeneFromId(int id) const
 {
-	return getNeuronGeneFromId(this->neurons, id);
+	return getNeuronGeneFromId(this->m_neurons, id);
 }
 
 nev::NeuronGene nev::Genotype::getNeuronGeneFromId(const std::vector<NeuronGene>& neurons, int id)
@@ -431,24 +419,24 @@ void nev::Genotype::addNeuronToVectorIfNotAlreadyInside(const NeuronGene& neuron
 
 void nev::Genotype::addGeneToVectorIfNotAlreadyInside(const Genotype& geno, int linkIndex, std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec)
 {
-	addGeneToVectorIfNotAlreadyInside(geno, linkIndex, geno.links[linkIndex].weight, destNeuronVec, destLinkVec);
+	addGeneToVectorIfNotAlreadyInside(geno, linkIndex, geno.m_links[linkIndex].weight, destNeuronVec, destLinkVec);
 }
 
 void nev::Genotype::addGeneToVectorIfNotAlreadyInside(const Genotype& geno, int linkIndex, double weight, std::vector<NeuronGene>& destNeuronVec, std::vector<LinkGene>& destLinkVec)
 {
-	LinkGene linkGene = geno.links[linkIndex];
+	LinkGene linkGene = geno.m_links[linkIndex];
 	linkGene.weight = weight;
-	NeuronGene fromNeuron = getNeuronGeneFromId(geno.neurons, geno.links[linkIndex].fromNeuronID);
-	NeuronGene toNeuron = getNeuronGeneFromId(geno.neurons, geno.links[linkIndex].toNeuronID);
+	NeuronGene fromNeuron = getNeuronGeneFromId(geno.m_neurons, geno.m_links[linkIndex].fromNeuronID);
+	NeuronGene toNeuron = getNeuronGeneFromId(geno.m_neurons, geno.m_links[linkIndex].toNeuronID);
 
 	addLinkToVectorIfNotAlreadyInside(linkGene, destLinkVec);
 	addNeuronToVectorIfNotAlreadyInside(fromNeuron, destNeuronVec);
 	addNeuronToVectorIfNotAlreadyInside(toNeuron, destNeuronVec);
 }
 
-void nev::Genotype::createFullyConnectedNetwork(Innovation& innovation)
+void nev::Genotype::createFullyConnectedNetwork(Innovation* innovation)
 {
-	if (countOfInputs <= 0 || countOfOutputs <= 0)
+	if (m_countOfInputs <= 0 || m_countOfOutputs <= 0)
 		return;
 
 	createNeurons();
@@ -458,29 +446,29 @@ void nev::Genotype::createFullyConnectedNetwork(Innovation& innovation)
 
 void nev::Genotype::createNeurons()
 {
-	neurons.push_back(NeuronGene(NeuronType::bias, 0));
+	m_neurons.push_back(NeuronGene(NeuronType::bias, 0));
 
 	int neuronId = 1;
-	for (int i = 0; i < countOfInputs; i++)
+	for (int i = 0; i < m_countOfInputs; i++)
 	{
-		neurons.push_back(NeuronGene(NeuronType::input, neuronId));
+		m_neurons.push_back(NeuronGene(NeuronType::input, neuronId));
 		neuronId++;
 	}
 
-	for (int i = 0; i < countOfOutputs; i++)
+	for (int i = 0; i < m_countOfOutputs; i++)
 	{
-		neurons.push_back(NeuronGene(NeuronType::output, neuronId));
+		m_neurons.push_back(NeuronGene(NeuronType::output, neuronId));
 		neuronId++;
 	}
 }
 
-void nev::Genotype::createLinks(Innovation& innovation)
+void nev::Genotype::createLinks(Innovation* innovation)
 {
-	for (int inputNeuronID = 0; inputNeuronID <= countOfInputs; inputNeuronID++)
+	for (int inputNeuronID = 0; inputNeuronID <= m_countOfInputs; inputNeuronID++)
 	{
-		for (int x = 0; x < countOfOutputs; x++)
+		for (int x = 0; x < m_countOfOutputs; x++)
 		{
-			int outputNeuronID = neurons.size() - 1 - x;
+			int outputNeuronID = m_neurons.size() - 1 - x;
 
 			createLinkWithRandomWeight(innovation, inputNeuronID, outputNeuronID, false);
 		}
@@ -489,11 +477,11 @@ void nev::Genotype::createLinks(Innovation& innovation)
 
 void nev::Genotype::calculateDepthOfEveryNeuron()
 {
-	if (neurons.size() == 0 || countOfInputs == 0 || countOfOutputs == 0)
+	if (m_neurons.size() == 0 || m_countOfInputs == 0 || m_countOfOutputs == 0)
 		return;
 
-	maxDepth = -1;
-	for (NeuronGene& neuron : neurons)
+	m_maxDepth = -1;
+	for (NeuronGene& neuron : m_neurons)
 	{
 		if (neuron.neuronType == NeuronType::bias || neuron.neuronType == NeuronType::input)
 			neuron.depth = 0;
@@ -501,7 +489,7 @@ void nev::Genotype::calculateDepthOfEveryNeuron()
 			neuron.depth = -1;
 	}
 
-	for (NeuronGene& neuron : neurons)
+	for (NeuronGene& neuron : m_neurons)
 	{
 		if (neuron.neuronType == NeuronType::bias || neuron.neuronType == NeuronType::input)
 			updateDepthOfNeuronsConnectedToThis(neuron);
@@ -510,7 +498,7 @@ void nev::Genotype::calculateDepthOfEveryNeuron()
 
 void nev::Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 {
-	for (const LinkGene& link : links)
+	for (const LinkGene& link : m_links)
 	{
 		if (!link.enabled || link.recurrent)
 			continue;
@@ -519,15 +507,15 @@ void nev::Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 			continue;
 
 		int toIndex = getNeuronIndexFromId(link.toNeuronID);
-		if (neurons[toIndex].depth <= fromNeuron.depth)
+		if (m_neurons[toIndex].depth <= fromNeuron.depth)
 		{
 			int newDepth = fromNeuron.depth + 1;
-			neurons[toIndex].depth = newDepth;
+			m_neurons[toIndex].depth = newDepth;
 
-			if (newDepth > maxDepth)
-				maxDepth = newDepth;
+			if (newDepth > m_maxDepth)
+				m_maxDepth = newDepth;
 
-			updateDepthOfNeuronsConnectedToThis(neurons[toIndex]);
+			updateDepthOfNeuronsConnectedToThis(m_neurons[toIndex]);
 		}
 	}
 }
@@ -535,7 +523,7 @@ void nev::Genotype::updateDepthOfNeuronsConnectedToThis(NeuronGene& fromNeuron)
 bool nev::Genotype::isValidLinkForAddNeuron(const LinkGene& link) const
 {
 	int fromIndex = getNeuronIndexFromId(link.fromNeuronID);
-	if (fromIndex == -1 || !link.enabled || link.recurrent || neurons[fromIndex].neuronType == NeuronType::bias)
+	if (fromIndex == -1 || !link.enabled || link.recurrent || m_neurons[fromIndex].neuronType == NeuronType::bias)
 		return false;
 
 	return true;
@@ -564,9 +552,9 @@ bool nev::Genotype::doesLinkAlreadyExist(const NeuronGene& fromNeuron, const Neu
 	int fromId = fromNeuron.id;
 	int toId = toNeuron.id;
 
-	for (int i = 0; i < links.size(); i++)
+	for (int i = 0; i < m_links.size(); i++)
 	{
-		if (links[i].fromNeuronID == fromId && links[i].toNeuronID == toId)
+		if (m_links[i].fromNeuronID == fromId && m_links[i].toNeuronID == toId)
 			return true;
 	}
 	return false;
@@ -582,7 +570,7 @@ bool nev::Genotype::isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, cons
 
 int nev::Genotype::getNeuronIndexFromId(int id) const
 {
-	return getNeuronIndexFromId(this->neurons, id);
+	return getNeuronIndexFromId(this->m_neurons, id);
 }
 
 int nev::Genotype::getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, int id)
@@ -597,28 +585,28 @@ int nev::Genotype::getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, 
 
 double nev::Genotype::getRandomLinkWeight() const
 {
-	return RNG::getRandomDoubleBetween(minimumLinkStartValue, maximumLinkStartValue);
+	return RNG::getRandomDoubleBetween(MinimumLinkStartValue, MaximumLinkStartValue);
 }
 
-void nev::Genotype::createLinkWithRandomWeight(Innovation& innovation, int fromId, int toId, bool recurrent)
+void nev::Genotype::createLinkWithRandomWeight(Innovation* innovation, int fromId, int toId, bool recurrent)
 {
 	createLink(innovation, fromId, toId, recurrent, getRandomLinkWeight());
 }
 
-void nev::Genotype::createLink(Innovation& innovation, int fromId, int toId, bool recurrent, double weightOfLink)
+void nev::Genotype::createLink(Innovation* innovation, int fromId, int toId, bool recurrent, double weightOfLink)
 {
-	int innovationId = innovation.getInnovationID(fromId, toId, InnovationType::newLink);
+	int innovationId = innovation->getInnovationID(fromId, toId, InnovationType::newLink);
 
 	if (innovationId == -1)
-		innovationId = innovation.createNewLinkInnovation(fromId, toId);
+		innovationId = innovation->createNewLinkInnovation(fromId, toId);
 
-	links.push_back(LinkGene(fromId, toId, weightOfLink, true, innovationId, recurrent));
+	m_links.push_back(LinkGene(fromId, toId, weightOfLink, true, innovationId, recurrent));
 }
 
 std::vector<nev::LinkGene> nev::Genotype::getAllValidLinksForAddNeuron()
 {
 	std::vector<LinkGene> result;
-	for (const LinkGene& link : links)
+	for (const LinkGene& link : m_links)
 	{
 		if (isValidLinkForAddNeuron(link))
 			result.push_back(link);
@@ -629,11 +617,11 @@ std::vector<nev::LinkGene> nev::Genotype::getAllValidLinksForAddNeuron()
 
 void nev::Genotype::disableLink(const LinkGene& link)
 {
-	for (int i = 0; i < links.size(); i++)
+	for (int i = 0; i < m_links.size(); i++)
 	{
-		if ((links[i].fromNeuronID == link.fromNeuronID) && (links[i].toNeuronID == link.toNeuronID))
+		if ((m_links[i].fromNeuronID == link.fromNeuronID) && (m_links[i].toNeuronID == link.toNeuronID))
 		{
-			links[i].enabled = false;
+			m_links[i].enabled = false;
 			return;
 		}
 	}
@@ -641,14 +629,14 @@ void nev::Genotype::disableLink(const LinkGene& link)
 
 bool nev::operator<(const Genotype& lhs, const Genotype& rhs)
 {
-	return lhs.rawFitness > rhs.rawFitness;
+	return lhs.m_rawFitness > rhs.m_rawFitness;
 }
 
 nev::Genotype::ParentType nev::Genotype::getFittestParent(const Genotype& father, const Genotype& mother)
 {
-	if (mother.rawFitness > father.rawFitness)
+	if (mother.m_rawFitness > father.m_rawFitness)
 		return ParentType::Mother;
-	else if (mother.rawFitness == father.rawFitness)
+	else if (mother.m_rawFitness == father.m_rawFitness)
 		return RNG::getRandomIntBetween(0, 1) == 0 ? ParentType::Mother : ParentType::Father;
 
 	return ParentType::Father;

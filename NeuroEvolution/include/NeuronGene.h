@@ -1,19 +1,17 @@
 #pragma once
 #include "NeuronType.h"
 
-namespace nev {
-
-	struct NeuronGene {
-		NeuronGene() {
-			this->id = -1;
+namespace nev
+{
+	struct NeuronGene
+	{
+		NeuronGene() = default;
+		NeuronGene(NeuronType neuronType, int id)
+			: neuronType(neuronType), id(id)
+		{
 		}
-		NeuronGene(NeuronType neuronType, int id) {
-			this->neuronType = neuronType;
-			this->id = id;
-		}
-		NeuronType neuronType;
-		int id;
-		int depth;
+		NeuronType neuronType = NeuronType::none;
+		int id = -1;
+		int depth = -1;
 	};
-
 }

@@ -11,7 +11,7 @@ nev::HNE::HNE(int centuryDuration, int populationSize, int countOfInputs, int co
 	this->innovation = std::make_shared<nev::Innovation>();
 
 	for (int i = 0; i < populationSize; i++)
-		population.push_back(nev::HistoricalGenotype(*innovation, countOfInputs, countOfOutputs));
+		population.push_back(nev::HistoricalGenotype(innovation.get(), countOfInputs, countOfOutputs));
 
 	setParametersOfPopulation();
 }
@@ -51,7 +51,7 @@ void nev::HNE::iterateOneGeneration(const std::vector<double>& fitness)
 
 	if (currentCentury < centuryDuration) {
 		for (int i = 0; i < population.size(); i++)
-			population[i].iterate(*innovation);
+			population[i].iterate(innovation.get());
 
 		currentCentury++;
 	}
@@ -61,11 +61,11 @@ void nev::HNE::iterateOneGeneration(const std::vector<double>& fitness)
 		sort(population.begin(), population.end());
 
 		while (index < elitismCount) {
-			population[index].purgeAllExceptHighestPerformingGenotype(*innovation);
+			population[index].purgeAllExceptHighestPerformingGenotype(innovation.get());
 			index++;
 		}
 		while (index < population.size()) {
-			population[index].evolution(*innovation);
+			population[index].evolution(innovation.get());
 			index++;
 		}
 		currentCentury = 0;

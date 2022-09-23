@@ -31,7 +31,7 @@ nev::Genotype createXORGenotype() {
 	links.push_back(nev::LinkGene(5, 3, 20, 1, true));
 	links.push_back(nev::LinkGene(0, 3, -30, 1, true));
 
-	return nev::Genotype(inno, neurons, links, 1);
+	return nev::Genotype(&inno, neurons, links, 1);
 }
 
 TEST(TEST_XOR, XORIsPossibleFirstInput) {

@@ -22,7 +22,7 @@ nev::NEAT::NEAT(int populationSize, int countOfInputs, int countOfOutputs,
 	this->activationFunction = activationFunction;
 	innovation = Innovation();
 	for (int i = 0; i < populationSize; i++)
-		population.push_back(std::make_shared<Genotype>(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
+		population.push_back(std::make_shared<Genotype>(&innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
 
 	maxPopulationSize = population.size();
 	this->countOfInputs = countOfInputs;
@@ -242,8 +242,8 @@ void nev::NEAT::populate()
 					else {
 						baby = species[speciesIndex].spawnNewGenotypeThroughRoulette();
 						baby->randomlyMutateAllWeights(mutateLinkProbability, newLinkWeightProbability, weightPertubation);
-						baby->randomlyAddLink(innovation, addLinkProbability, recurrentAllowed);
-						baby->randomlyAddNeuron(innovation, addNeuronProbability);
+						baby->randomlyAddLink(&innovation, addLinkProbability, recurrentAllowed);
+						baby->randomlyAddNeuron(&innovation, addNeuronProbability);
 					}
 				}
 			}
@@ -255,7 +255,7 @@ void nev::NEAT::populate()
 	}
 
 	while (currentSpawnedAmount < maxPopulationSize) {
-		newPopulation.push_back(std::make_shared<Genotype>(innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
+		newPopulation.push_back(std::make_shared<Genotype>(&innovation, countOfInputs, countOfOutputs, currentGenotypeId++, activationFunction));
 		currentSpawnedAmount++;
 	}
 	population.clear();

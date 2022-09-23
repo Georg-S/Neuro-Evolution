@@ -8,16 +8,16 @@ namespace nev {
 	class HistoricalGenotype
 	{
 	public:
-		HistoricalGenotype(Innovation& inno, int countOfInputs, int countOfOutputs);
+		HistoricalGenotype(Innovation* inno, int countOfInputs, int countOfOutputs);
 		HistoricalGenotype(const Genotype& genotype, int countOfInputs, int countOfOutputs);
 		std::vector<double> calculateOutputSnapshotFromLastGenotype(const std::vector<double>& input);
 		std::vector<double> calculateOutputActiveFromLastGenotype(const std::vector<double>& input);
 		void setFitness(const double& fitness);
-		void iterate(Innovation& inno);
-		void evolution(Innovation& inno);
-		void mutate(Innovation& inno, Genotype& genotype);
+		void iterate(Innovation* inno);
+		void evolution(Innovation* inno);
+		void mutate(Innovation* inno, Genotype& genotype);
 		void deletePhenotype();
-		void purgeAllExceptHighestPerformingGenotype(Innovation& inno);
+		void purgeAllExceptHighestPerformingGenotype(Innovation* inno);
 		int getHistorySize() const;
 		double getHighestFitness() const;
 		double getHighestFitnessAtStartOfCentury() const;
@@ -33,8 +33,8 @@ namespace nev {
 
 	private:
 		bool improvedEnough() const;
-		void reset(Innovation& inno);
-		Genotype getHighestPerformingGenotype(Innovation& inno);
+		void reset(Innovation* inno);
+		Genotype getHighestPerformingGenotype(Innovation* inno);
 
 		double highestFitnessAtStartOfCentury = 0;
 		double improvementNeeded = 0.1;

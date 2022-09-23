@@ -8,7 +8,7 @@
 TEST(TEST_Species, calculateCompatibilityScoreCalculates0ForTheSameGenotype)
 {
 	nev::Innovation inno = nev::Innovation();
-	auto genotype = std::make_unique<nev::Genotype>(inno, 1, 1, 1);
+	auto genotype = std::make_unique<nev::Genotype>(&inno, 1, 1, 1);
 	nev::Species specie = nev::Species(genotype.get(), 1);
 
 	EXPECT_EQ(specie.calculateCompatibilityScore(genotype.get(), 1, 1, 0.4), 0);
@@ -17,9 +17,9 @@ TEST(TEST_Species, calculateCompatibilityScoreCalculates0ForTheSameGenotype)
 TEST(TEST_Species, calculateCompatibilityScoreCalculates2For2InnovationsMore)
 {
 	nev::Innovation inno = nev::Innovation();
-	auto genotype = std::make_unique<nev::Genotype>(inno, 1, 1, 1);
+	auto genotype = std::make_unique<nev::Genotype>(&inno, 1, 1, 1);
 	auto genotype2 = std::make_shared<nev::Genotype>(*genotype);
-	genotype->randomlyAddNeuron(inno, 1.0);
+	genotype->randomlyAddNeuron(&inno, 1.0);
 	nev::Species species = nev::Species(genotype.get(), 1);
 
 	EXPECT_EQ(species.calculateCompatibilityScore(genotype2.get(), 1, 1, 0.4), 2);
@@ -28,7 +28,7 @@ TEST(TEST_Species, calculateCompatibilityScoreCalculates2For2InnovationsMore)
 TEST(TEST_Species, calculateAdjustedFitnessCalculatesRightTotalFitness)
 {
 	nev::Innovation inno = nev::Innovation();
-	auto genotype = std::make_unique<nev::Genotype>(inno, 1, 1, 1);
+	auto genotype = std::make_unique<nev::Genotype>(&inno, 1, 1, 1);
 	genotype->setRawFitness(50);
 	nev::Species species = nev::Species(genotype.get(), 1);
 
@@ -50,7 +50,7 @@ TEST(TEST_Species, getLeaderReturnTheRightGenotype)
 	for (int i = 0; i < 50; i++)
 	{
 		fitness--;
-		auto genotype = std::make_shared<nev::Genotype>(inno, 1, 1, id++);
+		auto genotype = std::make_shared<nev::Genotype>(&inno, 1, 1, id++);
 		genotype->setRawFitness(fitness);
 		population.emplace_back(genotype);
 	}
@@ -71,7 +71,7 @@ TEST(TEST_Species, getLeaderReturnTheRightGenotype_2)
 	for (int i = 0; i < 50; i++)
 	{
 		fitness++;
-		std::shared_ptr<nev::Genotype> genotype = std::make_shared<nev::Genotype>(inno, 1, 1, id++);
+		std::shared_ptr<nev::Genotype> genotype = std::make_shared<nev::Genotype>(&inno, 1, 1, id++);
 		genotype->setRawFitness(fitness);
 		population.emplace_back(genotype);
 	}

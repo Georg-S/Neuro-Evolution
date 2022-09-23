@@ -1,6 +1,6 @@
 #include "HNE/HistoricalGenotype.h"
 
-nev::HistoricalGenotype::HistoricalGenotype(Innovation& inno, int countOfInputs, int countOfOutputs)
+nev::HistoricalGenotype::HistoricalGenotype(Innovation* inno, int countOfInputs, int countOfOutputs)
 {
 	this->countOfInputs = countOfInputs;
 	this->countOfOutputs = countOfOutputs;
@@ -34,7 +34,7 @@ void nev::HistoricalGenotype::setFitness(const double& fitness)
 	genotypeHistory[genotypeHistory.size() - 1].setRawFitness(fitness);
 }
 
-void nev::HistoricalGenotype::iterate(Innovation& inno)
+void nev::HistoricalGenotype::iterate(Innovation* inno)
 {
 	Genotype currentGeno = genotypeHistory[genotypeHistory.size() - 1];
 	currentGeno.setRawFitness(0);
@@ -43,7 +43,7 @@ void nev::HistoricalGenotype::iterate(Innovation& inno)
 	genotypeHistory.push_back(currentGeno);
 }
 
-void nev::HistoricalGenotype::evolution(Innovation& inno)
+void nev::HistoricalGenotype::evolution(Innovation* inno)
 {
 	if (improvedEnough())
 		purgeAllExceptHighestPerformingGenotype(inno);
@@ -51,7 +51,7 @@ void nev::HistoricalGenotype::evolution(Innovation& inno)
 		reset(inno);
 }
 
-void nev::HistoricalGenotype::mutate(Innovation& inno, Genotype& genotype)
+void nev::HistoricalGenotype::mutate(Innovation* inno, Genotype& genotype)
 {
 	genotype.randomlyAddLink(inno, addLinkProbability, recurrentAllowed);
 	genotype.randomlyAddNeuron(inno, addNeuronProbability);
@@ -64,7 +64,7 @@ void nev::HistoricalGenotype::deletePhenotype()
 		genotypeHistory[i].deletePhenotype();
 }
 
-void nev::HistoricalGenotype::purgeAllExceptHighestPerformingGenotype(Innovation& inno)
+void nev::HistoricalGenotype::purgeAllExceptHighestPerformingGenotype(Innovation* inno)
 {
 	highestFitnessAtStartOfCentury = getHighestFitness();
 	Genotype topPerformer = getHighestPerformingGenotype(inno);
@@ -82,7 +82,7 @@ bool nev::HistoricalGenotype::improvedEnough() const
 	return false;
 }
 
-void nev::HistoricalGenotype::reset(Innovation& inno)
+void nev::HistoricalGenotype::reset(Innovation* inno)
 {
 	genotypeHistory.clear();
 	highestFitnessAtStartOfCentury = 0;
@@ -119,7 +119,7 @@ void nev::HistoricalGenotype::setHighestFitnessAtStartOfCentury(double highestFi
 	this->highestFitnessAtStartOfCentury = highestFitnessAtStartOfCentury;
 }
 
-nev::Genotype nev::HistoricalGenotype::getHighestPerformingGenotype(Innovation& inno)
+nev::Genotype nev::HistoricalGenotype::getHighestPerformingGenotype(Innovation* inno)
 {
 	std::sort(genotypeHistory.begin(), genotypeHistory.end());
 
