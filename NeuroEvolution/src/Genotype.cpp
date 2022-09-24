@@ -65,14 +65,14 @@ void nev::Genotype::randomlyAddNeuron(Innovation* innovation, double addNeuronPr
 	if (m_links.empty())
 		return;
 
-	if (RNG::getRandomFloatBetween0and1() > addNeuronProbability)
+	if (getRandomDouble(0,1) > addNeuronProbability)
 		return;
 
 	std::vector<LinkGene> possibleLinks = getAllValidLinksForAddNeuron();
 	if (possibleLinks.empty())
 		return;
 
-	LinkGene link = possibleLinks[RNG::getRandomVectorIndex(possibleLinks.size())];
+	LinkGene link = getRandomElement(possibleLinks);
 
 	int newNeuronId = innovation->getNeuronId(link.fromNeuronID, link.toNeuronID);
 	if (newNeuronId == -1)
@@ -89,21 +89,21 @@ void nev::Genotype::randomlyMutateAllWeights(double mutationProbability, double 
 {
 	for (auto& link : m_links) 
 	{
-		if (RNG::getRandomFloatBetween0and1() < mutationProbability)
+		if (getRandomDouble(0, 1) <= mutationProbability)
 			mutateSingleWeight(&link, newWeightProbability, weightPertubation);
 	}
 }
 
 void nev::Genotype::mutateSingleWeight(LinkGene* link, double newWeightProbability, double weightPertubation)
 {
-	if (RNG::getRandomFloatBetween0and1() <= newWeightProbability)
+	if (getRandomDouble(0, 1) <= newWeightProbability)
 	{
 		link->weight = getRandomLinkWeight();
 		return;
 	}
 
 	double pertubationAmount = weightPertubation;
-	if (RNG::getRandomIntBetween(0, 1) == 0)
+	if (getRandomBool())
 		pertubationAmount *= -1;
 
 	link->weight += pertubationAmount;
@@ -115,7 +115,7 @@ void nev::Genotype::randomlyAddLink(Innovation* innovation, double mutationProba
 	if (m_neurons.empty())
 		return;
 
-	if (RNG::getRandomFloatBetween0and1() > mutationProbability)
+	if (getRandomDouble(0, 1) > mutationProbability)
 		return;
 
 	int fromIndex = -1;
@@ -123,8 +123,8 @@ void nev::Genotype::randomlyAddLink(Innovation* innovation, double mutationProba
 
 	for (int triesToFindValidIndices = 0; triesToFindValidIndices < NumTriesToAddLink; triesToFindValidIndices++)
 	{
-		int randomFromIndex = RNG::getRandomIntBetween(0, m_neurons.size() - 1);
-		int randomToIndex = RNG::getRandomIntBetween(0, m_neurons.size() - 1);
+		int randomFromIndex = getRandomIndex(m_neurons);
+		int randomToIndex = getRandomIndex(m_neurons);
 
 		if (areValidNeuronsForAddLink(m_neurons[randomFromIndex], m_neurons[randomToIndex], recurrentAllowed))
 		{
@@ -226,7 +226,7 @@ std::shared_ptr<nev::Genotype> nev::Genotype::crossOver(Genotype* father, Genoty
 		}
 		else if (fatherLinks[fatherLinkIndex].innovationID == motherLinks[motherLinkIndex].innovationID)
 		{
-			double weight = RNG::getRandomIntBetween(0, 1) == 0 ? fatherLinks[fatherLinkIndex].weight : motherLinks[motherLinkIndex].weight;
+			double weight = getRandomBool() ? fatherLinks[fatherLinkIndex].weight : motherLinks[motherLinkIndex].weight;
 			if (highestFitness == ParentType::Mother)
 				addGeneToVectorIfNotAlreadyInside(*mother, motherLinks[motherLinkIndex], weight, babyNeurons, babyLinks);
 			else
@@ -323,10 +323,10 @@ int nev::Genotype::getMaxDepth() const
 
 double nev::Genotype::getLinkWeightAverage() const
 {
-	double total = 0;
 	if (m_links.empty())
-		return 0;
+		return 0.0;
 
+	double total = 0.0;
 	for (const auto& link : m_links)
 		total += link.weight;
 
@@ -585,7 +585,7 @@ int nev::Genotype::getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, 
 
 double nev::Genotype::getRandomLinkWeight() const
 {
-	return RNG::getRandomDoubleBetween(MinimumLinkStartValue, MaximumLinkStartValue);
+	return getRandomDouble(MinimumLinkStartValue, MaximumLinkStartValue);
 }
 
 void nev::Genotype::createLinkWithRandomWeight(Innovation* innovation, int fromId, int toId, bool recurrent)
@@ -637,7 +637,7 @@ nev::Genotype::ParentType nev::Genotype::getFittestParent(const Genotype& father
 	if (mother.m_rawFitness > father.m_rawFitness)
 		return ParentType::Mother;
 	if (mother.m_rawFitness == father.m_rawFitness)
-		return RNG::getRandomIntBetween(0, 1) == 0 ? ParentType::Mother : ParentType::Father;
+		return getRandomBool() ? ParentType::Mother : ParentType::Father;
 
 	return ParentType::Father;
 }

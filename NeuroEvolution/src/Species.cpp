@@ -56,7 +56,7 @@ void nev::Species::incrementCurrentGeneration()
 
 std::unique_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const
 {
-	double randomFitness = RNG::getRandomDoubleBetween(0, m_totalCurrentAdjustedFitness);
+	double randomFitness = getRandomDouble(0, m_totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
 	for (auto genotype : m_members)
 	{

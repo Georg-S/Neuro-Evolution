@@ -9,7 +9,7 @@
 #include "Innovation.h"
 #include "LinkGene.h"
 #include "NeuronGene.h"
-#include "RNG.h"
+#include "Utility.h"
 #include "Phenotype.h"
 #include "ActivationFunction.h"
 
@@ -99,8 +99,8 @@ namespace nev
 		double m_adjustedFitness = 0;
 		int m_maxDepth = 0;
 		static const int NumTriesToAddLink = 20;
-		static constexpr int MinimumLinkStartValue = -3;
-		static constexpr int MaximumLinkStartValue = 3;
+		static constexpr double MinimumLinkStartValue = -3;
+		static constexpr double MaximumLinkStartValue = 3;
 		static constexpr double MinimumLinkWeight = -30;
 		static constexpr double MaximumLinkWeight = 30;
 	};

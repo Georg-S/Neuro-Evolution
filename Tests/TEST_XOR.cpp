@@ -6,7 +6,9 @@
 #include <LinkGene.h>
 #include <NEAT.h>
 #include <vector>
+#include "Test_config.h"
 
+#if RUN_NORMAL_TESTS
 
 nev::Genotype createXORGenotype() {
 	nev::Innovation inno = nev::Innovation();
@@ -155,6 +157,8 @@ void testXorParameters() {
 	std::cout << "Average is " << generationAverage << std::endl;
 	getchar();
 }
+
+#endif
 
 /*
 TEST(TEST_XOR, MemoryLeak) {

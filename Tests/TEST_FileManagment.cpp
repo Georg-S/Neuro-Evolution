@@ -6,10 +6,13 @@
 #include <LinkGene.h>
 #include <NEAT.h>
 #include <NEATFileIO.h>
+#include "Test_config.h"
 
 static std::string innovationPath = "neat_innovations.json";
 static std::string populationPath = "neat_population.json";
 static std::string parametersPath = "neat_parameters.json";
+
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_FileManagment, SaveToFileAndPopulationGetsParsedCorrectly)
 {
@@ -83,3 +86,5 @@ TEST(TEST_FileManagment, NEAT_SomeParametersGetSavedAndParsedCorrectly)
 	ASSERT_DOUBLE_EQ(neat1.getWeightPertubation(), neat2->getWeightPertubation());
 	ASSERT_EQ(neat1.getCurrentGeneration(), neat2->getCurrentGeneration());
 }
+
+#endif

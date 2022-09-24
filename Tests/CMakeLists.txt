@@ -14,6 +14,7 @@ set(TESTSOURCES
 	"TEST_NEAT.cpp"
 	"TEST_HistoricalGenotype.cpp"
 	"TEST_HNE.cpp"
+	"Test_config.h"
 	)
 
 

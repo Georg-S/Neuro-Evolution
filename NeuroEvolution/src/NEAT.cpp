@@ -234,7 +234,7 @@ void nev::NEAT::populate()
 					baby = species[speciesIndex].spawnNewGenotypeThroughRoulette();
 				}
 				else {
-					if (RNG::getRandomFloatBetween0and1() < crossOverProbability) {
+					if (getRandomDouble(0, 1) < crossOverProbability) {
 						std::shared_ptr<Genotype> father = species[speciesIndex].spawnNewGenotypeThroughRoulette();
 						std::shared_ptr<Genotype> mother = species[speciesIndex].spawnNewGenotypeThroughRoulette();
 						baby = Genotype::crossOver(father.get(), mother.get(), currentGenotypeId++);

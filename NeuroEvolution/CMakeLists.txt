@@ -1,19 +1,6 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 project(NeuroEvolution)
 
-set(SOURCES 
-	"src/Genotype.cpp"
-	"src/Innovation.cpp"
-	"src/NEAT.cpp"
-	"src/Phenotype.cpp"
-	"src/RNG.cpp"
-	"src/Species.cpp"
-	"src/ActivationFunction.cpp"
-	"src/HNE/HistoricalGenotype.cpp"
-	"src/HNE/HNE.cpp"
-	"src/NEATFileIO.cpp"
-	)
-
 set(HEADERS 
 	"include/Genotype.h"
 	"include/InnovationElement.h"
@@ -24,13 +11,26 @@ set(HEADERS
 	"include/NeuronType.h"
 	"include/Phenotype.h"
 	"include/PhenotypeNeuron.h"
-	"include/RNG.h"
+	"include/Utility.h"
 	"include/Species.h"
 	"include/ActivationFunction.h"
 	"include/HNE/HistoricalGenotype.h"
 	"include/HNE/HNE.h"
 	"include/json.hpp"
 	"include/NEATFileIO.h"
+	)
+
+set(SOURCES 
+	"src/Genotype.cpp"
+	"src/Innovation.cpp"
+	"src/NEAT.cpp"
+	"src/Phenotype.cpp"
+	"src/Utility.cpp"
+	"src/Species.cpp"
+	"src/ActivationFunction.cpp"
+	"src/HNE/HistoricalGenotype.cpp"
+	"src/HNE/HNE.cpp"
+	"src/NEATFileIO.cpp"
 	)
 
 add_library(NeuroEvolution STATIC ${SOURCES} ${HEADERS})

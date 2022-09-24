@@ -4,6 +4,9 @@
 #include <Innovation.h>
 #include <Species.h>
 #include <vector>
+#include "Test_config.h"
+
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_Species, calculateCompatibilityScoreCalculates0ForTheSameGenotype)
 {
@@ -81,3 +84,5 @@ TEST(TEST_Species, getLeaderReturnTheRightGenotype_2)
 
 	EXPECT_EQ(specie.getDeepCopyOfSpeciesLeader()->getGenotypeId(), 49);
 }
+
+#endif

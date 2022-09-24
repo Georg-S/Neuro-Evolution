@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <HNE/HNE.h>
+#include "Test_config.h"
 
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_HistoricalGenotype, HistorySizeIs1AfterCreation) {
 	nev::Innovation inno;
@@ -76,3 +78,5 @@ TEST(TEST_HistoricalGenotype, outputChangesAfterMutation) {
 
 	EXPECT_NE(previousValue, outputs[0]);
 }
+
+#endif

@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <HNE/HNE.h>
 #include <vector>
+#include "Test_config.h"
 
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_HNE, populationOf1CalculatesTheCorrectValue) {
 
@@ -166,3 +168,5 @@ TEST(TEST_HNE, theOutputChangesAfterIteration) {
 
 	EXPECT_NE(previousResult, currenResult);
 }
+
+#endif

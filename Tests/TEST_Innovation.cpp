@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <Innovation.h>
 #include <Genotype.h>
+#include "Test_config.h"
 
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_Innovation, 0by0GenotypeCreates0Innovations) {
 	nev::Innovation inno = nev::Innovation();
@@ -148,3 +150,5 @@ TEST(TEST_Innovation, addLinkAddsNewLinkInnovationsOnlyOneTime) {
 
 	EXPECT_EQ(previousCountLinkInnovations, inno.getCountOfNewLinkInnovations());
 }
+
+#endif

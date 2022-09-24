@@ -5,7 +5,9 @@
 #include <NeuronGene.h>
 #include <LinkGene.h>
 #include <vector>
+#include "Test_config.h"
 
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_Phenotype, PhenotypeWithoutLinksToOutputReturnsNoOutputCauseMaxDepthIs0) {
 	nev::Innovation inno = nev::Innovation();
@@ -116,3 +118,5 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveTwoTimes) {
 
 	ASSERT_FLOAT_EQ(outputs[0], 0.992338);
 }
+
+#endif

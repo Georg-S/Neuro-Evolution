@@ -5,7 +5,9 @@
 #include <NeuronGene.h>
 #include <LinkGene.h>
 #include <vector>
+#include "Test_config.h"
 
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_Genotype, 0by0CreateNoNeurons) {
 	nev::Innovation inno = nev::Innovation();
@@ -119,11 +121,15 @@ TEST(TEST_Genotype, mutateWeightsWithoutNewWeightMutatesWeights) {
 	nev::Innovation inno = nev::Innovation();
 	nev::Genotype geno = nev::Genotype(&inno, 1, 1, 1);
 	double previousLinkWeightAverage = geno.getLinkWeightAverage();
-	geno.randomlyMutateAllWeights(1.0, 0.0, 1);
-	geno.randomlyMutateAllWeights(1.0, 0.0, 1);
+
+	// This test was (maybe still is) not deterministic, therefore we execute it multiple time
+	// So the odds that the test fails are very small
+	for (int i = 0; i < 20; i++)
+		geno.randomlyMutateAllWeights(1.0, 0.0, 0.1*i);
 
 	EXPECT_NE(previousLinkWeightAverage, geno.getLinkWeightAverage());
 }
+
 TEST(TEST_Genotype, mutateWeightsWithNewWeightMutatesWeights) {
 	nev::Innovation inno = nev::Innovation();
 	nev::Genotype geno = nev::Genotype(&inno, 1, 1, 1);
@@ -147,7 +153,8 @@ TEST(TEST_Genotype, addLinkAddsALink) {
 	nev::Genotype geno = nev::Genotype(&inno, 2, 1, 1);
 	geno.randomlyAddNeuron(&inno, 1.0);
 	int previousLinkSize = geno.getCountOfLinks();
-	geno.randomlyAddLink(&inno, 1.0, false);
+	// If very unlucky this Test can be not deterministic
+	geno.randomlyAddLink(&inno, 1.0, true);
 
 	EXPECT_EQ(previousLinkSize + 1, geno.getCountOfLinks());
 }
@@ -272,3 +279,5 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightDepth) {
 
 	EXPECT_EQ(baby->getMaxDepth(), 2);
 }
+
+#endif

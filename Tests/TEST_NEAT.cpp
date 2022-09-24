@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 #include <NEAT.h>
 #include <vector>
+#include "Test_config.h"
+
+#if RUN_NORMAL_TESTS
 
 TEST(TEST_NEAT, constructorCreatesRightAmountOfGenotypes) {
 	nev::NEAT neat = nev::NEAT(50, 1, 1);
@@ -64,3 +67,5 @@ TEST(TEST_NEAT, after10IterationPopulationSizeIsTheSame) {
 
 	EXPECT_EQ(neat.getPopulationSize(), 50);
 }
+
+#endif
