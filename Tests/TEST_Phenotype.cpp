@@ -16,7 +16,7 @@ TEST(TEST_Phenotype, PhenotypeWithoutLinksToOutputReturnsNoOutputCauseMaxDepthIs
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::bias, 0));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 1));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 2));
-	nev::Genotype geno = nev::Genotype(&inno,neurons, links,1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links),1);
 	geno.createPhenotype();
 
 	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
@@ -30,7 +30,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWithoutBiasPhenotypeHasAnOutput) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 0));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 1));
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
-	nev::Genotype geno = nev::Genotype(&inno, neurons, links, 1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 	geno.createPhenotype();
 	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
@@ -45,7 +45,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith0AsInputReturnsCorrectValue) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 0));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 1));
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
-	nev::Genotype geno = nev::Genotype(&inno, neurons, links, 1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 	geno.createPhenotype();
 	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{0.0}, nev::af::steepenedSigmoid);
 
@@ -60,7 +60,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1AsInputReturnsCorrectValueWithSteepe
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 0));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 1));
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
-	nev::Genotype geno = nev::Genotype(&inno, neurons, links, 1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 	geno.createPhenotype();
 	std::vector<double> outputs = geno.phenotype->calculateOutputSnapshot(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
@@ -75,7 +75,7 @@ TEST(TEST_Phenotype, PhenotypeAfterAddNeuronHasAlmostSameOutputWithSteepenedSigm
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 1));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 2));
 	links.push_back(nev::LinkGene(1, 2, 1, true,0));
-	nev::Genotype geno = nev::Genotype(&inno,neurons, links,0);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links),0);
 	geno.randomlyAddNeuron(&inno,1.0);
 	geno.createPhenotype();
 
@@ -94,7 +94,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveOneTime) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::hidden, 2));
 	links.push_back(nev::LinkGene(0, 2, 1, true, 0, false));
 	links.push_back(nev::LinkGene(2, 1, 1, true, 0, false));
-	nev::Genotype geno = nev::Genotype(&inno, neurons, links, 1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 	geno.createPhenotype();
 	std::vector<double> outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 
@@ -111,7 +111,7 @@ TEST(TEST_Phenotype, Simple1By1GenotypeWith1HiddenReturn0_5ForActiveTwoTimes) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::hidden, 2));
 	links.push_back(nev::LinkGene(0, 2, 1, true, 0, false));
 	links.push_back(nev::LinkGene(2, 1, 1, true, 0, false));
-	nev::Genotype geno = nev::Genotype(&inno, neurons, links, 1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 	geno.createPhenotype();
 	std::vector<double> outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::af::steepenedSigmoid);
 	outputs = geno.phenotype->calculateOutputActive(std::vector<double>{1.0}, nev::af::steepenedSigmoid);

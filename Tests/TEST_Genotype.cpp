@@ -204,7 +204,7 @@ TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf1ForNoHiddenNodes) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 0));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 1));
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
-	auto geno = nev::Genotype(&inno, neurons, links, 1);
+	auto geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 
 	EXPECT_EQ(geno.getMaxDepth(), 1);
 }
@@ -219,7 +219,7 @@ TEST(TEST_Genotype, theVectorConstructorCalculatesDepthOf2For1HiddenNode) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 2));
 	links.push_back(nev::LinkGene(0, 1, 1, true, 0, false));
 	links.push_back(nev::LinkGene(1, 2, 1, true, 0, false));
-	nev::Genotype geno = nev::Genotype(&inno, neurons, links, 1);
+	nev::Genotype geno = nev::Genotype(&inno, std::move(neurons), std::move(links), 1);
 
 	EXPECT_EQ(geno.getMaxDepth(), 2);
 }

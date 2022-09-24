@@ -173,7 +173,7 @@ std::vector<std::shared_ptr<nev::Genotype>> nev::FileIO::loadPopulationFromFile(
 			links.emplace_back(std::move(link));
 		}
 
-		population.emplace_back(std::make_shared<nev::Genotype>(neurons, links, id++));
+		population.emplace_back(std::make_shared<nev::Genotype>(std::move(neurons), std::move(links), id++));
 	}
 
 	return population;

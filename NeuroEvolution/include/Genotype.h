@@ -21,17 +21,17 @@ namespace nev
 		Genotype() = default;
 		Genotype(Innovation* innovation, int countOfInputs, int countOfOutputs,
 			int id, nev::af activationFunction = nev::af::steepenedSigmoid);
-		Genotype(const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
+		Genotype(std::vector<NeuronGene>&& neurons, std::vector<LinkGene>&& links,
 			int id, nev::af activationFunction = nev::af::steepenedSigmoid);
-		Genotype(Innovation* innovation, const std::vector<NeuronGene>& neurons, const std::vector<LinkGene>& links,
+		Genotype(Innovation* innovation, std::vector<NeuronGene>&& neurons, std::vector<LinkGene>&& links,
 			int id, nev::af activationFunction = nev::af::steepenedSigmoid);
 
 		void randomlyAddNeuron(Innovation* innovation, double addNeuronProbability);
 		void randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation);
 		void randomlyAddLink(Innovation* innovation, double mutationProbability, bool recurrentAllowed);
-		static double calculateCompatibilityScore(Genotype* left, Genotype* right, double excessFactor,
+		static double calculateCompatibilityScore(const Genotype* left, const Genotype* right, double excessFactor,
 			double disjointFactor, double weightFactor);
-		static std::shared_ptr<Genotype> crossOver(Genotype* father, Genotype* mother, int babyId);
+		static std::shared_ptr<Genotype> crossOver(const Genotype* father, const Genotype* mother, int babyId);
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 		std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 		void createPhenotype();
@@ -91,8 +91,8 @@ namespace nev
 
 		int m_countOfInputs;
 		int m_countOfOutputs;
-		std::vector <NeuronGene> m_neurons;
-		std::vector <LinkGene> m_links;	// TODO: can probably refactored to be a map
+		std::vector<NeuronGene> m_neurons;
+		sorted_vector<LinkGene> m_links;
 		int m_id;
 		nev::af m_activationFunction;
 		double m_rawFitness = 0;

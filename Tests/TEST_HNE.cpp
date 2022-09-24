@@ -14,7 +14,7 @@ TEST(TEST_HNE, populationOf1CalculatesTheCorrectValue) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 1));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 2));
 	links.push_back(nev::LinkGene(1, 2, 1, true, 0));
-	nev::Genotype geno = nev::Genotype(neurons, links,0);
+	nev::Genotype geno = nev::Genotype(std::move(neurons), std::move(links),0);
 	geno.createPhenotype();
 
 	histGenotype.push_back(nev::HistoricalGenotype(geno, 1, 1));
@@ -35,7 +35,7 @@ TEST(TEST_HNE, populationOf2CalculatesTheCorrectValue) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 1));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 2));
 	links.push_back(nev::LinkGene(1, 2, 1, true, 0));
-	nev::Genotype geno = nev::Genotype(neurons, links,0);
+	nev::Genotype geno = nev::Genotype(std::move(neurons), std::move(links),0);
 
 	histGenotype.push_back(nev::HistoricalGenotype(geno,1,1));
 	histGenotype.push_back(nev::HistoricalGenotype(geno,1,1));
@@ -56,7 +56,7 @@ TEST(TEST_HNE, populationOf3CalculatesTheCorrectValue) {
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::input, 1));
 	neurons.push_back(nev::NeuronGene(nev::NeuronType::output, 2));
 	links.push_back(nev::LinkGene(1, 2, 1, true, 0));
-	nev::Genotype geno = nev::Genotype(neurons, links,0);
+	nev::Genotype geno = nev::Genotype(std::move(neurons), std::move(links),0);
 
 	histGenotype.push_back(nev::HistoricalGenotype(geno,1,1));
 	histGenotype.push_back(nev::HistoricalGenotype(geno,1,1));
