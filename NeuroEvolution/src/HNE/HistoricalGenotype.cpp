@@ -28,7 +28,7 @@ std::vector<double> nev::HistoricalGenotype::calculateOutputActiveFromLastGenoty
 
 void nev::HistoricalGenotype::setFitness(const double& fitness)
 {
-	if (genotypeHistory.size() == 0)
+	if (genotypeHistory.empty())
 		return;
 
 	genotypeHistory[genotypeHistory.size() - 1].setRawFitness(fitness);
@@ -123,7 +123,7 @@ nev::Genotype nev::HistoricalGenotype::getHighestPerformingGenotype(Innovation* 
 {
 	std::sort(genotypeHistory.begin(), genotypeHistory.end());
 
-	if (genotypeHistory.size() == 0)
+	if (genotypeHistory.empty())
 		return Genotype(inno, countOfInputs, countOfOutputs, 0);
 
 	return genotypeHistory[0];

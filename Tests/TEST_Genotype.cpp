@@ -224,7 +224,7 @@ TEST(TEST_Genotype, crossWithItSelfReturnsTheSame) {
 	int previousLinkSize = father->getCountOfLinks();
 	int previousNeuronSize = father->getCountOfNeurons();
 	double previousLinkAverage = father->getLinkWeightAverage();
-	auto baby = nev::Genotype::crossOver(father, father, 1);
+	auto baby = nev::Genotype::crossOver(father.get(), father.get(), 1);
 
 	EXPECT_EQ(baby->getCountOfLinks(), previousLinkSize);
 	EXPECT_EQ(baby->getCountOfNeurons(), previousNeuronSize);
@@ -240,7 +240,7 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightAmountOfLinks) {
 	mother->randomlyAddNeuron(&inno, 1.0);
 	int motherLinkSize = mother->getCountOfLinks();
 
-	auto baby = nev::Genotype::crossOver(father, mother, 2);
+	auto baby = nev::Genotype::crossOver(father.get(), mother.get(), 2);
 
 	EXPECT_EQ(baby->getCountOfLinks(), motherLinkSize);
 }
@@ -254,7 +254,7 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightAmountOfLinksIfFitnessIsDifferent) {
 	mother->randomlyAddNeuron(&inno, 1.0);
 	int fatherLinkSize = father->getCountOfLinks();
 
-	auto baby = nev::Genotype::crossOver(father, mother, 2);
+	auto baby = nev::Genotype::crossOver(father.get(), mother.get(), 2);
 
 	EXPECT_EQ(baby->getCountOfLinks(), fatherLinkSize);
 }
@@ -268,7 +268,7 @@ TEST(TEST_Genotype, crossOverBabyHasTheRightDepth) {
 	mother->randomlyAddNeuron(&inno, 1.0);
 	int previousLinkSize = mother->getCountOfLinks();
 
-	auto baby = nev::Genotype::crossOver(father, mother, 2);
+	auto baby = nev::Genotype::crossOver(father.get(), mother.get(), 2);
 
 	EXPECT_EQ(baby->getMaxDepth(), 2);
 }
