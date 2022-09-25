@@ -59,12 +59,42 @@ nev::Genotype::Genotype(Innovation* innovation, std::vector<NeuronGene>&& neuron
 	calculateDepthOfEveryNeuron();
 }
 
+nev::Genotype::Genotype(const Genotype& other)
+	: m_phenotype(nullptr)
+	, m_countOfInputs(other.m_countOfInputs)
+	, m_countOfOutputs(other.m_countOfOutputs)
+	, m_neurons(other.m_neurons)
+	, m_links(other.m_links)
+	, m_id(other.m_id)
+	, m_activationFunction(other.m_activationFunction)
+	, m_rawFitness(other.m_rawFitness)
+	, m_adjustedFitness(other.m_adjustedFitness)
+	, m_maxDepth(other.m_maxDepth)
+{
+}
+
+nev::Genotype& nev::Genotype::operator=(const Genotype& other)
+{
+	m_phenotype = nullptr;
+	m_countOfInputs = other.m_countOfInputs;
+	m_countOfOutputs = other.m_countOfOutputs;
+	m_neurons = other.m_neurons;
+	m_links = other.m_links;
+	m_id = other.m_id;
+	m_activationFunction = other.m_activationFunction;
+	m_rawFitness = other.m_rawFitness;
+	m_adjustedFitness = other.m_adjustedFitness;
+	m_maxDepth = other.m_maxDepth;
+
+	return *this;
+}
+
 void nev::Genotype::randomlyAddNeuron(Innovation* innovation, double addNeuronProbability)
 {
 	if (m_links.empty())
 		return;
 
-	if (getRandomDouble(0,1) > addNeuronProbability)
+	if (getRandomDouble(0, 1) > addNeuronProbability)
 		return;
 
 	std::vector<LinkGene> possibleLinks = getAllValidLinksForAddNeuron();
@@ -86,7 +116,7 @@ void nev::Genotype::randomlyAddNeuron(Innovation* innovation, double addNeuronPr
 
 void nev::Genotype::randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation)
 {
-	for (auto& link : m_links) 
+	for (auto& link : m_links)
 	{
 		if (getRandomDouble(0, 1) <= mutationProbability)
 			mutateSingleWeight(&link, newWeightProbability, weightPertubation);
@@ -181,7 +211,7 @@ double nev::Genotype::calculateCompatibilityScore(const Genotype* left, const Ge
 	return compatibilityScore;
 }
 
-std::shared_ptr<nev::Genotype> nev::Genotype::crossOver(const Genotype* father, const Genotype* mother, int babyId)
+std::unique_ptr<nev::Genotype> nev::Genotype::crossOver(const Genotype* father, const Genotype* mother, int babyId)
 {
 	const ParentType highestFitness = getFittestParent(*father, *mother);
 	const std::vector<LinkGene>& motherLinks = mother->m_links.getVector();
@@ -229,32 +259,32 @@ std::shared_ptr<nev::Genotype> nev::Genotype::crossOver(const Genotype* father, 
 			fatherLinkIndex++;
 		}
 	}
-	return std::make_shared<Genotype>(std::move(babyNeurons), std::move(babyLinks), babyId, father->m_activationFunction);
+	return std::make_unique<Genotype>(std::move(babyNeurons), std::move(babyLinks), babyId, father->m_activationFunction);
 }
 
 std::vector<double> nev::Genotype::calculateOutputSnapshot(const std::vector<double>& inputs)
 {
-	if (!phenotype)
+	if (!m_phenotype)
 		createPhenotype();
 
-	return phenotype->calculateOutputSnapshot(inputs, m_activationFunction);
+	return m_phenotype->calculateOutputSnapshot(inputs, m_activationFunction);
 }
 
 std::vector<double> nev::Genotype::calculateOutputActive(const std::vector<double>& inputs)
 {
-	if (!phenotype)
+	if (!m_phenotype)
 		createPhenotype();
 
-	return phenotype->calculateOutputActive(inputs, m_activationFunction);
+	return m_phenotype->calculateOutputActive(inputs, m_activationFunction);
 }
 
 void nev::Genotype::createPhenotype()
 {
 	std::vector<std::unique_ptr<PhenotypeNeuron>> phenoNeurons;
-	for (const auto& neuron : m_neurons) 
+	for (const auto& neuron : m_neurons)
 		phenoNeurons.emplace_back(std::make_unique<PhenotypeNeuron>(neuron.neuronType, neuron.id));
 
-	for (const auto& link : m_links) 
+	for (const auto& link : m_links)
 	{
 		if (!link.enabled)
 			continue;
@@ -266,12 +296,12 @@ void nev::Genotype::createPhenotype()
 		toNeuron->linksIn.emplace_back(fromNeuron, link.weight);
 	}
 
-	phenotype = std::make_shared<Phenotype>(std::move(phenoNeurons), m_maxDepth);
+	m_phenotype = std::make_unique<Phenotype>(std::move(phenoNeurons), m_maxDepth);
 }
 
 void nev::Genotype::deletePhenotype()
 {
-	phenotype = nullptr;
+	m_phenotype = nullptr;
 }
 
 void nev::Genotype::setActivationFunction(nev::af activationFunction)

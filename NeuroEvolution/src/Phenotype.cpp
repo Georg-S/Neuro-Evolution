@@ -1,9 +1,9 @@
 #include "Phenotype.h"
 
 nev::Phenotype::Phenotype(std::vector<std::unique_ptr<PhenotypeNeuron>>&& neurons, int maxDepth)
+	: m_neurons(std::move(neurons))
+	, m_maxDepth(maxDepth)
 {
-	m_neurons = std::move(neurons);
-	m_maxDepth = maxDepth;
 }
 
 std::vector<double> nev::Phenotype::calculateOutputSnapshot(const std::vector<double>& inputs, const nev::af& activationFunction)

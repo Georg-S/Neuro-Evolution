@@ -1,7 +1,8 @@
 #include "Species.h"
 
 nev::Species::Species(const Genotype* representative, int speciesId)
-	: m_representative(std::make_unique<Genotype>(*representative)), m_speciesId(speciesId)
+	: m_representative(std::make_unique<Genotype>(*representative))
+	, m_speciesId(speciesId)
 {
 	m_members.emplace_back(m_representative.get());
 }

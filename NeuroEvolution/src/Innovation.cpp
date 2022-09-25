@@ -1,7 +1,9 @@
 #include "Innovation.h"
 
 nev::Innovation::Innovation(int currentInnovationNumber, int currentNeuronId, std::vector<InnovationElement>&& innovations)
-	: m_currentInnovationNumber(currentInnovationNumber), m_currentNeuronId(currentNeuronId), m_innovations(std::move(innovations))
+	: m_currentInnovationNumber(currentInnovationNumber)
+	, m_currentNeuronId(currentNeuronId)
+	, m_innovations(std::move(innovations))
 {
 }
 

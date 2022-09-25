@@ -25,13 +25,15 @@ namespace nev
 			int id, nev::af activationFunction = nev::af::steepenedSigmoid);
 		Genotype(Innovation* innovation, std::vector<NeuronGene>&& neurons, std::vector<LinkGene>&& links,
 			int id, nev::af activationFunction = nev::af::steepenedSigmoid);
+		Genotype(const Genotype& other);
+		Genotype& operator=(const Genotype& other);
 
 		void randomlyAddNeuron(Innovation* innovation, double addNeuronProbability);
 		void randomlyMutateAllWeights(double mutationProbability, double newWeightProbability, double weightPertubation);
 		void randomlyAddLink(Innovation* innovation, double mutationProbability, bool recurrentAllowed);
 		static double calculateCompatibilityScore(const Genotype* left, const Genotype* right, double excessFactor,
 			double disjointFactor, double weightFactor);
-		static std::shared_ptr<Genotype> crossOver(const Genotype* father, const Genotype* mother, int babyId);
+		static std::unique_ptr<Genotype> crossOver(const Genotype* father, const Genotype* mother, int babyId);
 		std::vector <double> calculateOutputSnapshot(const std::vector <double>& inputs);
 		std::vector <double> calculateOutputActive(const std::vector <double>& inputs);
 		void createPhenotype();
@@ -54,8 +56,6 @@ namespace nev
 		std::vector<NeuronGene> getNeurons() const;
 		std::vector<LinkGene> getLinks() const;
 		friend bool operator<(const Genotype& lhs, const Genotype& rhs);
-
-		std::shared_ptr<Phenotype> phenotype;
 
 	private:
 		enum class ParentType
@@ -89,6 +89,7 @@ namespace nev
 		std::vector<LinkGene> getAllValidLinksForAddNeuron();
 		void disableLink(const LinkGene& linkToDisable);
 
+		std::unique_ptr<Phenotype> m_phenotype;
 		int m_countOfInputs;
 		int m_countOfOutputs;
 		std::vector<NeuronGene> m_neurons;
@@ -98,7 +99,7 @@ namespace nev
 		double m_rawFitness = 0;
 		double m_adjustedFitness = 0;
 		int m_maxDepth = 0;
-		static const int NumTriesToAddLink = 20;
+		static constexpr int NumTriesToAddLink = 20;
 		static constexpr double MinimumLinkStartValue = -3;
 		static constexpr double MaximumLinkStartValue = 3;
 		static constexpr double MinimumLinkWeight = -30;
