@@ -43,25 +43,25 @@ bool nev::FileIO::writeHyperParametersToFile(const std::filesystem::path& path, 
 	json outputJson;
 
 	//NEAT-Parameters
-	outputJson["ActivationFunction"] = static_cast<int>(neat.activationFunction);
-	outputJson["ExcessFactor"] = neat.excessFactor;
-	outputJson["DisjointFactor"] = neat.disjointFactor;
-	outputJson["WeightFactor"] = neat.weightFactor;
-	outputJson["CompatibilityDistanceThreshold"] = neat.compatibilityDistanceThreshold;
-	outputJson["GenerationsNoImprovementAllowed"] = neat.generationsNoImprovementAllowed;
-	outputJson["SpeciesRoughValue"] = neat.speciesRoughValue;
-	outputJson["MaxCountSpecies"] = neat.maxCountSpecies;
-	outputJson["RecurrentAllowed"] = neat.recurrentAllowed;
+	outputJson["ActivationFunction"] = static_cast<int>(neat.m_activationFunction);
+	outputJson["ExcessFactor"] = neat.m_excessFactor;
+	outputJson["DisjointFactor"] = neat.m_disjointFactor;
+	outputJson["WeightFactor"] = neat.m_weightFactor;
+	outputJson["CompatibilityDistanceThreshold"] = neat.m_compatibilityDistanceThreshold;
+	outputJson["GenerationsNoImprovementAllowed"] = neat.m_generationsNoImprovementAllowed;
+	outputJson["SpeciesRoughValue"] = neat.m_speciesRoughValue;
+	outputJson["MaxCountSpecies"] = neat.m_maxCountSpecies;
+	outputJson["RecurrentAllowed"] = neat.m_recurrentAllowed;
 
 	//Probabilities
-	outputJson["CrossOverProbability"] = neat.crossOverProbability;
-	outputJson["AddNeuronProbability"] = neat.addNeuronProbability;
-	outputJson["AddLinkProbability"] = neat.addLinkProbability;
-	outputJson["MutateLinkProbabilit"] = neat.mutateLinkProbability;
+	outputJson["CrossOverProbability"] = neat.m_crossOverProbability;
+	outputJson["AddNeuronProbability"] = neat.m_addNeuronProbability;
+	outputJson["AddLinkProbability"] = neat.m_addLinkProbability;
+	outputJson["MutateLinkProbabilit"] = neat.m_mutateLinkProbability;
 	outputJson["NewLinkWeightProbabiy"] = neat.newLinkWeightProbability;
 	outputJson["WeightPertubation"] = neat.weightPertubation;
 
-	outputJson["CurrentGeneration"] = neat.currentGeneration;
+	outputJson["CurrentGeneration"] = neat.m_currentGeneration;
 
 	return saveJson(path, outputJson);
 }
@@ -89,7 +89,7 @@ bool nev::FileIO::writeInnovationsToFile(const std::filesystem::path& path, cons
 	return saveJson(path, outputJson);
 }
 
-bool nev::FileIO::writePopulationToFile(const std::filesystem::path& path, const std::vector<std::shared_ptr<nev::Genotype>>& population)
+bool nev::FileIO::writePopulationToFile(const std::filesystem::path& path, const std::vector<std::unique_ptr<nev::Genotype>>& population)
 {
 	json outputJson;
 	outputJson["Population"] = json::array();
@@ -134,11 +134,11 @@ bool nev::FileIO::writePopulationToFile(const std::filesystem::path& path, const
 	return saveJson(path, outputJson);
 }
 
-std::vector<std::shared_ptr<nev::Genotype>> nev::FileIO::loadPopulationFromFile(const std::filesystem::path& file, bool* outSuccess)
+std::vector<std::unique_ptr<nev::Genotype>> nev::FileIO::loadPopulationFromFile(const std::filesystem::path& file, bool* outSuccess)
 {
 	auto [success, populationJson] = loadJson(file);
 	*outSuccess &= success;
-	auto population = std::vector<std::shared_ptr<nev::Genotype>>();
+	auto population = std::vector<std::unique_ptr<nev::Genotype>>();
 	int id = 0;
 
 	if (!success)
@@ -173,7 +173,7 @@ std::vector<std::shared_ptr<nev::Genotype>> nev::FileIO::loadPopulationFromFile(
 			links.emplace_back(std::move(link));
 		}
 
-		population.emplace_back(std::make_shared<nev::Genotype>(std::move(neurons), std::move(links), id++));
+		population.emplace_back(std::make_unique<nev::Genotype>(std::move(neurons), std::move(links), id++));
 	}
 
 	return population;
@@ -213,25 +213,25 @@ void nev::FileIO::loadNEATParametersFromFile(const std::filesystem::path& file, 
 		return;
 
 	//NEAT-Parameters
-	outNeat->activationFunction = static_cast<nev::af>(parameterJson["ActivationFunction"]);
-	outNeat->excessFactor = parameterJson["ExcessFactor"];
-	outNeat->disjointFactor = parameterJson["DisjointFactor"];
-	outNeat->weightFactor = parameterJson["WeightFactor"];
-	outNeat->compatibilityDistanceThreshold = parameterJson["CompatibilityDistanceThreshold"];
-	outNeat->generationsNoImprovementAllowed = parameterJson["GenerationsNoImprovementAllowed"];
-	outNeat->speciesRoughValue = parameterJson["SpeciesRoughValue"];
-	outNeat->maxCountSpecies = parameterJson["MaxCountSpecies"];
-	outNeat->recurrentAllowed = parameterJson["RecurrentAllowed"];
+	outNeat->m_activationFunction = static_cast<nev::af>(parameterJson["ActivationFunction"]);
+	outNeat->m_excessFactor = parameterJson["ExcessFactor"];
+	outNeat->m_disjointFactor = parameterJson["DisjointFactor"];
+	outNeat->m_weightFactor = parameterJson["WeightFactor"];
+	outNeat->m_compatibilityDistanceThreshold = parameterJson["CompatibilityDistanceThreshold"];
+	outNeat->m_generationsNoImprovementAllowed = parameterJson["GenerationsNoImprovementAllowed"];
+	outNeat->m_speciesRoughValue = parameterJson["SpeciesRoughValue"];
+	outNeat->m_maxCountSpecies = parameterJson["MaxCountSpecies"];
+	outNeat->m_recurrentAllowed = parameterJson["RecurrentAllowed"];
 
 	//Probabilities
-	outNeat->crossOverProbability = parameterJson["CrossOverProbability"];
-	outNeat->addNeuronProbability = parameterJson["AddNeuronProbability"];
-	outNeat->addLinkProbability = parameterJson["AddLinkProbability"];
-	outNeat->mutateLinkProbability = parameterJson["MutateLinkProbabilit"];
+	outNeat->m_crossOverProbability = parameterJson["CrossOverProbability"];
+	outNeat->m_addNeuronProbability = parameterJson["AddNeuronProbability"];
+	outNeat->m_addLinkProbability = parameterJson["AddLinkProbability"];
+	outNeat->m_mutateLinkProbability = parameterJson["MutateLinkProbabilit"];
 	outNeat->newLinkWeightProbability = parameterJson["NewLinkWeightProbabiy"];
 	outNeat->weightPertubation = parameterJson["WeightPertubation"];
 
-	outNeat->currentGeneration = parameterJson["CurrentGeneration"];
+	outNeat->m_currentGeneration = parameterJson["CurrentGeneration"];
 	outNeat->refreshPopulationActivationFunction();
 }
 
@@ -245,8 +245,8 @@ bool nev::FileIO::saveToFile(const std::filesystem::path& basePath, const nev::N
 	populationPath.append("neat_population.json");
 
 	bool success = writeHyperParametersToFile(parametersPath, neat)
-		&& writeInnovationsToFile(innovationsPath, neat.innovation)
-		&& writePopulationToFile(populationPath, neat.population);
+		&& writeInnovationsToFile(innovationsPath, neat.m_innovation)
+		&& writePopulationToFile(populationPath, neat.m_population);
 
 	return success;
 }
@@ -259,8 +259,7 @@ std::unique_ptr<nev::NEAT> nev::FileIO::loadNEATFromFiles(const std::filesystem:
 	{
 		auto population = loadPopulationFromFile(populationPath, &success);
 		auto innovation = loadInnovationFromFile(innovationPath, &success);
-		auto neat = std::make_unique<nev::NEAT>(population, innovation);
-		neat->currentGenotypeId = population.size();
+		auto neat = std::make_unique<nev::NEAT>(std::move(population), std::move(innovation));
 		loadNEATParametersFromFile(parametersPath, neat.get(), &success);
 
 		if (!success)

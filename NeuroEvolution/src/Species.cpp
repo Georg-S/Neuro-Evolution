@@ -7,7 +7,7 @@ nev::Species::Species(const Genotype* representative, int speciesId)
 	m_members.emplace_back(m_representative.get());
 }
 
-double nev::Species::calculateCompatibilityScore(Genotype* toTestGenotype, double excessFactor, double disjointFactor, double weightFactor)
+double nev::Species::calculateCompatibilityScore(const Genotype* toTestGenotype, double excessFactor, double disjointFactor, double weightFactor) const
 {
 	return Genotype::calculateCompatibilityScore(m_representative.get(), toTestGenotype, excessFactor, disjointFactor, weightFactor);
 }
@@ -55,24 +55,37 @@ void nev::Species::incrementCurrentGeneration()
 	m_generationsNoImprovement++;
 }
 
-std::unique_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const
+const nev::Genotype* nev::Species::getGenotypeThroughRoulette() const
 {
 	double randomFitness = getRandomDouble(0, m_totalCurrentAdjustedFitness);
 	double accumalatedFitness = 0;
-	for (auto genotype : m_members)
+
+	for (const auto& genotype : m_members)
 	{
 		accumalatedFitness += genotype->getAdjustedFitness();
 
 		if (randomFitness <= accumalatedFitness)
-			return std::make_unique<Genotype>(*genotype);
+			return genotype;
 	}
-	assert(!"Reached invalid state while spawning new Genotype");
+
+	assert(!"Reached invalid state while getting genotype through roulette");
+	return nullptr;
+}
+
+std::unique_ptr<nev::Genotype> nev::Species::spawnNewGenotypeThroughRoulette() const
+{
+	auto ptr = getGenotypeThroughRoulette();
+	assert(ptr);
+
+	if (ptr)
+		return std::make_unique<Genotype>(*ptr);
+	
 	return std::make_unique<Genotype>(*m_representative);
 }
 
 std::unique_ptr<nev::Genotype> nev::Species::getDeepCopyOfSpeciesLeader() const
 {
-	double highestFitness = DBL_MIN;
+	double highestFitness = -DBL_MAX; // DBL_MIN is smallest positive DBL -> therefore use -DBL_MAX
 	Genotype* highestFitnessGenotype = nullptr;
 
 	for (auto member : m_members)

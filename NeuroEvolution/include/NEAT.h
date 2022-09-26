@@ -9,15 +9,15 @@
 #include "Innovation.h"
 #include "ActivationFunction.h"
 
-namespace nev {
-
+namespace nev
+{
 	class NEAT
 	{
 	public:
 		NEAT() = delete;
-		NEAT(const std::vector<std::shared_ptr<Genotype>>& population, const Innovation& innovation);
+		NEAT(std::vector<std::unique_ptr<Genotype>>&& population, Innovation&& innovation);
 		NEAT(int populationSize, int countOfInputs, int countOfOutputs,
-			const nev::af& activationFunction = nev::af::steepenedSigmoid);
+			nev::af activationFunction = nev::af::steepenedSigmoid);
 		std::vector<std::vector<double>> calculateOutputSnapshot(const std::vector<double>& inputs);
 		std::vector<std::vector<double>> calculateOutputActive(const std::vector<double>& inputs);
 		std::vector<double> calculateOutputActiveOfSpecificGenotype(const std::vector<double>& inputs, int index);
@@ -43,39 +43,38 @@ namespace nev {
 		void updateFitnessValues();
 		void calculateSpawnAmoutOfSpecies();
 		void populate();
-		std::shared_ptr<Genotype> getHighestRawFitnessGenotype() const;
+		std::unique_ptr<Genotype> getHighestRawFitnessGenotype() const;
 
 		//NEAT-Parameters
-		double excessFactor = 1;
-		double disjointFactor = 1;
-		double weightFactor = 0.4;
-		double compatibilityDistanceThreshold = 3;
-		int generationsNoImprovementAllowed = 10;
-		int speciesRoughValue = 5;
-		int maxCountSpecies = 20;
-		bool recurrentAllowed = true;
+		double m_excessFactor = 1;
+		double m_disjointFactor = 1;
+		double m_weightFactor = 0.4;
+		double m_compatibilityDistanceThreshold = 3;
+		int m_generationsNoImprovementAllowed = 10;
+		int m_speciesRoughValue = 5;
+		int m_maxCountSpecies = 20;
+		bool m_recurrentAllowed = true;
 
 		//Probabilities
-		double crossOverProbability = 0.1;
-		double addNeuronProbability = 0.03;
-		double addLinkProbability = 0.05;
-		double mutateLinkProbability = 0.8;
+		double m_crossOverProbability = 0.1;
+		double m_addNeuronProbability = 0.03;
+		double m_addLinkProbability = 0.05;
+		double m_mutateLinkProbability = 0.8;
 		double newLinkWeightProbability = 0.1;
 
 		double weightPertubation = 0.1;
 
-		nev::af activationFunction = nev::af::steepenedSigmoid;
-		std::vector<std::shared_ptr<Genotype>> population;
-		std::vector<Species> species;
-		Innovation innovation;
-		int currentGenotypeId = 0;
-		int maxPopulationSize = 0;
-		int countOfInputs = 0;
-		int countOfOutputs = 0;
-		int currentPopulationId = 0;
-		int currentGeneration = 0;
+		nev::af m_activationFunction = nev::af::steepenedSigmoid;
+		std::vector<std::unique_ptr<Genotype>> m_population;
+		std::vector<Species> m_species;
+		Innovation m_innovation;
+		int m_currentGenotypeId = 0;
+		int m_maxPopulationSize = 0;
+		int m_countOfInputs = 0;
+		int m_countOfOutputs = 0;
+		int m_currentPopulationId = 0;
+		int m_currentGeneration = 0;
 
 		friend class FileIO;
 	};
-
 }

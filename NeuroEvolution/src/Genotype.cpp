@@ -46,10 +46,10 @@ nev::Genotype::Genotype(Innovation* innovation, std::vector<NeuronGene>&& neuron
 	for (const auto& neuron : m_neurons)
 	{
 		if (neuron.neuronType == NeuronType::input)
-			this->m_countOfInputs++;
+			m_countOfInputs++;
 
 		if (neuron.neuronType == NeuronType::output)
-			this->m_countOfOutputs++;
+			m_countOfOutputs++;
 
 		if (neuron.id > highestNeuronId)
 			highestNeuronId = neuron.id;
@@ -593,7 +593,7 @@ bool nev::Genotype::isRecurrentBetweenNeurons(const NeuronGene& fromNeuron, cons
 
 int nev::Genotype::getNeuronIndexFromId(int id) const
 {
-	return getNeuronIndexFromId(this->m_neurons, id);
+	return getNeuronIndexFromId(m_neurons, id);
 }
 
 int nev::Genotype::getNeuronIndexFromId(const std::vector<NeuronGene>& neurons, int id)

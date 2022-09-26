@@ -11,12 +11,13 @@ namespace nev
 	public:
 		Species() = default;
 		Species(const Genotype* representative, int speciesId);
-		double calculateCompatibilityScore(Genotype* toTestGenotype, double excessFactor, double disjointFactor, double weightFactor);
+		double calculateCompatibilityScore(const Genotype* toTestGenotype, double excessFactor, double disjointFactor, double weightFactor) const;
 		void reset();
 		void addMemberToSpecies(Genotype* genotype);
 		void updateFitnessValues();
 		void calculateSpawnAmount(double populationAverage);
 		void incrementCurrentGeneration();
+		const Genotype* getGenotypeThroughRoulette() const;
 		std::unique_ptr<Genotype> spawnNewGenotypeThroughRoulette() const;
 		std::unique_ptr<Genotype> getDeepCopyOfSpeciesLeader() const;
 		double getTotalCurrentAdjustedFitness() const;
@@ -29,7 +30,7 @@ namespace nev
 
 	private:
 		std::unique_ptr<Genotype> m_representative;
-		std::vector<Genotype*> m_members;
+		std::vector<Genotype*> m_members; // TODO can be made const * ???
 
 		int m_speciesId;
 		int m_generationsNoImprovement = 0;

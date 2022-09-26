@@ -24,8 +24,8 @@ namespace nev
 	private:
 		static bool writeHyperParametersToFile(const std::filesystem::path& path, const nev::NEAT& neat);
 		static bool writeInnovationsToFile(const std::filesystem::path& path, const Innovation& innovation);
-		static bool writePopulationToFile(const std::filesystem::path& path, const std::vector<std::shared_ptr<nev::Genotype>>& population);
-		static std::vector<std::shared_ptr<nev::Genotype>> loadPopulationFromFile(const std::filesystem::path& file, bool* outSuccess);
+		static bool writePopulationToFile(const std::filesystem::path& path, const std::vector<std::unique_ptr<nev::Genotype>>& population);
+		static std::vector<std::unique_ptr<nev::Genotype>> loadPopulationFromFile(const std::filesystem::path& file, bool* outSuccess);
 		static Innovation loadInnovationFromFile(const std::filesystem::path& file, bool* outSuccess);
 		static void loadNEATParametersFromFile(const std::filesystem::path& file, NEAT* outNeat, bool* outSuccess);
 	};
