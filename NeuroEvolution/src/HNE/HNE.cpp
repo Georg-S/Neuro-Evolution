@@ -2,189 +2,192 @@
 
 
 nev::HNE::HNE(int centuryDuration, int populationSize, int countOfInputs, int countOfOutputs)
+	: m_centuryDuration(centuryDuration)
+	, m_populationSize(populationSize)
+	, m_countOfInputs(countOfInputs)
+	, m_countOfOutputs(countOfOutputs)
+	, m_innovation(std::make_unique<nev::Innovation>())
 {
-	srand(time(NULL));
-	this->centuryDuration = centuryDuration;
-	this->populationSize = populationSize;
-	this->countOfInputs = countOfInputs;
-	this->countOfOutputs = countOfOutputs;
-	this->innovation = std::make_shared<nev::Innovation>();
-
 	for (int i = 0; i < populationSize; i++)
-		population.push_back(nev::HistoricalGenotype(innovation.get(), countOfInputs, countOfOutputs));
+		m_population.emplace_back(m_innovation.get(), countOfInputs, countOfOutputs);
 
 	setParametersOfPopulation();
 }
 
 nev::HNE::HNE(const std::vector<HistoricalGenotype>& population, int countOfInputs, int countOfOutputs)
+	: m_population(population)
+	, m_countOfInputs(countOfInputs)
+	, m_countOfOutputs(countOfOutputs)
 {
-	srand(time(NULL));
-	this->population = population;
-	this->countOfInputs = countOfInputs;
-	this->countOfOutputs = countOfOutputs;
 	setParametersOfPopulation();
 }
 
 std::vector<std::vector<double>> nev::HNE::getOutputsSnapshot(const std::vector<double>& inputs)
 {
+	if (inputs.size() != m_countOfInputs)
+	{
+		assert(!"Input size mismatch");
+		return {};
+	}
+
 	std::vector<std::vector<double>> outputs;
 
-	if (inputs.size() != countOfInputs)
-		return outputs;
-
-	for (int i = 0; i < population.size(); i++)
-		outputs.push_back(population[i].calculateOutputSnapshotFromLastGenotype(inputs));
+	for (auto& historicalGenotype : m_population)
+		outputs.emplace_back(historicalGenotype.calculateOutputSnapshotFromLastGenotype(inputs));
 
 	return outputs;
 }
 
 void nev::HNE::iterateOneGeneration(const std::vector<double>& fitness)
 {
-	if (fitness.size() != population.size())
+	if (fitness.size() != m_population.size())
+	{
+		assert(!"Input size mismatch");
 		return;
-
-	for (int i = 0; i < population.size(); i++)
-		population[i].deletePhenotype();
-
-	for (int i = 0; i < population.size(); i++)
-		population[i].setFitness(fitness[i]);
-
-	if (currentCentury < centuryDuration) {
-		for (int i = 0; i < population.size(); i++)
-			population[i].iterate(innovation.get());
-
-		currentCentury++;
 	}
-	else {
-		int elitismCount = calculateElitismCount();
-		int index = 0;
-		sort(population.begin(), population.end());
 
-		while (index < elitismCount) {
-			population[index].purgeAllExceptHighestPerformingGenotype(innovation.get());
-			index++;
-		}
-		while (index < population.size()) {
-			population[index].evolution(innovation.get());
-			index++;
-		}
-		currentCentury = 0;
+	for (int i = 0; i < m_population.size(); i++)
+	{
+		m_population[i].deletePhenotype();
+		m_population[i].setFitness(fitness[i]);
 	}
-	currentGeneration++;
+
+	m_currentGeneration++;
+
+	if (m_currentCentury < m_centuryDuration)
+	{
+		for (auto& historicalGenotype : m_population)
+			historicalGenotype.iterate(m_innovation.get());
+
+		m_currentCentury++;
+		return;
+	}
+
+	int elitismCount = calculateElitismCount();
+	int index = 0;
+	sort(m_population.begin(), m_population.end());
+
+	while (index < elitismCount)
+	{
+		m_population[index].purgeAllExceptHighestPerformingGenotype(m_innovation.get());
+		index++;
+	}
+
+	while (index < m_population.size())
+	{
+		m_population[index].evolution(m_innovation.get());
+		index++;
+	}
+
+	m_currentCentury = 0;
 }
 
 std::vector<double> nev::HNE::getOutputActiveByIndex(int index, const std::vector<double>& inputs)
 {
-	std::vector<double> output;
+	if (index >= m_population.size())
+		return {};
 
-	if (index >= population.size())
-		return output;
-
-	output = population[index].calculateOutputActiveFromLastGenotype(inputs);
-
-	return output;
+	return m_population[index].calculateOutputActiveFromLastGenotype(inputs);
 }
 
 int nev::HNE::calculateElitismCount()
 {
-	return population.size() * elitismPercentage;
+	return m_population.size() * m_elitismPercentage;
 }
 
 void nev::HNE::setParametersOfPopulation()
 {
-	for (int i = 0; i < population.size(); i++) {
-		population[i].setAddLinkProbability(addLinkProbability);
-		population[i].setAddNeuronProbability(addNeuronProbability);
-		population[i].setMaxWeightPertubation(maxWeightPertubation);
-		population[i].setMutateWeightProbability(mutateWeightProbability);
-		population[i].setNewWeightProbability(newWeightProbability);
-		population[i].setRecurrentAllowed(recurrentAllowed);
+	for (auto& historicalGenotype : m_population)
+	{
+		historicalGenotype.setAddLinkProbability(m_addLinkProbability);
+		historicalGenotype.setAddNeuronProbability(m_addNeuronProbability);
+		historicalGenotype.setMaxWeightPertubation(m_maxWeightPertubation);
+		historicalGenotype.setMutateWeightProbability(m_mutateWeightProbability);
+		historicalGenotype.setNewWeightProbability(m_newWeightProbability);
+		historicalGenotype.setRecurrentAllowed(m_recurrentAllowed);
 	}
 }
 
 int nev::HNE::getPopulationSize() const
 {
-	return population.size();
+	return m_population.size();
 }
 
 void nev::HNE::setHighestFitnessAtStartOfCentury(double highestFitnessAtStartOfCentury)
 {
-	for (int i = 0; i < population.size(); i++)
-		population[i].setHighestFitnessAtStartOfCentury(highestFitnessAtStartOfCentury);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setHighestFitnessAtStartOfCentury(highestFitnessAtStartOfCentury);
 }
 
 void nev::HNE::setCenturyDuration(int centuryDuration)
 {
-	this->centuryDuration = centuryDuration;
+	m_centuryDuration = centuryDuration;
 }
 
 void nev::HNE::setAddLinkProbability(double addLinkProbability)
 {
-	this->addLinkProbability = addLinkProbability;
+	m_addLinkProbability = addLinkProbability;
 
-	for (int i = 0; i < population.size(); i++)
-		population[i].setAddLinkProbability(addLinkProbability);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setAddLinkProbability(addLinkProbability);
 }
 
 void nev::HNE::setAddNeuronProbability(double addNeuronProbability)
 {
-	this->addNeuronProbability = addNeuronProbability;
+	m_addNeuronProbability = addNeuronProbability;
 
-	for (int i = 0; i < population.size(); i++)
-		population[i].setAddNeuronProbability(addNeuronProbability);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setAddNeuronProbability(addNeuronProbability);
 }
 
 void nev::HNE::setMutateWeightProbability(double mutateWeightProbability)
 {
-	this->mutateWeightProbability = mutateWeightProbability;
+	m_mutateWeightProbability = mutateWeightProbability;
 
-	for (int i = 0; i < population.size(); i++)
-		population[i].setMutateWeightProbability(mutateWeightProbability);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setMutateWeightProbability(mutateWeightProbability);
 }
 
 void nev::HNE::setNewWeightProbability(double newWeightProbability)
 {
-	this->newWeightProbability = newWeightProbability;
+	m_newWeightProbability = newWeightProbability;
 
-	for (int i = 0; i < population.size(); i++)
-		population[i].setNewWeightProbability(newWeightProbability);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setNewWeightProbability(newWeightProbability);
 }
 
 void nev::HNE::setMaxWeightPertubation(double maxWeightPertubation)
 {
-	this->maxWeightPertubation = maxWeightPertubation;
+	m_maxWeightPertubation = maxWeightPertubation;
 
-	for (int i = 0; i < population.size(); i++)
-		population[i].setMaxWeightPertubation(maxWeightPertubation);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setMaxWeightPertubation(maxWeightPertubation);
 }
 
 void nev::HNE::setRecurrentAllowed(bool recurrentAllowed)
 {
-	this->recurrentAllowed = recurrentAllowed;
+	m_recurrentAllowed = recurrentAllowed;
 
-	for (int i = 0; i < population.size(); i++)
-		population[i].setRecurrentAllowed(recurrentAllowed);
+	for (auto& historicalGenotype : m_population)
+		historicalGenotype.setRecurrentAllowed(recurrentAllowed);
 }
 
 void nev::HNE::setElitismPercentage(double elitismPercentage)
 {
-	this->elitismPercentage = elitismPercentage;
+	m_elitismPercentage = elitismPercentage;
 }
 
 double nev::HNE::getHighestFitness() const
 {
-	double highestFitness = 0;
+	double highestFitness = -DBL_MAX;
 
-	for (int i = 0; i < population.size(); i++) {
-		double fitness = population[i].getHighestFitness();
+	for (auto& historicalGenotype : m_population)
+		highestFitness = std::max(highestFitness, historicalGenotype.getHighestFitness());
 
-		if (fitness > highestFitness)
-			highestFitness = fitness;
-	}
 	return highestFitness;
 }
 
 int nev::HNE::getCurrentGeneration() const
 {
-	return currentGeneration;
+	return m_currentGeneration;
 }

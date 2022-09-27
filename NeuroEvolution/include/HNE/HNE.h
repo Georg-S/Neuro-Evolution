@@ -7,8 +7,8 @@
 #include "Innovation.h"
 
 
-namespace nev {
-
+namespace nev
+{
 	class HNE
 	{
 	public:
@@ -33,21 +33,20 @@ namespace nev {
 		void setElitismPercentage(double elitismPercentage);
 
 	private:
-		double elitismPercentage = 0.5;
-		double addLinkProbability = 0.8;
-		double addNeuronProbability = 0.5;
-		double mutateWeightProbability = 0.8;
-		double maxWeightPertubation = 0.1;
-		double newWeightProbability = 0.1;
-		bool recurrentAllowed = true;
-		int centuryDuration;
-		int currentCentury = 0;
-		int currentGeneration = 0;
-		std::shared_ptr<nev::Innovation> innovation;
-		std::vector<nev::HistoricalGenotype> population;
-		int populationSize = 0;
-		int countOfInputs = 0;
-		int countOfOutputs = 0;
+		std::vector<nev::HistoricalGenotype> m_population;
+		int m_centuryDuration;
+		int m_populationSize = 0;
+		int m_countOfInputs = 0;
+		int m_countOfOutputs = 0;
+		std::unique_ptr<nev::Innovation> m_innovation;
+		double m_elitismPercentage = 0.5;
+		double m_addLinkProbability = 0.8;
+		double m_addNeuronProbability = 0.5;
+		double m_mutateWeightProbability = 0.8;
+		double m_maxWeightPertubation = 0.1;
+		double m_newWeightProbability = 0.1;
+		bool m_recurrentAllowed = true;
+		int m_currentCentury = 0;
+		int m_currentGeneration = 0;
 	};
-
 }

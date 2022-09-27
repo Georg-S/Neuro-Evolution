@@ -139,21 +139,22 @@ TEST(TEST_HNE, theEliteDoesntGetPurgedAfterCenturyEnd) {
 	EXPECT_EQ(1.05, hne.getHighestFitness());
 }
 
-TEST(TEST_HNE, theEliteDoesntGetPurgedAndReturnsTheSameOutput) {
-	nev::HNE hne = nev::HNE(3, 2, 1, 1);;
+// TODO think about if this test makes sense (doesn't seem so right now)
+TEST(TEST_HNE, theEliteDoesntGetPurgedAndReturnsTheSameOutput) 
+{
+	auto hne = nev::HNE(3, 2, 1, 1);;
 	hne.setElitismPercentage(0.5);
 	hne.setHighestFitnessAtStartOfCentury(1);
-	for (int i = 0; i < 100; i++) {
-		std::vector <std::vector<double>> outputs = hne.getOutputsSnapshot(std::vector<double> {1.0});
-		double previousOutput = outputs[0][0];
-		hne.iterateOneGeneration(std::vector<double> {1.05, 1.0,1.0});
-		hne.iterateOneGeneration(std::vector<double> {1.00, 1.0,1.0});
-		hne.iterateOneGeneration(std::vector<double> {1.00, 1.0 , 1.0});
-		outputs = hne.getOutputsSnapshot(std::vector<double> {1.0});
-		double currentOutput = outputs[0][0];
 
-		EXPECT_EQ(previousOutput, currentOutput);
-	}
+	auto outputs = hne.getOutputsSnapshot(std::vector<double> {1.0});
+	double previousOutput = outputs[0][0];
+	hne.iterateOneGeneration(std::vector<double> {1.05, 1.0});
+	hne.iterateOneGeneration(std::vector<double> {1.00, 1.0});
+	hne.iterateOneGeneration(std::vector<double> {1.00, 1.0});
+	outputs = hne.getOutputsSnapshot(std::vector<double> {1.0});
+	double currentOutput = outputs[0][0];
+
+	EXPECT_EQ(previousOutput, currentOutput);
 }
 
 TEST(TEST_HNE, theOutputChangesAfterIteration) {

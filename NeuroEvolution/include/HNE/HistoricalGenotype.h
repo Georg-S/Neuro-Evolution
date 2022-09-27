@@ -38,9 +38,9 @@ namespace nev
 
 		double m_highestFitnessAtStartOfCentury = 0;
 		double m_improvementNeeded = 0.1;
-		std::vector<Genotype> m_genotypeHistory;
 		int m_countOfInputs;
 		int m_countOfOutputs;
+		std::vector<Genotype> m_genotypeHistory;
 		double m_addLinkProbability = 0.05;
 		double m_addNeuronProbability = 0.03;
 		double m_mutateWeightProbability = 0.8;
