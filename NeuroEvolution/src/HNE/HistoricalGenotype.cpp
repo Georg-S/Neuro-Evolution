@@ -1,46 +1,46 @@
 #include "HNE/HistoricalGenotype.h"
 
 nev::HistoricalGenotype::HistoricalGenotype(Innovation* inno, int countOfInputs, int countOfOutputs)
+	: m_countOfInputs(countOfInputs)
+	, m_countOfOutputs(countOfOutputs)
 {
-	this->countOfInputs = countOfInputs;
-	this->countOfOutputs = countOfOutputs;
-
-	genotypeHistory.push_back(Genotype(inno, countOfInputs, countOfOutputs, 0));
+	m_genotypeHistory.emplace_back(inno, countOfInputs, countOfOutputs, 0);
 }
 
-nev::HistoricalGenotype::HistoricalGenotype(const Genotype& genotype, int countOfInputs, int countOfOutputs)
+nev::HistoricalGenotype::HistoricalGenotype(Genotype genotype, int countOfInputs, int countOfOutputs)
+	: m_countOfInputs(countOfInputs)
+	, m_countOfOutputs(countOfOutputs)
 {
-	this->countOfInputs = countOfInputs;
-	this->countOfOutputs = countOfOutputs;
-
-	genotypeHistory.push_back(genotype);
+	m_genotypeHistory.emplace_back(std::move(genotype));
 }
 
 std::vector<double> nev::HistoricalGenotype::calculateOutputSnapshotFromLastGenotype(const std::vector<double>& input)
 {
-	return genotypeHistory[genotypeHistory.size() - 1].calculateOutputSnapshot(input);
+	assert(!m_genotypeHistory.empty());
+	return m_genotypeHistory.back().calculateOutputSnapshot(input);
 }
 
 std::vector<double> nev::HistoricalGenotype::calculateOutputActiveFromLastGenotype(const std::vector<double>& input)
 {
-	return genotypeHistory[genotypeHistory.size() - 1].calculateOutputActive(input);
+	assert(!m_genotypeHistory.empty());
+	return m_genotypeHistory.back().calculateOutputActive(input);
 }
 
 void nev::HistoricalGenotype::setFitness(const double& fitness)
 {
-	if (genotypeHistory.empty())
+	if (m_genotypeHistory.empty())
 		return;
 
-	genotypeHistory[genotypeHistory.size() - 1].setRawFitness(fitness);
+	m_genotypeHistory.back().setRawFitness(fitness);
 }
 
 void nev::HistoricalGenotype::iterate(Innovation* inno)
 {
-	Genotype currentGeno = genotypeHistory[genotypeHistory.size() - 1];
+	Genotype currentGeno = m_genotypeHistory.back();
 	currentGeno.setRawFitness(0);
 	mutate(inno, currentGeno);
 	currentGeno.deletePhenotype();
-	genotypeHistory.push_back(currentGeno);
+	m_genotypeHistory.emplace_back(std::move(currentGeno));
 }
 
 void nev::HistoricalGenotype::evolution(Innovation* inno)
@@ -53,29 +53,29 @@ void nev::HistoricalGenotype::evolution(Innovation* inno)
 
 void nev::HistoricalGenotype::mutate(Innovation* inno, Genotype& genotype)
 {
-	genotype.randomlyAddLink(inno, addLinkProbability, recurrentAllowed);
-	genotype.randomlyAddNeuron(inno, addNeuronProbability);
-	genotype.randomlyMutateAllWeights(mutateWeightProbability, newWeightProbability, maxWeightPertubation);
+	genotype.randomlyAddLink(inno, m_addLinkProbability, m_recurrentAllowed);
+	genotype.randomlyAddNeuron(inno, m_addNeuronProbability);
+	genotype.randomlyMutateAllWeights(m_mutateWeightProbability, m_newWeightProbability, m_maxWeightPertubation);
 }
 
 void nev::HistoricalGenotype::deletePhenotype()
 {
-	for (int i = 0; i < genotypeHistory.size(); i++)
-		genotypeHistory[i].deletePhenotype();
+	for (auto& genotype : m_genotypeHistory)
+		genotype.deletePhenotype();
 }
 
 void nev::HistoricalGenotype::purgeAllExceptHighestPerformingGenotype(Innovation* inno)
 {
-	highestFitnessAtStartOfCentury = getHighestFitness();
+	m_highestFitnessAtStartOfCentury = getHighestFitness();
 	Genotype topPerformer = getHighestPerformingGenotype(inno);
 	topPerformer.deletePhenotype();
-	genotypeHistory.clear();
-	genotypeHistory.push_back(topPerformer);
+	m_genotypeHistory.clear();
+	m_genotypeHistory.emplace_back(std::move(topPerformer));
 }
 
 bool nev::HistoricalGenotype::improvedEnough() const
 {
-	double fitnessNeeded = highestFitnessAtStartOfCentury + (highestFitnessAtStartOfCentury * improvementNeeded);
+	double fitnessNeeded = m_highestFitnessAtStartOfCentury + (m_highestFitnessAtStartOfCentury * m_improvementNeeded);
 	if (fitnessNeeded <= getHighestFitness())
 		return true;
 
@@ -84,79 +84,78 @@ bool nev::HistoricalGenotype::improvedEnough() const
 
 void nev::HistoricalGenotype::reset(Innovation* inno)
 {
-	genotypeHistory.clear();
-	highestFitnessAtStartOfCentury = 0;
-	genotypeHistory.push_back(Genotype(inno, countOfInputs, countOfOutputs, 0));
+	m_genotypeHistory.clear();
+	m_highestFitnessAtStartOfCentury = 0;
+	m_genotypeHistory.emplace_back(inno, m_countOfInputs, m_countOfOutputs, 0);
 }
 
 int nev::HistoricalGenotype::getHistorySize() const
 {
-	return genotypeHistory.size();
+	return m_genotypeHistory.size();
 }
 
 double nev::HistoricalGenotype::getHighestFitness() const
 {
-	double highestFitness = 0;
-	for (int i = 0; i < genotypeHistory.size(); i++) {
-		if (highestFitness < genotypeHistory[i].getRawFitness())
-			highestFitness = genotypeHistory[i].getRawFitness();
-	}
+	double highestFitness = -DBL_MAX;
+	for (const auto& genotype : m_genotypeHistory)
+		highestFitness = std::max(highestFitness, genotype.getRawFitness());
+
 	return highestFitness;
 }
 
 double nev::HistoricalGenotype::getHighestFitnessAtStartOfCentury() const
 {
-	return highestFitnessAtStartOfCentury;
+	return m_highestFitnessAtStartOfCentury;
 }
 
 void nev::HistoricalGenotype::setImprovementNeeded(double improvementNeeded)
 {
-	this->improvementNeeded = improvementNeeded;
+	m_improvementNeeded = improvementNeeded;
 }
 
 void nev::HistoricalGenotype::setHighestFitnessAtStartOfCentury(double highestFitnessAtStartOfCentury)
 {
-	this->highestFitnessAtStartOfCentury = highestFitnessAtStartOfCentury;
+	m_highestFitnessAtStartOfCentury = highestFitnessAtStartOfCentury;
 }
 
 nev::Genotype nev::HistoricalGenotype::getHighestPerformingGenotype(Innovation* inno)
 {
-	std::sort(genotypeHistory.begin(), genotypeHistory.end());
+	std::sort(m_genotypeHistory.begin(), m_genotypeHistory.end());
 
-	if (genotypeHistory.empty())
-		return Genotype(inno, countOfInputs, countOfOutputs, 0);
+	if (m_genotypeHistory.empty())
+		return Genotype(inno, m_countOfInputs, m_countOfOutputs, 0);
 
-	return genotypeHistory[0];
+	return m_genotypeHistory.front();
 }
 
 void nev::HistoricalGenotype::setAddLinkProbability(double addLinkProbability)
 {
-	this->addLinkProbability = addLinkProbability;
+	m_addLinkProbability = addLinkProbability;
 }
 
 void nev::HistoricalGenotype::setAddNeuronProbability(double addNeuronProbability)
 {
-	this->addNeuronProbability = addNeuronProbability;
+	m_addNeuronProbability = addNeuronProbability;
 }
 
 void nev::HistoricalGenotype::setMutateWeightProbability(double mutateWeightProbability)
 {
-	this->mutateWeightProbability = mutateWeightProbability;
+	m_mutateWeightProbability = mutateWeightProbability;
 }
 
 void nev::HistoricalGenotype::setNewWeightProbability(double newWeightProbability)
 {
-	this->newWeightProbability = newWeightProbability;
+	m_newWeightProbability = newWeightProbability;
 }
 
 void nev::HistoricalGenotype::setMaxWeightPertubation(double maxWeightPertubation)
 {
-	this->maxWeightPertubation = maxWeightPertubation;
+	m_maxWeightPertubation = maxWeightPertubation;
 }
 
 void nev::HistoricalGenotype::setRecurrentAllowed(bool recurrentAllowed)
 {
-	this->recurrentAllowed = recurrentAllowed;
+	m_recurrentAllowed = recurrentAllowed;
 }
 
 bool nev::operator<(const HistoricalGenotype& lhs, const HistoricalGenotype& rhs)

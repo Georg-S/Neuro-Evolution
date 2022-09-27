@@ -3,13 +3,13 @@
 #include <vector>
 #include <algorithm>
 
-namespace nev {
-
+namespace nev
+{
 	class HistoricalGenotype
 	{
 	public:
 		HistoricalGenotype(Innovation* inno, int countOfInputs, int countOfOutputs);
-		HistoricalGenotype(const Genotype& genotype, int countOfInputs, int countOfOutputs);
+		HistoricalGenotype(Genotype genotype, int countOfInputs, int countOfOutputs);
 		std::vector<double> calculateOutputSnapshotFromLastGenotype(const std::vector<double>& input);
 		std::vector<double> calculateOutputActiveFromLastGenotype(const std::vector<double>& input);
 		void setFitness(const double& fitness);
@@ -36,17 +36,16 @@ namespace nev {
 		void reset(Innovation* inno);
 		Genotype getHighestPerformingGenotype(Innovation* inno);
 
-		double highestFitnessAtStartOfCentury = 0;
-		double improvementNeeded = 0.1;
-		std::vector<Genotype> genotypeHistory;
-		int countOfInputs;
-		int countOfOutputs;
-		double addLinkProbability = 0.05;
-		double addNeuronProbability = 0.03;
-		double mutateWeightProbability = 0.8;
-		double newWeightProbability = 0.1;
-		double maxWeightPertubation = 0.1;
-		bool recurrentAllowed = true;
+		double m_highestFitnessAtStartOfCentury = 0;
+		double m_improvementNeeded = 0.1;
+		std::vector<Genotype> m_genotypeHistory;
+		int m_countOfInputs;
+		int m_countOfOutputs;
+		double m_addLinkProbability = 0.05;
+		double m_addNeuronProbability = 0.03;
+		double m_mutateWeightProbability = 0.8;
+		double m_newWeightProbability = 0.1;
+		double m_maxWeightPertubation = 0.1;
+		bool m_recurrentAllowed = true;
 	};
-
 }

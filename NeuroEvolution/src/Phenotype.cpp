@@ -75,7 +75,7 @@ std::vector<double> nev::Phenotype::updateOnce(const std::function<double(double
 		neuron->outputOfNeuron = activationFunction(sumOfActivation);
 
 		if (neuron->neuronType == NeuronType::output)
-			outputs.push_back(neuron->outputOfNeuron);
+			outputs.emplace_back(neuron->outputOfNeuron);
 	}
 	return outputs;
 }
