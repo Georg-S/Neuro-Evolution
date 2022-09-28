@@ -8,9 +8,9 @@
 #include <NEATFileIO.h>
 #include "Test_config.h"
 
-static std::string innovationPath = "neat_innovations.json";
-static std::string populationPath = "neat_population.json";
-static std::string parametersPath = "neat_parameters.json";
+static const std::string innovationPath = "neat_innovations.json";
+static const std::string populationPath = "neat_population.json";
+static const std::string parametersPath = "neat_parameters.json";
 
 #if RUN_NORMAL_TESTS
 
@@ -19,22 +19,19 @@ TEST(TEST_FileManagment, SaveToFileAndPopulationGetsParsedCorrectly)
 	auto first = nev::NEAT(1, 1, 2, nev::af::relu);
 	nev::FileIO::saveToFile("", first);
 	std::vector <double> inputs{ 1 };
-	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
+	auto outputs = first.calculateOutputSnapshot(inputs);
 
 	auto second = nev::FileIO::loadNEATFromFiles(parametersPath, populationPath, innovationPath);
-	std::vector<std::vector<double>> secondNetworkOutputs = second->calculateOutputSnapshot(inputs);
+	auto secondNetworkOutputs = second->calculateOutputSnapshot(inputs);
 
 	for (int i = 0; i < outputs.size(); i++)
-	{
 		ASSERT_FLOAT_EQ(outputs[i][0], secondNetworkOutputs[i][0]);
-	}
 }
 
 TEST(TEST_FileManagment, AfterSavingAndParsingPopulationSizeStaysTheSame)
 {
 	auto first = nev::NEAT(10, 1, 2);
 	nev::FileIO::saveToFile("", first);
-
 	auto second = nev::FileIO::loadNEATFromFiles(parametersPath, populationPath, innovationPath);
 
 	EXPECT_EQ(first.getPopulationSize(), second->getPopulationSize());
@@ -48,16 +45,16 @@ TEST(TEST_FileManagment, SaveToFileAndInnovationGetsParsedCorrectly)
 
 	nev::FileIO::saveToFile("", first);
 	std::vector <double> inputs{ 1 };
-	std::vector<std::vector<double>> outputs = first.calculateOutputSnapshot(inputs);
+	auto outputs = first.calculateOutputSnapshot(inputs);
 
 	auto second = nev::FileIO::loadNEATFromFiles(parametersPath, populationPath, innovationPath);
-	std::vector<std::vector<double>> secondNetworkOutputs = second->calculateOutputSnapshot(inputs);
+	auto secondNetworkOutputs = second->calculateOutputSnapshot(inputs);
 
 	for (int i = 0; i < outputs.size(); i++)
 	{
-		outputs[i][0] = (int)(outputs[i][0] * 100);
+		outputs[i][0] = static_cast<int>(outputs[i][0] * 100);
 		outputs[i][0] /= 100;
-		secondNetworkOutputs[i][0] = (int)(secondNetworkOutputs[i][0] * 100);
+		secondNetworkOutputs[i][0] = static_cast<int>(secondNetworkOutputs[i][0] * 100);
 		secondNetworkOutputs[i][0] /= 100;
 		EXPECT_FLOAT_EQ(outputs[i][0], secondNetworkOutputs[i][0]);
 	}
