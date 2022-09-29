@@ -13,7 +13,7 @@ namespace nev
 	{
 	public:
 		HNE(int centuryDuration, int populationSize, int countOfInputs, int countOfOutputs);
-		HNE(const std::vector<nev::HistoricalGenotype>& population, int countOfInputs, int countOfOutputs);
+		HNE(std::vector<nev::HistoricalGenotype>&& population, int countOfInputs, int countOfOutputs);
 		std::vector<std::vector<double>> getOutputsSnapshot(const std::vector<double>& inputs);
 		void iterateOneGeneration(const std::vector<double>& fitness);
 		std::vector<double> getOutputActiveByIndex(int index, const std::vector<double>& inputs);

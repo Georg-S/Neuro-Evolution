@@ -14,8 +14,8 @@ nev::HNE::HNE(int centuryDuration, int populationSize, int countOfInputs, int co
 	setParametersOfPopulation();
 }
 
-nev::HNE::HNE(const std::vector<HistoricalGenotype>& population, int countOfInputs, int countOfOutputs)
-	: m_population(population)
+nev::HNE::HNE(std::vector<HistoricalGenotype>&& population, int countOfInputs, int countOfOutputs)
+	: m_population(std::move(population))
 	, m_countOfInputs(countOfInputs)
 	, m_countOfOutputs(countOfOutputs)
 {
